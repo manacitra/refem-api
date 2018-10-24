@@ -1,41 +1,73 @@
 # frozen_string_literal: true
 
-require 'httparty'
+require 'net/http'
 require 'yaml'
+require 'json'
 
 config = YAML.safe_load(File.read('config/secrets.yml'))
-headers = { 'Authorization' => "Bearer #{config['FB_TOKEN']}" }
+token = config['MS_TOKEN']
 
-def fb_api_url(keywords,longitude, latitude, distance)
-  "https://graph.facebook.com/v3.1/search
-  ?type=place
-  &fields=name,checkins,picture
-  &q=#{keywords}
-  &center=#{longitude},#{latitude}
-  &distance=#{distance}"
+def microsoft_api_url(keywords, count)  
+  uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
+  query = URI.encode_www_form({
+    # Request parameters
+    'expr' => "W == '#{keywords}'",
+    'model' => 'latest',
+    'count' => "#{count}",
+    'offset' => '0',
+    'attributes' => 'Ti,AA.AuN,Y,D,RId,E'
+  })
+
+  if uri.query && uri.query.length > 0
+      uri.query += '&' + query
+  else
+      uri.query = query
+  end
+
+  uri
 end
 
-def call_fb_url(headers, url)
-  HTTParty.get(url, :headers => headers)
+def call_microsoft_url(uri, token)
+  request = Net::HTTP::Get.new(uri.request_uri)
+    # Request headers
+  request['Ocp-Apim-Subscription-Key'] = token
+  # Request body
+  response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+    http.request(request)
+  end
+
+  response
 end
 
-fb_response = {}
-fb_results = {}
+microsoft_response = {}
+microsoft_results = {}
 
 
 
 ## happy requests
-project_url = fb_api_url('sea', '24.7943758', '120.9715205', '10000')
-fb_response[project_url] = call_fb_url(headers, project_url)
-project = JSON.parse(fb_response[project_url])
+data_url = microsoft_api_url('internet', 1)
+microsoft_response['data_url'] = call_microsoft_url(data_url, token)
+data = JSON.parse(microsoft_response['data_url'].body)
+entity_data = data['entities']
 
-fb_results['data'] = project['data']
-#should not be nil
+microsoft_results['Id'] = entity_data[0]['Id']
+#should be 2118428193
+
+microsoft_results['Year'] = entity_data[0]['Y']
+#should be 2003
+
+microsoft_results['Date'] = entity_data[0]['D']
+#should be 2003-02-01
+
+extend_data = JSON.parse(entity_data[0]['E'])
+microsoft_results['DOI'] = extend_data['DOI']
+
+
 
 ## bad request
-bad_project_url = fb_api_url('error', '24.7943758','120.9715205', '10000')
-fb_response[bad_project_url] = call_fb_url(headers, bad_project_url)
-fb_response[bad_project_url] = JSON.parse(fb_response[bad_project_url])
+bad_data_url = microsoft_api_url('internet', -5)
+microsoft_response['bad_data_url'] = call_microsoft_url(bad_data_url, token)
+microsoft_response['bad_data_url'] = JSON.parse(microsoft_response['bad_data_url'].body)
 
-File.write('spec/fixtures/fb_response.yml', fb_response.to_yaml)
-File.write('spec/fixtures/fb_results.yml', fb_results.to_yaml)
+File.write('spec/fixtures/ms_response.yml', microsoft_response.to_yaml)
+File.write('spec/fixtures/ms_results.yml', microsoft_results.to_yaml)
