@@ -22,8 +22,10 @@ describe 'Test microsoft academic search library' do
 
     describe 'Paper information' do
       it "HAPPY: should provide correct paper attributes" do
-        paper = MSAcademic::MicrosoftAPI.new(MS_TOKEN).paper(KEYWORDS, COUNT)
-        _(paper.paper_id).must_equal CORRECT['Id']
+        paper = MSAcademic::MSPaper::PaperMapper
+                .new(MS_TOKEN)
+                .find(KEYWORDS, COUNT)
+        _(paper.id).must_equal CORRECT['Id']
         _(paper.paper_year).must_equal CORRECT['Year']
         _(paper.paper_date).must_equal CORRECT['Date']
         _(paper.paper_doi).must_equal CORRECT['DOI']
@@ -31,14 +33,18 @@ describe 'Test microsoft academic search library' do
 
       it 'SAD: should have error on incorrect counts' do
         proc do
-         MSAcademic::MicrosoftAPI.new(MS_TOKEN).paper(KEYWORDS, '-5')
-        end.must_raise MSAcademic::MicrosoftAPI::Response::BadRequest
+          MSAcademic::MSPaper::PaperMapper
+            .new(MS_TOKEN)
+            .find(KEYWORDS, '-5')
+        end.must_raise MSAcademic::MSPaper::Api::Response::BadRequest
       end
 
       it 'SAD: should raise exception when unautorized' do
         proc do
-         MSAcademic::MicrosoftAPI.new('NO_TOKEN').paper(KEYWORDS, COUNT)
-        end.must_raise MSAcademic::MicrosoftAPI::Response::Unauthorized
+          MSAcademic::MSPaper::PaperMapper
+            .new('NO_TOKEN')
+            .find(KEYWORDS, COUNT)
+        end.must_raise MSAcademic::MSPaper::Api::Response::Unauthorized
       end
     end
   end

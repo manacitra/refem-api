@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 ruby '2.5.1'
 
+# Data gems
+gem 'dry-struct', '~> 0.5'
+gem 'dry-types', '~> 0.5'
+
 # Networking gems
 gem "httparty"
 
