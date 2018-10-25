@@ -8,7 +8,7 @@ end
 
 desc 'run tests'
 task :spec do
-  sh 'ruby spec/mcsl_api_spec.rb'
+  sh 'ruby spec/ms_api_spec.rb'
 end
 
 namespace :vcr do

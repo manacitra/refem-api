@@ -1,0 +1,103 @@
+---
+data_url: !ruby/object:Net::HTTPOK
+  http_version: '1.1'
+  code: '200'
+  message: OK
+  header:
+    content-length:
+    - '10858'
+    content-type:
+    - application/json
+    access-control-allow-origin:
+    - "*"
+    request-context:
+    - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+    x-powered-by:
+    - ASP.NET
+    date:
+    - Wed, 24 Oct 2018 17:53:18 GMT
+  body: '{"expr":"W == ''internet''","entities":[{"logprob":-14.361,"Id":2118428193,"Ti":"chord
+    a scalable peer to peer lookup protocol for internet applications","Y":2003,"D":"2003-02-01","RId":[2158049821,2163059190,2167898414,1650675509,2104210894,2174507869,2164192722,2144553078,2150676586,1663493649,1584635459,2020765652,2000876023,79931031,2120626294,2168886131,105601597,74449473,2064360543,95432149,2108824004,1494946454,1725414206,65351094,1815769434,1528545897,2052207834,2170756028,2127555143,1799338429,2122269925,203569915,1597967544,2227895079],"AA":[{"AuN":"ion
+    stoica"},{"AuN":"robert tappan morris"},{"AuN":"david libennowell"},{"AuN":"david
+    r karger"},{"AuN":"m frans kaashoek"},{"AuN":"frank dabek"},{"AuN":"hari balakrishnan"}],"E":"{\"DN\":\"Chord:
+    a scalable peer-to-peer lookup protocol for Internet applications\",\"IA\":{\"IndexLength\":131,\"InvertedIndex\":{\"A\":[0],\"fundamental\":[1],\"problem\":[2],\"that\":[3,14,30,110],\"confronts\":[4],\"peer-to-peer\":[5],\"applications\":[6],\"is\":[7,100,112],\"the\":[8,12,46,71,75,79,90,98,117,126],\"efficient\":[9],\"location\":[10,52],\"of\":[11,59,128],\"node\":[13,76,122],\"stores\":[15],\"a\":[16,26,42,49,63],\"desired\":[17],\"data\":[18,67],\"item.\":[19],\"This\":[20],\"paper\":[21],\"presents\":[22],\"Chord\":[24,34,60,82,111,129],\",\":[25],\"distributed\":[27],\"lookup\":[28],\"protocol\":[29],\"addresses\":[31],\"this\":[32],\"problem.\":[33],\"provides\":[35],\"support\":[36],\"for\":[37],\"just\":[38],\"one\":[39],\"operation:\":[40],\"given\":[41],\"key,\":[43],\"it\":[44],\"maps\":[45],\"key\":[47,64,80],\"onto\":[48],\"node.\":[50],\"Data\":[51],\"can\":[53,93],\"be\":[54],\"easily\":[55],\"implemented\":[56],\"on\":[57],\"top\":[58],\"by\":[61,120],\"associating\":[62],\"with\":[65,125],\"each\":[66,121],\"item,\":[68],\"and\":[69,88,92,107,116],\"storing\":[70],\"key/data\":[72],\"pair\":[73],\"at\":[74],\"to\":[77],\"which\":[78],\"maps.\":[81],\"adapts\":[83],\"efficiently\":[84],\"as\":[85],\"nodes\":[86],\"join\":[87],\"leave\":[89],\"system,\":[91],\"answer\":[94],\"queries\":[95],\"even\":[96],\"if\":[97],\"system\":[99],\"continuously\":[101],\"changing.\":[102],\"Results\":[103],\"from\":[104],\"theoretical\":[105],\"analysis\":[106],\"simulations\":[108],\"show\":[109],\"scalable:\":[113],\"Communication\":[114],\"cost\":[115],\"state\":[118],\"maintained\":[119],\"scale\":[123],\"logarithmically\":[124],\"number\":[127],\"nodes.\":[130]}},\"S\":[{\"Ty\":0,\"U\":\"http://dl.acm.org/ft_gateway.cfm?id=638336&type=pdf\"},{\"Ty\":3,\"U\":\"http://nms.csail.mit.edu/papers/chord.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.uccs.edu/~cs622/papers/01180543.pdf\"},{\"Ty\":3,\"U\":\"http://courses.cse.tamu.edu/caverlee/csce438/readings/chord.pdf\"},{\"Ty\":3,\"U\":\"https://www.cse.iitb.ac.in/~cs641/references/06-chord.pdf\"},{\"Ty\":3,\"U\":\"https://cs.uwaterloo.ca/~tozsu/courses/cs856/W05/Presentations/Nabeel.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.rutgers.edu/~rmartin/teaching/fall04/cs552/readings/sto01.pdf\"},{\"Ty\":3,\"U\":\"http://cnds.eecs.jacobs-university.de/courses/acn-2014/liaukevich-chord.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.princeton.edu/courses/archive/spring13/cos598C/p149-stoica.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.sjtu.edu.cn/~gchen/course/acn/Reading/chord.pdf\"},{\"Ty\":3,\"U\":\"http://fac-staff.seattleu.edu/zhuy/web/teaching/Spring08/csse492/P2P/p2p_chord.pdf\"},{\"Ty\":3,\"U\":\"http://www.csl.mtu.edu/cs6461/www/Reading/Stoica03.pdf\"},{\"Ty\":3,\"U\":\"https://www.cs.swarthmore.edu/~kwebb/cs91/f14/papers/Stoica_Chord.pdf\"},{\"Ty\":3,\"U\":\"http://www.ic.unicamp.br/~celio/peer2peer/chord/chord.pdf\"},{\"Ty\":3,\"U\":\"http://www.cse.scu.edu/~jholliday/COEN317S05/chord_tzm.pdf\"},{\"Ty\":3,\"U\":\"http://courses.cs.vt.edu/~cs5204/fall11-kafura/Papers/FileSystems/Chord.SIGCOMM01.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.cmu.edu/~srini/15-744/F09/papers/p12-stoica.pdf\"},{\"Ty\":3,\"U\":\"http://www.cs.unc.edu/~jasleen/Courses/COMP631/papers/chord-ton.pdf\"},{\"Ty\":3,\"U\":\"https://web.stanford.edu/class/cs344g/cs344g-L9.pdf\"},{\"Ty\":3,\"U\":\"http://www.cse.buffalo.edu/~okennedy/courses/papers/chord.pdf\"}],\"VFN\":\"IEEE
+    ACM Transactions on Networking\",\"V\":11,\"I\":1,\"FP\":17,\"LP\":32,\"DOI\":\"10.1109/TNET.2002.808407\",\"CC\":{\"65351094\":[\"Archival
+    Intermemory uses an off-line computed tree to map logical addresses to machines
+    that store the data [ 4 ].\"],\"74449473\":[\"The Freenet peer-to-peer storage
+    system [5], [6], like Chord, is decentralized and symmetric and automatically
+    adapts when hosts leave and join.\"],\"95432149\":[\"The Chord protocol is also
+    similar to Pastry, the location algorithm used in PAST [8].\"],\"203569915\":[\"a
+    key [7].\",\"Chord has been evaluated as a tool to serve DNS [7] and to maintain
+    a distributed public key database for secure name resolution [1].\"],\"1528545897\":[\"they
+    let nodes join and leave the system with minimal disruption [3][4].\"],\"1597967544\":[\"Chord
+    has been evaluated as a tool to serve DNS [7] and to maintain a distributed public
+    key database for secure name resolution [1].\",\"finger[1].\",\"Newly-joined nodes
+    that are not yet reflected in other nodes’ finger tables may cause find successor()
+    to initially undershoot, but the loop in the lookup algorithm will nevertheless
+    follow successor (finger[1]) pointers through the newly-joined nodes until the
+    correct predecessor is reached.\"],\"1650675509\":[\"The Tapestry lookup protocol
+    [26], used in OceanStore [13], is a variant of the Plaxton algorithm.\"],\"1663493649\":[\"The
+    Freenet peer-to-peer storage system [5], [ 6 ], like Chord, is decentralized and
+    symmetric and automatically adapts when hosts leave and join.\"],\"1725414206\":[\"The
+    Globe system [2] has a wide-area location service to map object identifiers to
+    the locations of moving objects.\"],\"1799338429\":[\"New analysis techniques
+    have shown that Chord’s stabilization algorithms (with minor modifications) maintain
+    good lookup performance despite continuous failure and joining of nodes [16].\",\"Other
+    work [16] shows that if the stabilization protocol is run at a certain rate (dependent
+    on the rate at which nodes join and fail) then the Chord ring remains continuously
+    in an “almost stable” state in which lookups are fast and correct.\"],\"2000876023\":[\"[21]
+    is perhaps the closest algorithm to the Chord protocol.\"],\"2020765652\":[\"they
+    let nodes join and leave the system with minimal disruption [3][4].\"],\"2052207834\":[\"Techniques
+    have also been developed [3] to introduce randomness in the hash function; given
+    any set of keys, we can choose a hash function at random so that the keys are
+    well distributed with high probability over the choice of hash function.\"],\"2064360543\":[\"Archival
+    Intermemory uses an off-line computed tree to map logical addresses to machines
+    that store the data [4].\"],\"2104210894\":[\"[19], a variant of which is used
+    in OceanStore [12], is perhaps the closest algorithm to the Chord protocol.\"],\"2122269925\":[\"DNS
+    provides a host name to IP address mapping [15].\"],\"2127555143\":[\"Information
+    about an object is stored in a particular leaf domain, and pointer caches provide
+    search shortcuts [25].\"],\"2144553078\":[\"successor the next node on the identifier
+    circle; finger[1]:node\",\"finger[1].\",\"interval = [finger[1].\",\"Node n can
+    become the successor only for keys that were previously the responsibility of
+    the node immediately follow#define successor finger[1]:node\",\"finger[1]:node
+    = n:find successor(finger[1]:start); predecessor = successor:predecessor; successor:predecessor
+    = n; for i = 1 to m 1 if (finger[i+ 1]:start 2 [n; finger[i]:node)) finger[i+
+    1]:node = finger[i]:node; else finger[i+ 1]:node =\",\"Newly joined nodes that
+    have not yet been fingered may cause find predecessor to initially undershoot,
+    but the loop in the lookup algorithm will nevertheless follow successor (finger[1])
+    pointers through the newly joined nodes until the correct predecessor is reached.\",\"The
+    Chord nodes are at ten sites on a subset of the RON test-bed in the United States
+    [1], in California, Colorado, Massachusetts, New York, North Carolina, and Pennsylvania.\"],\"2150676586\":[\"part
+    of an experimental distributed file system [7], though this section considers
+    only the Chord component of the system.\"],\"2163059190\":[\"CAN uses a d-dimensional
+    Cartesian coordinate space (for some fixed d) to implement a distributed hash
+    table that maps keys onto values [22].\"],\"2164192722\":[\"Chord’s routing procedure
+    may be thought of as a onedimensional analogue of the Grid location system [14].\"],\"2167898414\":[\"Pastry
+    [23] is a prefixbased lookup protocol that has properties similar to Chord.\"],\"2168886131\":[\"New
+    analysis techniques have shown that Chord’s stabilization algorithms (with minor
+    modifications) maintain good lookup performance despite continuous failure and
+    joining of nodes [16].\",\"Other work [16] shows that if the stabilization protocol
+    is run at a certain rate (dependent on the rate at which nodes join and fail)
+    then the Chord ring remains continuously in an “almost stable” state in which
+    lookups are fast and correct.\"],\"2170756028\":[\"This model is motivated by
+    recent research [19] showing that the network latency between two nodes in the
+    Internet can be modeled (with good accuracy) as the geometric distance in a d-dimensional
+    Euclidean space, where d ≥ 3.\"],\"2174507869\":[\"The Freenet peer-to-peer storage
+    system [5], [6], like Chord, is decentralized and symmetric and automatically
+    adapts when hosts leave and join.\"],\"2227895079\":[\"To alleviate this problem,
+    in previous work [ 8 ], we have experimented with a simple extension of the Chord
+    protocol that exploits only the information in the node’s\\u001bWhile this protocol
+    extension is simple to implement and does not require any additional state, its
+    performance is difficult to analyze [ 8 ].\"]},\"PR\":[2158049821,2167898414,2163059190,1650675509,2119245106,2123482462,2150676586,2174507869,2104210894,2056363353,2020765652,2007219304,2123820820,1584635459,2162733677,2000876023,2169047226,1970564778,1520914943,1492552531,2158049821,2167898414,2163059190,1650675509,2119245106,2123482462,2150676586,2174507869,2104210894,2056363353,2020765652,2007219304,2123820820,1584635459,2162733677,2000876023,2169047226,1970564778,1520914943,1492552531],\"ANF\":[{\"FN\":\"Ion\",\"LN\":\"Stoica\",\"S\":1},{\"FN\":\"Robert
+    Tappan\",\"LN\":\"Morris\",\"S\":2},{\"FN\":\"David\",\"LN\":\"Liben-Nowell\",\"S\":3},{\"FN\":\"David
+    R.\",\"LN\":\"Karger\",\"S\":4},{\"FN\":\"M. Frans\",\"LN\":\"Kaashoek\",\"S\":5},{\"FN\":\"Frank\",\"LN\":\"Dabek\",\"S\":6},{\"FN\":\"Hari\",\"LN\":\"Balakrishnan\",\"S\":7}],\"BV\":\"IEEE
+    ACM Transactions on Networking\",\"BT\":\"a\",\"PB\":\"IEEE\"}"}]}'
+  read: true
+  uri: 
+  decode_content: true
+  socket: 
+  body_exist: true
+bad_data_url:
+  Error:
+    Code: Bad Argument
+    Message: count should be >= 0
