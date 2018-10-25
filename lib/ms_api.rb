@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'yaml'
 require 'json'
@@ -8,7 +10,6 @@ require_relative 'paper_info.rb'
 module MSAcademic
   # Library for Microsoft Academic Web API; Web API class
   class MicrosoftAPI
-
     # Library for Microsoft Academic Search API
     def initialize(token)
       @ms_token = token
@@ -22,7 +23,6 @@ module MSAcademic
 
     # send out HTTP requests to Github
     class Request
-      
       # Initialize API library with token and cache object
       def initialize(token, cache: {})
         @token = token
@@ -70,12 +70,12 @@ module MSAcademic
     class Response < SimpleDelegator
       Unauthorized = Class.new(StandardError)
       BadRequest = Class.new(StandardError)
-  
+
       HTTP_ERROR = {
         '401' => Unauthorized,
         '400' => BadRequest
       }.freeze
-  
+
       def successful?
         HTTP_ERROR.keys.include?(code) ? false : true
       end

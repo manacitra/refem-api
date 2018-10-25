@@ -19,9 +19,9 @@ def microsoft_api_url(keywords, count)
   })
 
   if uri.query && uri.query.length > 0
-      uri.query += '&' + query
+    uri.query += '&' + query
   else
-      uri.query = query
+    uri.query = query
   end
 
   uri
@@ -29,7 +29,7 @@ end
 
 def call_microsoft_url(uri, token)
   request = Net::HTTP::Get.new(uri.request_uri)
-    # Request headers
+  # Request headers
   request['Ocp-Apim-Subscription-Key'] = token
   # Request body
   response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
@@ -42,8 +42,6 @@ end
 microsoft_response = {}
 microsoft_results = {}
 
-
-
 ## happy requests
 data_url = microsoft_api_url('internet', 1)
 microsoft_response['data_url'] = call_microsoft_url(data_url, token)
@@ -51,18 +49,16 @@ data = JSON.parse(microsoft_response['data_url'].body)
 entity_data = data['entities']
 
 microsoft_results['Id'] = entity_data[0]['Id']
-#should be 2118428193
+# should be 2118428193
 
 microsoft_results['Year'] = entity_data[0]['Y']
-#should be 2003
+# should be 2003
 
 microsoft_results['Date'] = entity_data[0]['D']
-#should be 2003-02-01
+# should be 2003-02-01
 
 extend_data = JSON.parse(entity_data[0]['E'])
 microsoft_results['DOI'] = extend_data['DOI']
-
-
 
 ## bad request
 bad_data_url = microsoft_api_url('internet', -5)
