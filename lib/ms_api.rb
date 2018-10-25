@@ -66,7 +66,7 @@ module MSAcademic
       end
     end
 
-     # Decorates HTTP responses from microsoft academic search with success/error
+    # Decorates HTTP responses from microsoft academic search with success/error
     class Response < SimpleDelegator
       Unauthorized = Class.new(StandardError)
       BadRequest = Class.new(StandardError)
