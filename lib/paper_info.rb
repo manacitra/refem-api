@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'json'
 
 module MSAcademic
@@ -12,7 +11,7 @@ module MSAcademic
     end
 
     def paper_id
-      @entity_data['Id']
+        @entity_data['Id']
     end
 
     def paper_year
