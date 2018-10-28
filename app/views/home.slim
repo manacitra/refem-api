@@ -1,0 +1,19 @@
+.container
+  form role="form" action="/find_paper" method='POST' id='show-project-form'
+    .row.vertical-align.query-bar
+      .col-md-2.col-sm-3
+        .text-right Keyword / Number of Search:
+      .col-md-8.col-sm-6
+        input {
+          type='text' name='paper_query'
+          id='paper_query_input' class="form-control"
+          placeholder="e.g. 'internet'/3"
+        }
+      .col-md-2.col-sm-3
+        button {
+          type='submit' id='paper_search-submit' class='submit'
+          value='submit' class="btn btn-success"
+        } Find Paper
+    .row
+      .col-md-12.blank-row
+      
