@@ -3,7 +3,7 @@
 require 'roda'
 require 'yaml'
 
-module MSAcademic
+module RefEm
   # Configuration for the App
   class App < Roda
     CONFIG = YAML.safe_load(File.read('config/secrets.yml'))

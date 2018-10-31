@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'json'
 
-module MSAcademic
+module RefEm
   # Provides access to microsoft data
   module MSPaper
     # Data Mapper: microsoft paper -> paper
@@ -28,7 +28,7 @@ module MSAcademic
           end
 
           def build_entity
-            MSAcademic::Entity::Paper.new(
+            RefEm::Entity::Paper.new(
               id: id,
               paper_year: year,
               paper_date: date,

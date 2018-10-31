@@ -1,7 +1,7 @@
 require 'roda'
 require 'slim'
 
-module MSAcademic
+module RefEm
   # Web App
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/views'
@@ -36,7 +36,7 @@ module MSAcademic
         routing.on String, String do |keyword, paper_count|
           # GET /find_paper/keyword/paper_count
           routing.get do
-            paper_title = MSAcademic::MSPaper::PaperMapper
+            paper_title = RefEm::MSPaper::PaperMapper
               .new(MS_TOKEN)
               .find(keyword, paper_count)
             #puts("!!!! #{paper_title.paper_doi}")

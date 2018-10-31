@@ -7,7 +7,7 @@ require 'json'
 #require_relative 'paper_info.rb'
 
 # Namespace for entire library
-module MSAcademic
+module RefEm
   # Library for Microsoft Academic Web API; Web API class
   module MSPaper
     # Library for Microsoft Academic Search API

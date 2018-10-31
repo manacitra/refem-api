@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MSAcademic
+module RefEm
   module Entity
   # Domain entity for paper
     class Paper < Dry::Struct
