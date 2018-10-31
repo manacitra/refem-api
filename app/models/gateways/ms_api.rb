@@ -19,7 +19,7 @@ module RefEm
       def paper_data(keywords, count)
         paper_response = Request.new(@ms_token)
                                 .paper_info(keywords, count)
-        #process data
+        #process data 
         res_data = JSON.parse(paper_response.body)
         res_data['entities'].map { |data|
           author_array = []
