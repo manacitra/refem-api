@@ -25,10 +25,12 @@ describe 'Test microsoft academic search library' do
         paper = RefEm::MSPaper::PaperMapper
                 .new(MS_TOKEN)
                 .find(KEYWORDS, COUNT)
-        _(paper.id).must_equal CORRECT['Id']
-        _(paper.paper_year).must_equal CORRECT['Year']
-        _(paper.paper_date).must_equal CORRECT['Date']
-        _(paper.paper_doi).must_equal CORRECT['DOI']
+        paper.size.must_equal 10
+        first_paper = paper[0]
+        _(first_paper.id).must_equal CORRECT['Id']
+        _(first_paper.year).must_equal CORRECT['Year']
+        _(first_paper.date).must_equal CORRECT['Date']
+        _(first_paper.doi).must_equal CORRECT['DOI']
       end
 
       it 'SAD: should have error on incorrect counts' do

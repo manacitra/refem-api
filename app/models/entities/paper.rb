@@ -7,9 +7,12 @@ module RefEm
       include Dry::Types.module
 
       attribute :id,    Strict::Integer
-      attribute :paper_year,    Strict::Integer
-      attribute :paper_date,    Strict::String
-      attribute :paper_doi,    Strict::String
+      attribute :title,    Strict::String
+      attribute :author,   Strict::Array.of(String)
+      attribute :year,    Strict::Integer
+      attribute :date,    Strict::String
+      attribute :field,   Strict::Array.of(String)
+      attribute :doi,    Strict::String.optional
     end
   end
 end

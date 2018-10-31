@@ -19,9 +19,24 @@ module RefEm
       def paper_data(keywords, count)
         paper_response = Request.new(@ms_token)
                                 .paper_info(keywords, count)
+        #process data
         res_data = JSON.parse(paper_response.body)
-        res_data['entities'][0]['E'] = JSON.parse(res_data['entities'][0]['E'])
-        res_data
+        res_data['entities'].map { |data|
+          author_array = []
+          field_array = []	
+          data['AA'].map { |author|
+            author_array.push(author['AuN'])
+          }
+          data['AA'] = author_array
+
+          data['F'].map { |field|
+            field_array.push(field['FN'])
+          }
+          data['F'] = field_array
+
+          data['E'] = JSON.parse(data['E'])
+        }
+        res_data['entities']
       end
 
       # send out HTTP requests to Github
@@ -40,7 +55,7 @@ module RefEm
             'model' => 'latest',
             'count' => "#{count}",
             'offset' => '0',
-            'attributes' => 'Ti,AA.AuN,Y,D,RId,E'
+            'attributes' => 'Ti,AA.AuN,Y,D,F.FN,E'
           })
 
           if uri.query && uri.query.length > 0
