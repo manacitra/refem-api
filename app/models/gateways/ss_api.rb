@@ -6,12 +6,12 @@ module RefEm
   # Library for Semantic Scholar  API
   module SSPaper
     # Library for Semantic Scholar Search API
-    class API
+    class Api
       def initialize
       end
 
       def paper_data(doi)
-        Request.new.ss_paper_data.parse
+        Request.new.ss_paper_data(doi).parse
       end
 
       class Request
