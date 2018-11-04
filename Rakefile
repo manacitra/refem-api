@@ -32,7 +32,7 @@ namespace :db do
 
   desc 'Run migrations'
   task :migrate => :config do
-    Sequel.extension :migrations
+    Sequel.extension :migration
     puts "Migrating #{app.environment} database to latest"
     Sequel::Migrator.run(app.DB, 'app/infrastructure/database/migrations')
   end

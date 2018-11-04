@@ -4,7 +4,7 @@ require 'net/http'
 require 'yaml'
 require 'json'
 # Load data parsing class
-#require_relative 'paper_info.rb'
+# require_relative 'paper_info.rb'
 
 # Namespace for entire library
 module RefEm
@@ -19,7 +19,7 @@ module RefEm
       def paper_data(keywords, count)
         paper_response = Request.new(@ms_token)
                                 .paper_info(keywords, count)
-        #process data 
+        # process data 
         res_data = JSON.parse(paper_response.body)
         res_data['entities'].map { |data|
           author_array = []
