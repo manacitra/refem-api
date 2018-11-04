@@ -13,9 +13,9 @@ module RefEm
       end
 
       def find(keywords, count)
-          @gateway.paper_data(keywords, count).map { |data|
-            build_entity(data)
-          }
+        @gateway.paper_data(keywords, count).map { |data|
+          build_entity(data)
+        }
       end
 
       def build_entity(data)

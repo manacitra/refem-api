@@ -14,7 +14,7 @@ module RefEm
 
       # GET / 
       routing.root do
-        papers = Repositories::For.klass(Entity::Project).all
+        papers = Repository::For.klass(Entity::Paper).all
         view 'home', locals: { papers: papers }
       end
 
@@ -29,25 +29,25 @@ module RefEm
             # query format: keyword/paper count
             routing.halt 400 unless (query_param.split('/')[-1].to_i <= 10) &&
                                     (query_param.split('/').count == 2)
-            keyword, paper_count = query_param.split('/')
+            keyword, count = query_param.split('/')
 
             # Get paper from ms
             paper = MSPaper::PaperMapper
-              .new(App.config.ms_TOKEN)
-              .find(keywords, count)
+              .new(App.config.MS_TOKEN)
+              .find(keyword, count)
             # Add paper to database
             Repository::For.entity(paper).create(paper)
             # Redirect viewer to find_ page
-            routing.redirect "find_paper/#{keyword}/#{paper_count}"
+            routing.redirect "find_paper/#{keyword}/#{count}"
           end
         end
 
-        routing.on String, String do |keyword, paper_count|
+        routing.on String, String do |keyword, count|
           # GET /find_paper/keyword/paper_count
           routing.get do
             paper_title = RefEm::MSPaper::PaperMapper
               .new(MS_TOKEN)
-              .find(keyword, paper_count)
+              .find(keyword, count)
             #puts("!!!! #{paper_title.paper_doi}")
 
             view 'find_paper', locals: { find_paper: paper_title }
