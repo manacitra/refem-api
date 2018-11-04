@@ -38,7 +38,7 @@ module RefEm
         )
       end
 
-      # Helper class to persist paper and its members to database
+      # Helper class to persist paper and its authors to database
       class PersistPaper
         def initialize(entity)
           @entity = entity
