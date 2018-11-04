@@ -1,4 +1,4 @@
-<AppName>
+<h1>RefEm</h1>
 Application that helps researcher to find back to back literature from a paper
 
 <h2>Overview</h2>
