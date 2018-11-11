@@ -18,7 +18,7 @@ describe 'Test semantic scholar search library' do
 
     describe 'Infromation from Semantic Scholar' do
       it 'HAPPY: should provide correct paper attributes' do
-        sspaper = RefEm::SSPaper::PaperMapper
+        paper = RefEm::SSPaper::PaperMapper
                 .new
                 .find(DOI)
         paper.size.must_equal 10

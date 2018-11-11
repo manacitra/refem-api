@@ -30,8 +30,8 @@ module RefEm
         def build_entity
           RefEm::Entity::FromSS.new(
             citation_velocity: citation_velocity,
-            citations_doi: citations_doi,
-            citations_title: citations_title,
+            citation_dois: citation_dois,
+            citation_titles: citation_titles,
             influential_citation_count: influential_citation_count,
             venue: venue,
             focus_doi: focus_doi
