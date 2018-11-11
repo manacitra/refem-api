@@ -1,60 +1,43 @@
 # frozen_string_literal: true
 require 'json'
 
+# This module only connected to SS API
 module RefEm
   # Provides access to microsoft data
-  module MSPaper
+  module SSPaper
     # Data Mapper: microsoft paper -> paper
-    class PaperMapper
-      def initialize(ms_token, gateway_class = MSPaper::Api)
-        @token = ms_token
+    class RefMapper
+      def initialize(gateway_class = SSPaper::Api)
         @gateway_class = gateway_class
-        @gateway = @gateway_class.new(@token)
+        @gateway = @gateway_class.new
       end
 
       def find(keywords, count)
-        @gateway.paper_data(keywords, count).map { |data|
-          build_entity(data)
-        }
+        data = @gateway.paper_data(keywords, count)
+        build_entity(data)
       end
 
       def build_entity(data)
         DataMapper.new(data).build_entity
       end
-      
+
       # Extracts entity specific elements from data structure
       class DataMapper
         def initialize(data)
-          @data = data
+          @data = data['entities'][0]
         end
 
         def build_entity
           RefEm::Entity::Paper.new(
-            id: nil,
-            origin_id: origin_id,
-            title: title,
-            author: author,
+            id: id,
             year: year,
             date: date,
-            field: field,
             doi: doi
           )
         end
 
-        def origin_id
+        def id
           @data['Id']
-        end
-
-        def author
-          author = ""
-          @data['AA'].each { |auth|
-            author += "#{auth};"
-          }
-          author
-        end
-
-        def title
-          @data['Ti']
         end
 
         def year
@@ -63,14 +46,6 @@ module RefEm
 
         def date
           @data['D']
-        end
-
-        def field
-          field = ""
-          @data['F'].each { |f|
-            field += "#{f};"
-          }
-          field
         end
 
         def doi
