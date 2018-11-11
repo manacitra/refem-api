@@ -32,7 +32,8 @@ module RefEm
 
         def build_entity
           RefEm::Entity::Paper.new(
-            id: id,
+            id: nil,
+            origin_id: origin_id,
             title: title,
             author: author,
             year: year,
@@ -47,12 +48,25 @@ module RefEm
           )
         end
 
+<<<<<<< HEAD
         def id
           @data.first['Id']
         end
 
         def title
           @data.first['Ti']
+=======
+        def origin_id
+          @data['Id']
+        end
+
+        def author
+          author = ""
+          @data['AA'].each { |auth|
+            author += "#{auth};"
+          }
+          author
+>>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
         end
 
         def author
@@ -68,7 +82,15 @@ module RefEm
         end
 
         def field
+<<<<<<< HEAD
           @data.first['F']
+=======
+          field = ""
+          @data['F'].each { |f|
+            field += "#{f};"
+          }
+          field
+>>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
         end
 
         def doi

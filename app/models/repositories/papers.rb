@@ -8,6 +8,10 @@ module RefEm
         Database::PaperOrm.all.map { |db_paper| rebuild_entity(db_paper) }
       end
 
+      def self.find(entity)
+        find_from_doi(entity.doi)
+      end
+
       def self.find_id(id)
         db_record = Database::PaperOrm.first(id: id)
         rebuild_entity(db_record)
@@ -20,7 +24,6 @@ module RefEm
 
       def self.create(entity)
         raise 'Paper already exists' if find(entity)
-
         db_paper = PersistPaper.new(entity).call
         rebuild_entity(db_paper)
       end
@@ -31,11 +34,20 @@ module RefEm
         return nil unless db_record
 
         Entity::Paper.new(
+          id:      db_record.id,
+          origin_id:      db_record.origin_id, 
           title:   db_record.title,
+          author:  db_record.author,
           year:    db_record.year,
-          doi:     db_record.doi,
-          field:   db_record.field
+          date:    db_record.date,
+          field:   db_record.field,
+          doi:     db_record.doi
+          
         )
+      end
+
+      def self.db_find_or_create(entity)
+        Database::PaperOrm.find_or_create(entity)
       end
 
       # Helper class to persist paper and its authors to database
@@ -44,20 +56,17 @@ module RefEm
           @entity = entity
         end
 
-        def self.db_find_or_create(entity)
-          Database::PaperOrm.find_or_create(entity.to_attr_hash)
-        end
-
         def create_paper
           Database::PaperOrm.create(@entity.to_attr_hash)
         end
 
         def call
-          author = Papers.db_find_or_create(@entity.author)
+          # paper = Papers.db_find_or_create(@entity)
 
-          create_paper.tap do |db_paper|
-            db_paper.update(author: author)
-          end
+          # create_paper.tap do |db_paper|
+          #   db_paper.update(paper: paper)
+          # end
+          create_paper
         end
       end
     end

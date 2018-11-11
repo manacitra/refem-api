@@ -1,13 +1,30 @@
 .container
-  .row
-    .col-lg-2.col-md-2.col-sm-2
-      span.paper.attribute Paper Year:
-    .col-lg-10.col-md-10.col-sm-6
-      span.paper.year
-        = find_paper.year
-  .row.top_buffer
-    .col-lg-2.col-md-2.col-sm-2
-      span.paper.attribute DOI:
-    .col-lg-10.col-md-10.col-sm-6
-      span.paper.doi
-        = find_paper.doi
+  - find_paper.each do |paper|
+    .row
+      .col-lg-2.col-md-2.col-sm-2
+        span.paper.attribute Title:
+      .col-lg-10.col-md-10.col-sm-6
+        span.paper.title
+          = paper.title
+    .row.top_buffer
+      .col-lg-2.col-md-2.col-sm-2
+        span.paper.attribute Author:
+      .col-lg-10.col-md-10.col-sm-6
+        span.paper.author
+          = paper.author
+    .row.top_buffer
+      .col-lg-2.col-md-2.col-sm-2
+        span.paper.attribute Year:
+      .col-lg-10.col-md-10.col-sm-6
+        span.paper.year
+          = paper.year
+    .row.top_buffer
+      .col-lg-2.col-md-2.col-sm-2
+        span.paper.attribute DOI:
+      .col-lg-10.col-md-10.col-sm-6
+        span.paper.doi
+          = paper.doi
+    .row.top_buffer
+      .col-lg-12.col-md-12.col-sm-12
+        span.dash -----------------------------
+        

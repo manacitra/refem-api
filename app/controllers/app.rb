@@ -35,8 +35,12 @@ module RefEm
             paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
               .find(keyword, count)
+
             # Add paper to database
-            Repository::For.entity(paper).create(paper)
+            paper.each {  |p|
+              Repository::For.entity(p).create(p)
+            }
+           
             # Redirect viewer to find_ page
             routing.redirect "find_paper/#{keyword}/#{count}"
           end
@@ -46,8 +50,9 @@ module RefEm
           # GET /find_paper/keyword/paper_count
           routing.get do
             paper_title = RefEm::MSPaper::PaperMapper
-              .new(MS_TOKEN)
+              .new(App.config.MS_TOKEN)
               .find(keyword, count)
+            
             #puts("!!!! #{paper_title.paper_doi}")
 
             view 'find_paper', locals: { find_paper: paper_title }
