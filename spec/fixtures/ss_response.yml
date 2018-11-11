@@ -21,7 +21,7 @@ http://api.semanticscholar.org/v1/paper/10.1162/089120103321337421: !ruby/object
     - - Content-Type
       - application/json
     - - Date
-      - Sun, 11 Nov 2018 08:23:27 GMT
+      - Sun, 11 Nov 2018 09:05:22 GMT
     - - Server
       - nginx/1.12.1
     - - Content-Length
@@ -40,7 +40,89 @@ http://api.semanticscholar.org/v1/paper/10.1162/089120103321337421: !ruby/object
       pending_request: false
       pending_response: false
       failed_proxy_connect: false
-      buffer: '"topicId":"2871","url":"https://www.semanticscholar.org/topic/2871"},{"topic":"Smoothing","topicId":"16185","url":"https://www.semanticscholar.org/topic/16185"},{"topic":"Text
+      buffer: 'ef984bd11d58463d59f1e3cec1341","venue":"VLC@ACL","year":1993},{"arxivId":null,"authors":[{"authorId":"1710580","name":"Adam
+        L. Berger","url":"https://www.semanticscholar.org/author/1710580"},{"authorId":"32538203","name":"Peter
+        F. Brown","url":"https://www.semanticscholar.org/author/32538203"},{"authorId":"2714577","name":"Stephen
+        Della Pietra","url":"https://www.semanticscholar.org/author/2714577"},{"authorId":"39944066","name":"Vincent
+        J. Della Pietra","url":"https://www.semanticscholar.org/author/39944066"},{"authorId":"3273436","name":"John
+        R. Gillett","url":"https://www.semanticscholar.org/author/3273436"},{"authorId":"1739581","name":"John
+        D. Lafferty","url":"https://www.semanticscholar.org/author/1739581"},{"authorId":"2474650","name":"Robert
+        L. Mercer","url":"https://www.semanticscholar.org/author/2474650"},{"authorId":"2270385","name":"Harry
+        Printz","url":"https://www.semanticscholar.org/author/2270385"},{"authorId":"3139675","name":"Lubos
+        Ures","url":"https://www.semanticscholar.org/author/3139675"}],"doi":null,"isInfluential":false,"paperId":"358fccd9e2633679038ae8cf8e747adefb4dc214","title":"The
+        Candide System for Machine Translation","url":"https://www.semanticscholar.org/paper/358fccd9e2633679038ae8cf8e747adefb4dc214","venue":"HLT","year":1994},{"arxivId":null,"authors":[{"authorId":"1868657","name":"Mona
+        Diab","url":"https://www.semanticscholar.org/author/1868657"}],"doi":null,"isInfluential":false,"paperId":"0222b108dd18431daccec3f4e1b038fac8f0cddb","title":"An
+        Unsupervised Method For Multilingual Word Sense Tagging Using Parallel Corpora","url":"https://www.semanticscholar.org/paper/0222b108dd18431daccec3f4e1b038fac8f0cddb","venue":"","year":2000},{"arxivId":null,"authors":[{"authorId":"32538203","name":"Peter
+        F. Brown","url":"https://www.semanticscholar.org/author/32538203"},{"authorId":null,"name":"Vincent
+        J. Della Piet","url":null}],"doi":null,"isInfluential":false,"paperId":"dbca66128d360286c6a5e99214101ae356b93ef2","title":"HMM-Based
+        Word Alignment in Statistical Translation","url":"https://www.semanticscholar.org/paper/dbca66128d360286c6a5e99214101ae356b93ef2","venue":"","year":2002},{"arxivId":null,"authors":[{"authorId":"2926314","name":"Jin-Xia
+        Huang","url":"https://www.semanticscholar.org/author/2926314"},{"authorId":"1709062","name":"Key-Sun
+        Choi","url":"https://www.semanticscholar.org/author/1709062"}],"doi":null,"isInfluential":false,"paperId":"53936cb1ce281bde9b796092ff8a12c88dedea4b","title":"Chinese-Korean
+        Word Alignment Based on Linguistic Comparison","url":"https://www.semanticscholar.org/paper/53936cb1ce281bde9b796092ff8a12c88dedea4b","venue":"ACL","year":2000},{"arxivId":null,"authors":[{"authorId":"1801071","name":"Frank
+        Smadja","url":"https://www.semanticscholar.org/author/1801071"},{"authorId":"1727037","name":"Kathleen
+        McKeown","url":"https://www.semanticscholar.org/author/1727037"},{"authorId":"1799688","name":"Vasileios
+        Hatzivassiloglou","url":"https://www.semanticscholar.org/author/1799688"}],"doi":null,"isInfluential":false,"paperId":"771a7bd936b620458aa3f4a400a879a0d685ae2f","title":"Translating
+        Collocations for Bilingual Lexicons: A Statistical Approach","url":"https://www.semanticscholar.org/paper/771a7bd936b620458aa3f4a400a879a0d685ae2f","venue":"Computational
+        Linguistics","year":1996},{"arxivId":null,"authors":[{"authorId":"1685956","name":"Hermann
+        Ney","url":"https://www.semanticscholar.org/author/1685956"},{"authorId":"2038307","name":"Sonja
+        Nie\u00dfen","url":"https://www.semanticscholar.org/author/2038307"},{"authorId":"2002316","name":"Franz
+        Josef Och","url":"https://www.semanticscholar.org/author/2002316"},{"authorId":"33813476","name":"Hassan
+        Sawaf","url":"https://www.semanticscholar.org/author/33813476"},{"authorId":"2324070","name":"Christoph
+        Tillmann","url":"https://www.semanticscholar.org/author/2324070"},{"authorId":"1684854","name":"Stephan
+        Vogel","url":"https://www.semanticscholar.org/author/1684854"}],"doi":"10.1109/89.817451","isInfluential":false,"paperId":"a9f3c943c4c3b0ec9e7d722aa4cf85b2d668cb6c","title":"Algorithms
+        for statistical translation of spoken language","url":"https://www.semanticscholar.org/paper/a9f3c943c4c3b0ec9e7d722aa4cf85b2d668cb6c","venue":"IEEE
+        Trans. Speech and Audio Processing","year":2000},{"arxivId":null,"authors":[{"authorId":"30844359","name":"Ye-Yi
+        Wang","url":"https://www.semanticscholar.org/author/30844359"},{"authorId":"1724972","name":"Alexander
+        H. Waibel","url":"https://www.semanticscholar.org/author/1724972"}],"doi":null,"isInfluential":false,"paperId":"6b4f8328b481751451b99a09ccd1926057d1ea2c","title":"Fast
+        decoding for statistical machine translation","url":"https://www.semanticscholar.org/paper/6b4f8328b481751451b99a09ccd1926057d1ea2c","venue":"ICSLP","year":1998},{"arxivId":null,"authors":[{"authorId":"3347157","name":"Sue
+        J. Ker","url":"https://www.semanticscholar.org/author/3347157"},{"authorId":"1778899","name":"Jason
+        S. Chang","url":"https://www.semanticscholar.org/author/1778899"}],"doi":null,"isInfluential":false,"paperId":"878b971bdfad7877dbbf0101f9b925d56cd42b9a","title":"A
+        Class-based Approach to Word Alignment","url":"https://www.semanticscholar.org/paper/878b971bdfad7877dbbf0101f9b925d56cd42b9a","venue":"Computational
+        Linguistics","year":1997},{"arxivId":null,"authors":[{"authorId":"1795942","name":"Reinhard
+        Kneser","url":"https://www.semanticscholar.org/author/1795942"},{"authorId":"1685956","name":"Hermann
+        Ney","url":"https://www.semanticscholar.org/author/1685956"}],"doi":null,"isInfluential":false,"paperId":"9bc5151d31470f3664fed1dc9321a4292fc40914","title":"Improved
+        clustering techniques for class-based statistical language modelling","url":"https://www.semanticscholar.org/paper/9bc5151d31470f3664fed1dc9321a4292fc40914","venue":"EUROSPEECH","year":1993},{"arxivId":null,"authors":[{"authorId":"39701240","name":"Ralf
+        D. Brown","url":"https://www.semanticscholar.org/author/39701240"}],"doi":null,"isInfluential":false,"paperId":"864a559d15168af71c390d2efa59feb5bc5758de","title":"Automated
+        Dictionary Extraction for \u201c Knowledge-Free \u201d Example-Based Translation","url":"https://www.semanticscholar.org/paper/864a559d15168af71c390d2efa59feb5bc5758de","venue":"","year":1997},{"arxivId":null,"authors":[{"authorId":"1701863","name":"I.
+        Dan Melamed","url":"https://www.semanticscholar.org/author/1701863"}],"doi":null,"isInfluential":false,"paperId":"28d44f73c8eb541577b4eb7c969766ef7cfffcae","title":"Statistical
+        Machine Translation by Parsing","url":"https://www.semanticscholar.org/paper/28d44f73c8eb541577b4eb7c969766ef7cfffcae","venue":"ACL","year":2004},{"arxivId":null,"authors":[{"authorId":"50655248","name":"Ulrich
+        Germann","url":"https://www.semanticscholar.org/author/50655248"},{"authorId":"2057975","name":"Michael
+        Jahr","url":"https://www.semanticscholar.org/author/2057975"},{"authorId":"1710034","name":"Kevin
+        Knight","url":"https://www.semanticscholar.org/author/1710034"},{"authorId":"1695463","name":"Daniel
+        Marcu","url":"https://www.semanticscholar.org/author/1695463"},{"authorId":"38771419","name":"Kenji
+        Yamada","url":"https://www.semanticscholar.org/author/38771419"}],"doi":null,"isInfluential":false,"paperId":"2104e207097124737769ceb156fc448e2b97a07a","title":"Fast
+        Decoding and Optimal Decoding for Machine Translation","url":"https://www.semanticscholar.org/paper/2104e207097124737769ceb156fc448e2b97a07a","venue":"ACL","year":2001},{"arxivId":null,"authors":[{"authorId":"2002316","name":"Franz
+        Josef Och","url":"https://www.semanticscholar.org/author/2002316"},{"authorId":"47387511","name":"Hans
+        Weber","url":"https://www.semanticscholar.org/author/47387511"}],"doi":null,"isInfluential":false,"paperId":"4ddb7f7a9ca8f95063725bfc04042782c591a454","title":"Improving
+        Statistical Natural Language Translation with Categories and Rules","url":"https://www.semanticscholar.org/paper/4ddb7f7a9ca8f95063725bfc04042782c591a454","venue":"COLING-ACL","year":1998},{"arxivId":null,"authors":[{"authorId":"1767307","name":"Hiyan
+        Alshawi","url":"https://www.semanticscholar.org/author/1767307"},{"authorId":"35313721","name":"Srinivas
+        Bangalore","url":"https://www.semanticscholar.org/author/35313721"},{"authorId":"1901883","name":"Shona
+        Douglas","url":"https://www.semanticscholar.org/author/1901883"}],"doi":null,"isInfluential":false,"paperId":"119f77e4edc10964ab3a5c6228e92df863c7e267","title":"Automatic
+        Acquisition of Hierarchical Transduction Models for Machine Translation","url":"https://www.semanticscholar.org/paper/119f77e4edc10964ab3a5c6228e92df863c7e267","venue":"COLING-ACL","year":1998},{"arxivId":null,"authors":[{"authorId":"1693517","name":"David
+        Yarowsky","url":"https://www.semanticscholar.org/author/1693517"},{"authorId":"2009300","name":"Richard
+        Wicentowski","url":"https://www.semanticscholar.org/author/2009300"}],"doi":null,"isInfluential":false,"paperId":"19057ca93bcdd5e604d1af55b6f8ebcc9a8a9dcb","title":"Minimally
+        Supervised Morphological Analysis by Multimodal Alignment","url":"https://www.semanticscholar.org/paper/19057ca93bcdd5e604d1af55b6f8ebcc9a8a9dcb","venue":"ACL","year":2000},{"arxivId":null,"authors":[{"authorId":"1701863","name":"I.
+        Dan Melamed","url":"https://www.semanticscholar.org/author/1701863"}],"doi":"10.1162/089120100561683","isInfluential":false,"paperId":"38224f0aa39e4d4b9a0060e0fe3941f9e6d1bee1","title":"Models
+        of Translational Equivalence among Words","url":"https://www.semanticscholar.org/paper/38224f0aa39e4d4b9a0060e0fe3941f9e6d1bee1","venue":"Computational
+        Linguistics","year":2000},{"arxivId":null,"authors":[{"authorId":"1693517","name":"David
+        Yarowsky","url":"https://www.semanticscholar.org/author/1693517"},{"authorId":"1706729","name":"Grace
+        Ngai","url":"https://www.semanticscholar.org/author/1706729"},{"authorId":"2009300","name":"Richard
+        Wicentowski","url":"https://www.semanticscholar.org/author/2009300"}],"doi":null,"isInfluential":false,"paperId":"0ce9c261a7f69668da2066da0ad736e6eccdcd36","title":"Inducing
+        Multilingual Text Analysis Tools via Robust Projection across Aligned Corpora","url":"https://www.semanticscholar.org/paper/0ce9c261a7f69668da2066da0ad736e6eccdcd36","venue":"HLT","year":2001},{"arxivId":null,"authors":[{"authorId":"38771419","name":"Kenji
+        Yamada","url":"https://www.semanticscholar.org/author/38771419"},{"authorId":"1710034","name":"Kevin
+        Knight","url":"https://www.semanticscholar.org/author/1710034"}],"doi":null,"isInfluential":false,"paperId":"11cd7fbc0ea8605ea498ecfc82b3ff6a44c027e9","title":"A
+        Syntax-based Statistical Translation Model","url":"https://www.semanticscholar.org/paper/11cd7fbc0ea8605ea498ecfc82b3ff6a44c027e9","venue":"ACL","year":2001},{"arxivId":null,"authors":[{"authorId":"1710034","name":"Kevin
+        Knight","url":"https://www.semanticscholar.org/author/1710034"}],"doi":null,"isInfluential":false,"paperId":"15a1651ef8e5f9b6ed8687bfdbe16edbe9447290","title":"Decoding
+        Complexity in Word-Replacement Translation Models","url":"https://www.semanticscholar.org/paper/15a1651ef8e5f9b6ed8687bfdbe16edbe9447290","venue":"Computational
+        Linguistics","year":1999},{"arxivId":null,"authors":[{"authorId":"35043531","name":"Arthur
+        P. Dempster","url":"https://www.semanticscholar.org/author/35043531"},{"authorId":"7890796","name":"Nan
+        M. Laird","url":"https://www.semanticscholar.org/author/7890796"},{"authorId":"2235217","name":"Donald
+        B. Rubin","url":"https://www.semanticscholar.org/author/2235217"}],"doi":null,"isInfluential":false,"paperId":"26e8f3cc46b710a013358bf0289df4de033446ba","title":"Maximum
+        Likelihood from Incomplete Data via the EM Algorithm","url":"https://www.semanticscholar.org/paper/26e8f3cc46b710a013358bf0289df4de033446ba","venue":"","year":1977},{"arxivId":"cmp-lg/9805005","authors":[{"authorId":"1701863","name":"I.
+        Dan Melamed","url":"https://www.semanticscholar.org/author/1701863"}],"doi":null,"isInfluential":false,"paperId":"027224cecc5cc50f664e7fd249bd4f4545397b96","title":"Manual
+        Annotation of Translational Equivalence: The Blinker Project","url":"https://www.semanticscholar.org/paper/027224cecc5cc50f664e7fd249bd4f4545397b96","venue":"ArXiv","year":1998}],"title":"A
+        Systematic Comparison of Various Statistical Alignment Models","topics":[{"topic":"Heuristic","topicId":"4146","url":"https://www.semanticscholar.org/topic/4146"},{"topic":"Verbmobil","topicId":"316859","url":"https://www.semanticscholar.org/topic/316859"},{"topic":"Statistical
+        model","topicId":"2871","url":"https://www.semanticscholar.org/topic/2871"},{"topic":"Smoothing","topicId":"16185","url":"https://www.semanticscholar.org/topic/16185"},{"topic":"Text
         corpus","topicId":"14829","url":"https://www.semanticscholar.org/topic/14829"},{"topic":"Markov
         chain","topicId":"5418","url":"https://www.semanticscholar.org/topic/5418"},{"topic":"Viterbi
         algorithm","topicId":"15689","url":"https://www.semanticscholar.org/topic/15689"}],"url":"https://www.semanticscholar.org/paper/0e2795b1329b25ba3709584b96fd5cb4c96f6f22","venue":"Computational
@@ -4746,7 +4828,7 @@ http://api.semanticscholar.org/v1/paper/foobar: !ruby/object:HTTP::Response
     - - Content-Type
       - application/json
     - - Date
-      - Sun, 11 Nov 2018 08:23:29 GMT
+      - Sun, 11 Nov 2018 09:05:23 GMT
     - - Server
       - nginx/1.12.1
     - - Content-Length
@@ -4766,7 +4848,7 @@ http://api.semanticscholar.org/v1/paper/foobar: !ruby/object:HTTP::Response
       pending_response: false
       failed_proxy_connect: false
       buffer: "HTTP/1.1 404 NOT FOUND\r\nAccess-Control-Allow-Origin: *\r\nContent-Type:
-        application/json\r\nDate: Sun, 11 Nov 2018 08:23:29 GMT\r\nServer: nginx/1.12.1\r\nContent-Length:
+        application/json\r\nDate: Sun, 11 Nov 2018 09:05:23 GMT\r\nServer: nginx/1.12.1\r\nContent-Length:
         28\r\nConnection: Close\r\n\r\n{\"error\":\"Paper not found\"}\n"
       parser: !ruby/object:HTTP::Response::Parser
         parser: !ruby/object:HTTP::Parser {}

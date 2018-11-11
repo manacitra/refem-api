@@ -19,6 +19,8 @@ paper_doi_url = ss_api_search('10.1162/089120103321337421')
 ss_response[paper_doi_url] = call_ss_api(paper_doi_url)
 paper = ss_response[paper_doi_url].parse
 
+ss_results['title'] = paper['title']
+
 ss_results['authors'] = paper['authors'].map { |n| n['name'] }
 # should be ["Franz Josef Och", "Hermann Ney"]
 

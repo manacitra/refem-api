@@ -28,14 +28,35 @@ module RefEm
         end
 
         def build_entity
-          RefEm::Entity::FromSS.new(
+          RefEm::Entity::Paper.new(
+            id: nil,
+            title: title,
+            author: authors,
+            year: nil,
+            date: nil,
+            field: nil,
+            doi: focus_doi,
             citation_velocity: citation_velocity,
             citation_dois: citation_dois,
             citation_titles: citation_titles,
             influential_citation_count: influential_citation_count,
-            venue: venue,
-            focus_doi: focus_doi
+            venue: venue
           )
+        end
+        
+        private
+
+        def id; end
+        def year; end
+        def date; end
+        def field; end
+
+        def title
+          @data['title']
+        end
+
+        def authors
+          @data['authors'].map { |n| n['name'] }.compact
         end
 
         def citation_velocity

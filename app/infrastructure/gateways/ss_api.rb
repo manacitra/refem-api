@@ -39,11 +39,11 @@ module RefEm
           404 => NotFound
         }.freeze
         def successful?
-          HTTP_ERROR.key?(code) ? false : true
+          HTTP_ERROR.keys.include?(code) ? false : true
         end
 
         def error
-          HTTP[code]
+          HTTP_ERROR[code]
         end
       end
     end
