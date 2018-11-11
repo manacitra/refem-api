@@ -20,7 +20,7 @@ describe 'Test semantic scholar search library' do
       it 'HAPPY: should provide correct paper attributes' do
         paper = RefEm::SSPaper::PaperMapper
                 .new
-                .find(DOI)
+                .find_data_by(DOI)
         paper.size.must_equal 10
         first_paper = paper[0]
         _(first_paper.id).must_equal CORRECT['Id']
