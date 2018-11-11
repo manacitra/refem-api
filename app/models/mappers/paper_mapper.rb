@@ -21,7 +21,6 @@ module RefEm
       def build_entity(data)
         DataMapper.new(data).build_entity
       end
-      
       # Extracts entity specific elements from data structure
       class DataMapper
         def initialize(data)

@@ -29,7 +29,7 @@ end
 # Debugging
 gem 'debase'
 gem 'pry'
-#gem 'ruby-debug-ide'
+gem 'ruby-debug-ide'
 
 # Testing
 group :test do
