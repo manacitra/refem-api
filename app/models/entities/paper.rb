@@ -7,11 +7,12 @@ module RefEm
       include Dry::Types.module
 
       attribute :id,          Strict::Integer.optional
-      attribute :title,       Strict::String
-      attribute :author,      Strict::Array.of(String)
+      attribute :origin_id,   Strict::Integer.optional
+      attribute :title,       Strict::String.optional
+      attribute :author,      Strict::String.optional
       attribute :year,        Strict::Integer.optional
       attribute :date,        Strict::String.optional
-      attribute :field,       Strict::Array.of(String).optional
+      attribute :field,       Strict::String.optional
       attribute :doi,         Strict::String.optional
       attribute :citation_velocity,            Strict::Integer.optional
       attribute :citation_dois,                Strict::Array.of(String).optional # sometimes doi is null

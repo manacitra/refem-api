@@ -53,7 +53,7 @@ module RefEm
             # Request parameters
             'expr' => "W == '#{keywords}'",
             'model' => 'latest',
-            'count' => "1",
+            'count' => "#{count}",
             'offset' => '0',
             'attributes' => 'Ti,AA.AuN,Y,D,F.FN,E'
           })

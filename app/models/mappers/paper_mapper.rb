@@ -16,18 +16,18 @@ module RefEm
       end
 
       def find(keywords, count)
-        data = @gateway.paper_data(keywords, count)
-        build_entity(data)
+        data = @gateway.paper_data(keywords, count).map { |data| 
+          build_entity(data) 
+        }
       end
 
       def build_entity(data)
-        DataMapper.new(data, @gateway_class).build_entity
+        DataMapper.new(data).build_entity
       end
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data, gateway_class)
+        def initialize(data)
           @data = data
-          @msmapper = PaperMapper.new(gateway_class)
         end
 
         def build_entity
@@ -48,53 +48,40 @@ module RefEm
           )
         end
 
-<<<<<<< HEAD
-        def id
-          @data.first['Id']
-        end
-
-        def title
-          @data.first['Ti']
-=======
         def origin_id
           @data['Id']
         end
 
         def author
           author = ""
-          @data['AA'].each { |auth|
+          @data.each { |auth|
             author += "#{auth};"
           }
           author
->>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
         end
 
-        def author
-          @data.first['AA']
+        def title
+          @data['Ti']
         end
 
         def year
-          @data.first['Y']
+          @data['Y']
         end
 
         def date
-          @data.first['D']
+          @data['D']
         end
 
         def field
-<<<<<<< HEAD
-          @data.first['F']
-=======
           field = ""
           @data['F'].each { |f|
             field += "#{f};"
           }
           field
->>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
         end
 
         def doi
-          @data.first['E']['DOI']
+          @data['E']['DOI']
         end
 
         # get_from_ss = RefEm::SSPaper::SSMapper.new
@@ -102,31 +89,31 @@ module RefEm
 
         def citation_velocity
           RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(@data.first['E']['DOI'])
+                                  .find_data_by(doi)
                                   .citation_velocity
         end
 
         def citation_dois
           RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(@data.first['E']['DOI'])
+                                  .find_data_by(doi)
                                   .citation_dois
         end
 
         def citation_titles
           RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(@data.first['E']['DOI'])
+                                  .find_data_by(doi)
                                   .citation_dois
         end
 
         def influential_citation_count
           RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(@data.first['E']['DOI'])
+                                  .find_data_by(doi)
                                   .influential_citation_count
         end
 
         def venue
           RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(@data.first['E']['DOI'])
+                                  .find_data_by(doi)
                                   .venue
         end
       end

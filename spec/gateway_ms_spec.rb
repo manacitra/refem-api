@@ -5,11 +5,7 @@ require_relative 'helpers/vcr_helper.rb'
 
 describe 'Test microsoft academic search library' do
   before do
-<<<<<<< HEAD
-    VcrHelper.configure_vcr_for_ss
-=======
     VcrHelper.configure_vcr_for_ms
->>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
   end
 
   after do
@@ -17,11 +13,7 @@ describe 'Test microsoft academic search library' do
   end
 
   describe 'Paper information' do
-<<<<<<< HEAD
     it 'HAPPY: should provide correct paper attributes' do
-=======
-    it "HAPPY: should provide correct paper attributes" do
->>>>>>> 6132d80d6cd864a4363a7328a27d264fa65ce1fb
       paper = RefEm::MSPaper::PaperMapper
               .new(MS_TOKEN)
               .find(KEYWORDS, COUNT)
@@ -50,4 +42,3 @@ describe 'Test microsoft academic search library' do
     end
   end
 end
-

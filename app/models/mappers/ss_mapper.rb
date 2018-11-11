@@ -18,10 +18,10 @@ module RefEm
       end
 
       def build_entity(data)
-        DataMapper.new(data, @gateway_class).build_entity
+        SSDataMapper.new(data, @gateway_class).build_entity
       end
       # Extracts entity specific elements from data structure
-      class DataMapper
+      class SSDataMapper
         def initialize(data, gateway_class)
           @data = data
           @ssmapper = SSMapper.new(gateway_class)
@@ -30,6 +30,7 @@ module RefEm
         def build_entity
           RefEm::Entity::Paper.new(
             id: nil,
+            origin_id: origin_id,
             title: title,
             author: authors,
             year: nil,
@@ -50,14 +51,13 @@ module RefEm
         def year; end
         def date; end
         def field; end
+        def origin_id; end
 
         def title
           @data['title']
         end
 
-        def authors
-          @data['authors'].map { |n| n['name'] }.compact
-        end
+        def authors; end
 
         def citation_velocity
           @data['citationVelocity']
