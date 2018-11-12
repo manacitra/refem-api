@@ -6,9 +6,10 @@ module RefEm
   module Database
     # Object Relational Mapper for Reference Entities
     class ReferenceOrm < Sequel::Model(:references)
-      many_to_one :citing_doi,
-                  class: :'RefEm::Database::PaperOrm',
-                  key: :paper_id
+      many_to_many :papers,
+                  class: :'RefEm::Database::PaperOrm'
+                  join_table: :renferences_papers,
+                  left_key: :reference_id, right_key: :paper_id
 
       plugin :timestamps, update_on_create: true
     end
