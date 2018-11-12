@@ -29,14 +29,13 @@ module RefEm
 
         def build_entity
           RefEm::Entity::Paper.new(
-     x       id: nil,
-       x from ss     origin_id: origin_id,
-            doi: focus_doi,
-        x    citation_velocity: citation_velocity,
-         x   citation_dois: citation_dois,
-          x  citation_titles: citation_titles,
-           x influential_citation_count: influential_citation_count,
-            x venue: venue
+            id: nil,
+            origin_id: origin_id,
+            citation_velocity: citation_velocity,
+            citation_dois: citation_dois,
+            citation_titles: citation_titles,
+            influential_citation_count: influential_citation_count,
+            venue: venue
           )
 
           #paper id from paper table as foreign key
