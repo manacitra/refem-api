@@ -54,8 +54,8 @@ module RefEm
 
         def author
           author = ""
-          @data.each { |auth|
-            author += "#{auth};"
+          @data['AA'].each { |auth|
+            author += "#{auth['AuN']};"
           }
           author
         end

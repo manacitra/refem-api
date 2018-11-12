@@ -18,7 +18,7 @@ module RefEm
         def initialize; end
 
         def ss_paper_data(doi)
-          get(LOOKUP_PATH + doi)
+          get(LOOKUP_PATH + doi.to_s)
         end
 
         def get(url)
