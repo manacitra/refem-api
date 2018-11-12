@@ -34,15 +34,14 @@ module RefEm
         return nil unless db_record
 
         Entity::Paper.new(
-          id:      db_record.id,
+          id:             db_record.id,
           origin_id:      db_record.origin_id, 
-          title:   db_record.title,
-          author:  db_record.author,
-          year:    db_record.year,
-          date:    db_record.date,
-          field:   db_record.field,
-          doi:     db_record.doi
-          
+          title:          db_record.title,
+          author:         db_record.author,
+          year:           db_record.year,
+          date:           db_record.date,
+          field:          db_record.field,
+          doi:            db_record.doi
         )
       end
 
