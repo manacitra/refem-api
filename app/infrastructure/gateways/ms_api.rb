@@ -16,14 +16,29 @@ module RefEm
         @ms_token = token
       end
 
-      def paper_data(keywords, count)
+      def full_paper_data(keywords, count)
         paper_response = Request.new(@ms_token)
-                                .paper_info(keywords, count)
-        # process data 
-        res_data = JSON.parse(paper_response.body)
+                                .full_paper_info(keywords, count)
+        create_new_data_format(JSON.parse(paper_response.body))
+      end
+
+      def paper_data(id)
+        paper_response = Request.new(@ms_token)
+                                .paper_info(id)
+        create_new_data_format(JSON.parse(paper_response.body))
+      end
+
+      def reference_data(references)
+        paper_response = Request.new(@ms_token)
+                                .reference_info(references)
+        create_new_data_format(JSON.parse(paper_response.body))
+      end
+
+      def create_new_data_format(res_data)
         res_data['entities'].map { |data|
           author_array = []
           field_array = []	
+          reference_array = []	
           data['AA'].map { |author|
             author_array.push(author['AuN'])
           }
@@ -34,10 +49,17 @@ module RefEm
           }
           data['F'] = field_array
 
+          if (!data['RId'].nil?)
+            data['RId'].map { |rid|
+              reference_array.push(rid.to_s)
+            }
+          end
+          data['RId'] = reference_array
+
           data['E'] = JSON.parse(data['E'])
         }
-        res_data['entities']
-      end
+        res_data['entities']        
+      end        
 
       # send out HTTP requests to Github
       class Request
@@ -47,7 +69,7 @@ module RefEm
           @cache = cache
         end
 
-        def paper_info(keywords, count)
+        def full_paper_info(keywords, count)
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({
             # Request parameters
@@ -55,7 +77,7 @@ module RefEm
             'model' => 'latest',
             'count' => "#{count}",
             'offset' => '0',
-            'attributes' => 'Ti,AA.AuN,Y,D,F.FN,E'
+            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
           })
 
           if uri.query && uri.query.length > 0
@@ -67,6 +89,54 @@ module RefEm
           get(uri)
         end
 
+        def paper_info(id)
+          uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
+          query = URI.encode_www_form({
+            # Request parameters
+            'expr' => "Id=#{id}",
+            'model' => 'latest',
+            'offset' => '0',
+            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
+          })
+
+          if uri.query && uri.query.length > 0
+            uri.query += '&' + query
+          else
+            uri.query = query
+          end
+
+          get(uri)
+        end
+
+        def reference_info(references)
+          ref_array = concat_references(references)
+          # puts ref_array
+          uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
+          query = URI.encode_www_form({
+            # Request parameters
+            'expr' => "Or(#{ref_array})",
+            'model' => 'latest',
+            'count' => "100",
+            'offset' => '0',
+            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId,CC'
+          })
+
+          if uri.query && uri.query.length > 0
+            uri.query += '&' + query
+          else
+            uri.query = query
+          end
+          get(uri)
+        end
+
+        def concat_references(references)
+          ref_array = ""
+          references.map { |data|
+            ref_array = ("Id=#{data}") if ref_array == ""
+            ref_array = (ref_array + ", Id=#{data}") if ref_array != ""
+          }
+          ref_array
+        end
         def get(uri)
           http_request = Net::HTTP::Get.new(uri.request_uri)
           # Request headers

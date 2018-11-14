@@ -1,31 +1,36 @@
 .container
-  - find_paper.each do |paper|
     .row
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Title:
       .col-lg-10.col-md-10.col-sm-6
         span.paper.title
-          a class="paper_detail" href="/paper_content/#{keyword}/#{paper.origin_id}"
-            = paper.title
+          a class="paper_detail" href="/paper_content/#{paper_content.origin_id}"
+            = paper_content.title
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Author:
       .col-lg-10.col-md-10.col-sm-6
         span.paper.author
-          = paper.author
+          = paper_content.author
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Year:
       .col-lg-10.col-md-10.col-sm-6
         span.paper.year
-          = paper.year
+          = paper_content.year
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute DOI:
       .col-lg-10.col-md-10.col-sm-6
         span.paper.doi
-          = paper.doi
-    
+          = paper_content.doi
+    - paper_content.references.each do |reference|
+      .row.top_buffer
+      .col-lg-2.col-md-2.col-sm-2
+        span.reference.attribute Reference Title:
+      .col-lg-10.col-md-10.col-sm-6
+        span.reference.title
+          = reference.title
     .row.top_buffer
       .col-lg-12.col-md-12.col-sm-12
         span.dash -----------------------------

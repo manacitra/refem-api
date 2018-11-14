@@ -8,8 +8,13 @@ module RefEm
         Database::PaperOrm.all.map { |db_paper| rebuild_entity(db_paper) }
       end
 
+      def self.find_paper_content(id)
+        db_paper = Database::PaperOrm.find(origin_id: id)
+        rebuild_entity(db_paper)
+      end
+
       def self.find(entity)
-        find_from_doi(entity.doi)
+        find_id(entity.origin_id)
       end
 
       def self.find_id(id)
@@ -17,10 +22,10 @@ module RefEm
         rebuild_entity(db_record)
       end
 
-      def self.find_from_doi(doi)
-        db_record = Database::PaperOrm.first(doi: doi)
-        rebuild_entity(db_record)
-      end
+      # def self.find_from_doi(doi)
+      #   db_record = Database::PaperOrm.first(doi: doi)
+      #   rebuild_entity(db_record)
+      # end
 
       def self.create(entity)
         raise 'Paper already exists' if find(entity)
@@ -34,14 +39,18 @@ module RefEm
         return nil unless db_record
 
         Entity::Paper.new(
-          id:             db_record.id,
-          origin_id:      db_record.origin_id, 
-          title:          db_record.title,
-          author:         db_record.author,
-          year:           db_record.year,
-          date:           db_record.date,
-          field:          db_record.field,
-          doi:            db_record.doi
+          # id:             db_record.id,
+          # origin_id:      db_record.origin_id, 
+          # title:          db_record.title,
+          # author:         db_record.author,
+          # year:           db_record.year,
+          # date:           db_record.date,
+          # field:          db_record.field,
+          # references:     db_record.references,
+          # doi:            db_record.doi
+          db_record.to_hash.merge(
+            references: References.rebuild_many(db_record.reference_papers)
+          )
         )
       end
 
@@ -56,16 +65,16 @@ module RefEm
         end
 
         def create_paper
-          Database::PaperOrm.create(@entity.to_attr_hash)
+          Database::PaperOrm.create(@entity.to_attr_hash) unless @entity.doi == nil
         end
 
         def call
-          # paper = Papers.db_find_or_create(@entity)
-
-          # create_paper.tap do |db_paper|
-          #   db_paper.update(paper: paper)
-          # end
-          create_paper
+          create_paper.tap do |db_paper|
+            @entity.references.each do |reference|
+              db_paper.add_reference_paper(References.db_find_or_create(reference))
+            end
+          end
+          #create_paper
         end
       end
     end

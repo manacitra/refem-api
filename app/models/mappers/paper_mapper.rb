@@ -1,33 +1,50 @@
 # frozen_string_literal: true
-
 require 'json'
-require_relative 'ss_mapper'
 
 module RefEm
   # Provides access to microsoft data
   module MSPaper
     # Data Mapper: microsoft paper -> paper
     class PaperMapper
-      #include RefEm::SSPaper
       def initialize(ms_token, gateway_class = MSPaper::Api)
         @token = ms_token
         @gateway_class = gateway_class
         @gateway = @gateway_class.new(@token)
       end
 
-      def find(keywords, count)
-        data = @gateway.paper_data(keywords, count).map { |data| 
-          build_entity(data) 
+      def find_full_paper(keywords, count)
+        paper_array = []
+        paper_count = 0
+        full_find = true
+        @gateway.full_paper_data(keywords, 20).map { |data|
+          unless paper_count == 10 || data['RId'] == [] || data['E']['DOI'] == nil
+            paper_array.push(build_entity(data, full_find)) 
+            paper_count += 1
+          end
         }
+        paper_array
       end
 
-      def build_entity(data)
-        DataMapper.new(data).build_entity
+      def find_paper(id)
+        full_find = false
+        @gateway.paper_data(id).map { |data|
+          build_entity(data, full_find) 
+        }
+  
       end
+
+      def build_entity(data, kind_of_find)
+        DataMapper.new(data, @token, @gateway_class, kind_of_find).build_entity
+      end
+      
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data)
+        def initialize(data, token, gateway_class, kind_of_find)
           @data = data
+          @kind_of_find = kind_of_find
+          @reference_mapper = ReferenceMapper.new(
+            token, gateway_class
+          )
         end
 
         def build_entity
@@ -39,12 +56,8 @@ module RefEm
             year: year,
             date: date,
             field: field,
-            doi: doi,
-            citation_velocity: citation_velocity,
-            citation_dois: citation_dois,
-            citation_titles: citation_titles,
-            influential_citation_count: influential_citation_count,
-            venue: venue
+            references: references,
+            doi: doi
           )
         end
 
@@ -55,7 +68,7 @@ module RefEm
         def author
           author = ""
           @data['AA'].each { |auth|
-            author += "#{auth['AuN']};"
+            author += "#{auth};"
           }
           author
         end
@@ -80,41 +93,12 @@ module RefEm
           field
         end
 
+        def references
+          @reference_mapper.load_several(@data['RId']) unless @kind_of_find
+        end
+
         def doi
           @data['E']['DOI']
-        end
-
-        # get_from_ss = RefEm::SSPaper::SSMapper.new
-        # .find_data_by(@data['E']['DOI'])
-
-        def citation_velocity
-          RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(doi)
-                                  .citation_velocity
-        end
-
-        def citation_dois
-          RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(doi)
-                                  .citation_dois
-        end
-
-        def citation_titles
-          RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(doi)
-                                  .citation_dois
-        end
-
-        def influential_citation_count
-          RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(doi)
-                                  .influential_citation_count
-        end
-
-        def venue
-          RefEm::SSPaper::SSMapper.new
-                                  .find_data_by(doi)
-                                  .venue
         end
       end
     end

@@ -9,6 +9,7 @@ module RefEm
                     css: 'style.css'#, js: 'table_row.js'
     plugin :halt
 
+
     route do |routing|
       routing.assets # load CSS
 
@@ -34,15 +35,28 @@ module RefEm
             # Get paper from ms
             paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find(keyword, count)
+              .find_full_paper(keyword, count)
+
+            puts "papar length: #{paper.length}"
 
             # Add paper to database
-            paper.each {  |p|
-              Repository::For.entity(p).create(p)
-            }
+            # paper.each {  |p|
+            #   Repository::For.entity(p).create(p)
+            # }
+            
+            # reference = MSPaper::ReferenceMapper
+            #   .new(App.config.MS_TOKEN)
+            #   .find_several(paper[0].ref_to_array)
+
+
+            # # Add reference to database
+            # reference.each {  |r|
+            #   Repository::For.entity(r).create(r)
+            # }
            
             # Redirect viewer to find_ page
-            routing.redirect "find_paper/#{keyword}/#{count}"
+            # routing.redirect "find_paper/#{keyword}/#{count}"
+            view 'find_paper', locals: { find_paper: paper, keyword: keyword }
           end
         end
 
@@ -51,11 +65,39 @@ module RefEm
           routing.get do
             paper_title = RefEm::MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find(keyword, count)
+              .find_full_paper(keyword, count)
+
+            paper = Repository::For.klass(Entity::Paper)
+              .find_full_paper(owner_name, project_name)
             
             #puts("!!!! #{paper_title.paper_doi}")
 
-            view 'find_paper', locals: { find_paper: paper_title }
+            view 'find_paper', locals: { find_paper: paper_title, keyword: keyword }
+          end
+        end
+      end
+      routing.on 'paper_content' do
+        routing.on String, String do |keyword, id|
+          routing.get do
+
+            paper = Entity::Paper
+
+            find_paper = MSPaper::PaperMapper
+              .new(App.config.MS_TOKEN)
+              .find_paper(id)
+
+            find_paper.each do |p|
+              paper = p if p.origin_id == id.to_i
+            end
+
+            # Add paper to database
+            Repository::For.entity(paper).create(paper)
+
+            paper_find_from_database = Repository::For.klass(Entity::Paper)
+              .find_paper_content(id)
+
+
+            view 'paper_content', locals: { paper_content: paper_find_from_database  }
           end
         end
       end

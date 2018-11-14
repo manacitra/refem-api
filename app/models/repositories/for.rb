@@ -5,7 +5,8 @@ module RefEm
     # Finds the right repository for an entity object or class
     class For
       ENTITY_REPOSITORY = {
-        Entity::Paper => Papers
+        Entity::Paper => Papers,
+        Entity::Reference => References
       }.freeze
 
       def self.klass(entity_klass)
