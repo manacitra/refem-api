@@ -14,41 +14,38 @@ module RefEm
         @gateway = @gateway_class.new(@token)
       end
 
-      def find_full_paper(keywords, count)
-        paper_array = []
+      def find_papers_by_keywords(keywords, count)
+        show_detail = false
+        search_results = []
         paper_count = 0
-        full_find = true
-        # get all paper information
-        # filter that nil Rid and nil DOI
-        # build Entity
-        @gateway.full_paper_data(keywords, 20).map { |data|
-          unless paper_count == 10 || data['RId'] == [] || data['E']['DOI'] == nil
-            paper_array.push(build_entity(data, full_find)) 
+        @gateway.full_paper_data(keywords, 50).map { |data|
+          unless paper_count >= count.to_i || data['E']['DOI'].nil? || data['RId'] == []
+            search_results.push(build_entity(data, show_detail))
             paper_count += 1
           end
         }
-        paper_array
+        search_results
       end
 
       def find_paper(id)
-        full_find = false
+        show_detail = true
         @gateway.paper_data(id).map { |data|
-          build_entity(data, full_find) 
+          build_entity(data, show_detail)
         }
       end
 
-      def build_entity(data, kind_of_find)
-        DataMapper.new(data, @token, @gateway_class, kind_of_find).build_entity
+      def build_entity(data, show_detail)
+        DataMapper.new(data, @token, @gateway_class, show_detail).build_entity
       end
 
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data, token, gateway_class, kind_of_find)
+        def initialize(data, token, gateway_class, show_detail)
           @data = data
-          @kind_of_find = kind_of_find
-          puts "==============="
-          puts data["Ti"]
-          puts data["RId"]
+          @show_detail = show_detail
+          # puts "==============="
+          # puts data["Ti"]
+          # puts data["RId"]
           @reference_mapper = ReferenceMapper.new(
             token, gateway_class
           )
@@ -64,9 +61,9 @@ module RefEm
             year: year,
             date: date,
             field: field,
+            doi: doi,
             references: references,
-            citations: citations,
-            doi: doi
+            citations: citations
           )
         end
 
@@ -75,7 +72,7 @@ module RefEm
         end
 
         def author
-          author = ""
+          author = ''
           @data['AA'].each { |auth|
             author += "#{auth};"
           }
@@ -95,7 +92,7 @@ module RefEm
         end
 
         def field
-          field = ""
+          field = ''
           @data['F'].each { |f|
             field += "#{f};"
           }
@@ -104,11 +101,11 @@ module RefEm
 
         # connect with reference mapper
         def references
-          @reference_mapper.load_several(@data['RId']) if !@data['RId'].nil?          
+          @reference_mapper.load_several(@data['RId']) if @show_detail == true
         end
 
         def citations
-          @citation_mapper.find_data_by(@data['E']['DOI']) 
+          @citation_mapper.find_data_by(@data['E']['DOI']) if @show_detail == true
         end
 
         def doi

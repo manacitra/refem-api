@@ -9,7 +9,7 @@ module RefEm
       attribute :id,                 Strict::Integer.optional
       attribute :origin_id,          Strict::String
       attribute :title,              Strict::String
-      attribute :author,             Strict::Array.of(String)
+      attribute :author,             Strict::String.optional
       attribute :year,               Strict::Integer.optional
       attribute :doi,                Strict::String.optional
       attribute :venue,              Strict::String.optional

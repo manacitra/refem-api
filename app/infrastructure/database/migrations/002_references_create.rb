@@ -2,12 +2,11 @@
 
 require 'sequel'
 
-
 Sequel.migration do
   change do
     create_table(:references) do
       primary_key :id
-       
+
       Integer   :origin_id,       unique: true
       String    :title,           null: false
       String    :author
@@ -25,7 +24,6 @@ Sequel.migration do
       Integer   :first_page,      null: true
       Integer   :last_page,       null: true
       Integer   :citation_count,  null: true
-    
 
       # attribute :references,  Strict::Array.member(Paper).optional
     end

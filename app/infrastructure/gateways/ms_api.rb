@@ -18,50 +18,44 @@ module RefEm
 
       # parse data from response with keywords input
       def full_paper_data(keywords, count)
-        paper_response = Request.new(@ms_token)
-                                .full_paper_info(keywords, count)
+        paper_response = Request.new(@ms_token).full_paper_info(keywords, count)
         create_new_data_format(JSON.parse(paper_response.body))
       end
 
       # parse data from response with id input
       def paper_data(id)
-        paper_response = Request.new(@ms_token)
-                                .paper_info(id)
+        paper_response = Request.new(@ms_token).paper_info(id)
         create_new_data_format(JSON.parse(paper_response.body))
       end
 
       def reference_data(references)
-        paper_response = Request.new(@ms_token)
-                                .reference_info(references)
+        paper_response = Request.new(@ms_token).reference_info(references)
         create_new_data_format(JSON.parse(paper_response.body))
       end
 
       def create_new_data_format(res_data)
         res_data['entities'].map { |data|
           author_array = []
-          field_array = []	
-          reference_array = []	
+          field_array = []
+          reference_array = []
           data['AA'].map { |author|
             author_array.push(author['AuN'])
           }
           data['AA'] = author_array
-
           data['F'].map { |field|
             field_array.push(field['FN'])
           }
           data['F'] = field_array
-
           if (!data['RId'].nil?)
             data['RId'].map { |rid|
               reference_array.push(rid.to_s)
             }
           end
           data['RId'] = reference_array
-
           data['E'] = JSON.parse(data['E'])
         }
-        res_data['entities']        
-      end        
+        res_data['entities']
+      end
 
       # send out HTTP requests to Github
       class Request
@@ -133,13 +127,14 @@ module RefEm
         end
 
         def concat_references(references)
-          ref_array = ""
+          ref_array = ''
           references.map { |data|
             ref_array = ("Id=#{data}") if ref_array == ""
             ref_array = (ref_array + ", Id=#{data}") if ref_array != ""
           }
           ref_array
         end
+
         def get(uri)
           http_request = Net::HTTP::Get.new(uri.request_uri)
           # Request headers

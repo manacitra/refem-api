@@ -37,14 +37,13 @@ module RefEm
         return nil unless db_record
 
         Entity::Citation.new(
-          id:                         db_record.id,
-          citation_velocity:          db_record.citation_velocity,
-          citation_dois:              db_record.citation_dois,
-          citation_titles:            db_record.citation_titles,
-          influential_citation_count: db_record.influential_citation_count,
-          venue:                      db_record.venue,
-          doi:                        db_record.doi,
-          citation_count:             db_record.citation_count
+          id:          db_record.id,
+          origin_id:   db_record.origin_id,
+          title:       db_record.title,
+          author:      db_record.author,
+          year:        db_record.year,
+          doi:         db_record.doi,
+          venue:       db_record.venue
         )
       end
 

@@ -24,7 +24,7 @@ describe 'Integration Tests of Github API and Database' do
     it 'HAPPY: should be able to save paper to database from MS api' do
       full_paper = RefEm::MSPaper::PaperMapper
         .new(MS_TOKEN)
-        .find_full_paper(KEYWORDS, COUNT)
+        .find_papers_by_keywords(KEYWORDS, COUNT)
     
       ID = full_paper[0].origin_id
         

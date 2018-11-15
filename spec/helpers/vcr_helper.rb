@@ -30,11 +30,6 @@ class VcrHelper
   end
 
   def self.configure_vcr_for_ss
-    # VCR.configure do |c|
-    #   c.filter_sensitive_data('<MS_TOKEN>') { MS_TOKEN }
-    #   c.filter_sensitive_data('<MS_TOKEN_ESC>') { CGI.escape(MS_TOKEN) }
-    # end
-
     VCR.insert_cassette(
       SS_CASSETTE,
       record: :new_episodes,

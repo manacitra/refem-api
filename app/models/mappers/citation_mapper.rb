@@ -15,8 +15,8 @@ module RefEm
       # build all citations from a paper
       def find_data_by(doi)
         data = @gateway.paper_data(doi)
-        if (!data["error"])
-          data['citations'].map { |citation| 
+        unless data['error']
+          data['citations'].map { |citation|
             build_entity(citation)
           }
         end
@@ -61,7 +61,13 @@ module RefEm
         end
 
         def author
-          @data['authors'].map { |n| n['name'] }
+          author = ''
+          @data['authors'].each { |auth|
+            author += "#{auth};"
+          }
+          author
+
+          # @data['authors'].map { |n| n['name'] }
         end
 
         def year

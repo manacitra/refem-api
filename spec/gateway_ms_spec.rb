@@ -13,49 +13,36 @@ describe 'Test microsoft academic search library' do
   end
 
   describe 'Paper information' do
-    it 'HAPPY: should provide correct paper attributes' do
+    it 'HAPPY: should provide list of papers with correct attributes' do
       papers = RefEm::MSPaper::PaperMapper
-              .new(MS_TOKEN)
-              .find_full_paper(KEYWORDS, 5)
-      papers.size.must_equal 5
+        .new(MS_TOKEN).find_papers_by_keywords(KEYWORDS, COUNT)
       first_paper = papers[0]
-      papers.map { |paper| 
-        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        puts paper.origin_id
-        puts paper.year
-        puts paper.doi
-        puts 'this is references'
-        paper.references.map { |ref| 
-          puts "jancuk"
-          puts ref.title
-        }
-        # puts paper.citations.class
-        # puts 'this is citation'
-        # paper.citations.map { |citation| 
-        #   puts "================"
-        #   puts citation.title
-        # }
-      }
+      papers.size.must_equal 10
       _(first_paper.origin_id).must_equal CORRECT['Id']
       _(first_paper.year).must_equal CORRECT['Year']
       _(first_paper.date).must_equal CORRECT['Date']
       _(first_paper.doi).must_equal CORRECT['DOI']
     end
 
-    # it 'SAD: should have error on incorrect counts' do
-    #   proc do
-    #     RefEm::MSPaper::PaperMapper
-    #       .new(MS_TOKEN)
-    #       .find(KEYWORDS, '-5')
-    #   end.must_raise RefEm::MSPaper::Api::Response::BadRequest
-    # end
+    it 'HAPPY: should finds a papers' do
+      paper = RefEm::MSPaper::PaperMapper
+        .new(MS_TOKEN).find_paper(ID)
+      paper.size.must_equal 1
+    end
 
-    # it 'SAD: should raise exception when unautorized' do
-    #   proc do
-    #     RefEm::MSPaper::PaperMapper
-    #       .new('NO_TOKEN')
-    #       .find(KEYWORDS, COUNT)
-    #   end.must_raise RefEm::MSPaper::Api::Response::Unauthorized
-    # end
+    it 'SAD: should raise exception when unautorized' do
+      proc do
+        RefEm::MSPaper::PaperMapper
+          .new('NO_TOKEN')
+          .find_papers_by_keywords(KEYWORDS, COUNT)
+      end.must_raise RefEm::MSPaper::Api::Response::Unauthorized
+    end
+
+    it 'SAD: should raise exception when not find a paper' do
+      proc do
+        RefEm::MSPaper::PaperMapper
+          .new(MS_TOKEN).find_paper('we cannot find a paper')
+      end.must_raise RefEm::MSPaper::Api::Response::BadRequest
+    end
   end
 end

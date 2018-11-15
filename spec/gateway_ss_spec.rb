@@ -12,17 +12,24 @@ describe 'Tests Semantic Scholar API library' do
     VcrHelper.eject_vcr
   end
 
-  describe 'Paper information' do
-    it 'HAPPY: should provide correct paper attributes' do
+  describe 'Citation information' do
+    it 'HAPPY: should provide correct citation attributes' do
       citations =
         RefEm::MSPaper::CitationMapper
           .new
-          .find_data_by("10.1109/TNET.2002.808407")
-      citations.map { |citation|
-        # puts citation
-        puts citation.author
-        puts citation.title
-      }
+          .find_data_by(DOI)
+      citations.size.must_be :>=, 0
+      first_citation = citations[0]
+      puts first_citation.title
+      _(first_citation.title).must_equal CORRECT['title']
+      # _(first_citation.author).must_equal CORRECT['citationVelocity']
+      # _(first_citation.date).must_equal CORRECT['Date']
+      # _(first_citation.doi).must_equal CORRECT['DOI']
+      # citations.map { |citation|
+      #   puts citation
+      #   puts citation.author
+      #   puts citation.title
+      # }
     end
   
 #       _(paper.title).must_equal SS_CORRECT['title']
