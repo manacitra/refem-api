@@ -12,15 +12,14 @@ module RefEm
         @gateway = @gateway_class.new
       end
 
+      # build all citations from a paper
       def find_data_by(doi)
-        puts "================="
-        puts "asuuuuuuu"
-        puts doi
         data = @gateway.paper_data(doi)
-        
-        puts "konto;;;;;;;;;;;;;;;;;;;;;;;"
-        puts data["error"]
-        build_entity(data) unless data["error"]
+        if (!data["error"])
+          data['citations'].map { |citation| 
+            build_entity(citation)
+          }
+        end
       end
 
       def build_entity(data)
@@ -36,12 +35,16 @@ module RefEm
         def build_entity
           RefEm::Entity::Citation.new(
             id: nil,
+            origin_id: origin_id,
+            title: title,
+            author: author,
+            year: year,
             doi: doi,
-            citation_velocity: citation_velocity,
-            citation_dois: citation_dois,
-            citation_titles: citation_titles,
-            influential_citation_count: influential_citation_count,
             venue: venue,
+            # citation_velocity: citation_velocity,
+            # citation_dois: citation_dois,
+            # citation_titles: citation_titles,
+            # influential_citation_count: influential_citation_count
           )
 
           #paper id from paper table as foreign key
@@ -49,33 +52,45 @@ module RefEm
 
         private
 
-        def id
-          @data['id']
+        def origin_id
+          @data['paperId']
         end
 
-        def citation_velocity
-          @data['citationVelocity']
+        def title
+          @data['title']
         end
 
-        def citation_dois
-          @data['citations'].map { |n| n['doi'] }.compact
+        def author
+          @data['authors'].map { |n| n['name'] }
         end
 
-        def citation_titles
-          @data['citations'].map { |n| n['title'] }.compact
+        def year
+          @data['year']
         end
 
-        def influential_citation_count
-          @data['influentialCitationCount']
+        def doi
+          @data['doi']
         end
 
         def venue
           @data['venue']
         end
 
-        def doi
-          @data['doi']
-        end
+        # def citation_velocity
+        #   @data['citationVelocity']
+        # end
+
+        # def citation_dois
+        #   @data['citations'].map { |n| n['doi'] }.compact
+        # end
+
+        # def citation_titles
+        #   @data['citations'].map { |n| n['title'] }.compact
+        # end
+
+        # def influential_citation_count
+        #   @data['influentialCitationCount']
+        # end
       end
     end
   end

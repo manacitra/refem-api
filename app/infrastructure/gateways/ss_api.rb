@@ -12,6 +12,9 @@ module RefEm
       def paper_data(doi)
         Request.new.ss_paper_data(doi).parse
       end
+
+      
+
       # Class to request from API, no key needed
       class Request
         LOOKUP_PATH = 'http://api.semanticscholar.org/v1/paper/'

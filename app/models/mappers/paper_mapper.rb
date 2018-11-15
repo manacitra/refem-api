@@ -46,6 +46,9 @@ module RefEm
         def initialize(data, token, gateway_class, kind_of_find)
           @data = data
           @kind_of_find = kind_of_find
+          puts "==============="
+          puts data["Ti"]
+          puts data["RId"]
           @reference_mapper = ReferenceMapper.new(
             token, gateway_class
           )
@@ -101,11 +104,11 @@ module RefEm
 
         # connect with reference mapper
         def references
-          @reference_mapper.load_several(@data['RId']) unless @kind_of_find
+          @reference_mapper.load_several(@data['RId']) if !@data['RId'].nil?          
         end
 
         def citations
-          @citation_mapper.find_data_by(@data['E']['DOI'])
+          @citation_mapper.find_data_by(@data['E']['DOI']) 
         end
 
         def doi

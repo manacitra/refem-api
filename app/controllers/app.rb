@@ -37,7 +37,7 @@ module RefEm
               .new(App.config.MS_TOKEN)
               .find_full_paper(keyword, count)
 
-            puts "papar length: #{paper.length}"
+            # puts "paper length: #{paper.length}"
 
             # Add paper to database
             # paper.each {  |p|
@@ -90,11 +90,7 @@ module RefEm
               paper = p if p.origin_id == id.to_i
             end
 
-            find_citation = MSPaper::CitationMapper.new
-            .find_data_by(paper.doi)
-
-            paper.citations = find_citation
-
+            
             # Add paper to database
             Repository::For.entity(paper).create(paper)
 

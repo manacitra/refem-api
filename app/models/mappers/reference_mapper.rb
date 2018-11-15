@@ -13,12 +13,14 @@ module RefEm
       end
 
       def find_several(references)
+        # puts references
         @gateway.reference_data(references).map { |data|
           ReferenceMapper.build_entity(data)
         }
       end
 
       def load_several(references)
+        # puts references
         @gateway.reference_data(references).map do |data|
           ReferenceMapper.build_entity(data)
         end

@@ -19,6 +19,8 @@ module RefEm
       attribute :references,  Array.of(Reference).optional
       attribute :citations,   Array.of(Citation).optional
       attribute :doi,         Strict::String.optional
+      # attribute :citation_velocity, Strict::Integer
+      # attribute :influential_citation_count, Strict::Integer
 
       def to_attr_hash
         to_hash.reject { |key, _| [:id, :references, :citations].include? key }

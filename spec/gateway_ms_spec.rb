@@ -16,14 +16,25 @@ describe 'Test microsoft academic search library' do
     it 'HAPPY: should provide correct paper attributes' do
       papers = RefEm::MSPaper::PaperMapper
               .new(MS_TOKEN)
-              .find_full_paper(KEYWORDS, COUNT)
-      papers.size.must_equal 10
+              .find_full_paper(KEYWORDS, 5)
+      papers.size.must_equal 5
       first_paper = papers[0]
       papers.map { |paper| 
-        puts "=================="
+        puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         puts paper.origin_id
         puts paper.year
         puts paper.doi
+        puts 'this is references'
+        paper.references.map { |ref| 
+          puts "jancuk"
+          puts ref.title
+        }
+        # puts paper.citations.class
+        # puts 'this is citation'
+        # paper.citations.map { |citation| 
+        #   puts "================"
+        #   puts citation.title
+        # }
       }
       _(first_paper.origin_id).must_equal CORRECT['Id']
       _(first_paper.year).must_equal CORRECT['Year']
