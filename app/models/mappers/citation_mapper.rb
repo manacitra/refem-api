@@ -13,8 +13,14 @@ module RefEm
       end
 
       def find_data_by(doi)
+        puts "================="
+        puts "asuuuuuuu"
+        puts doi
         data = @gateway.paper_data(doi)
-        build_entity(data)
+        
+        puts "konto;;;;;;;;;;;;;;;;;;;;;;;"
+        puts data["error"]
+        build_entity(data) unless data["error"]
       end
 
       def build_entity(data)
@@ -28,15 +34,14 @@ module RefEm
         end
 
         def build_entity
-          RefEm::Entity::FromSS.new(
-            id: id,
+          RefEm::Entity::Citation.new(
+            id: nil,
             doi: doi,
             citation_velocity: citation_velocity,
             citation_dois: citation_dois,
             citation_titles: citation_titles,
             influential_citation_count: influential_citation_count,
             venue: venue,
-            focus_doi: focus_doi
           )
 
           #paper id from paper table as foreign key

@@ -16,12 +16,14 @@ module RefEm
         @ms_token = token
       end
 
+      # parse data from response with keywords input
       def full_paper_data(keywords, count)
         paper_response = Request.new(@ms_token)
                                 .full_paper_info(keywords, count)
         create_new_data_format(JSON.parse(paper_response.body))
       end
 
+      # parse data from response with id input
       def paper_data(id)
         paper_response = Request.new(@ms_token)
                                 .paper_info(id)
@@ -69,6 +71,7 @@ module RefEm
           @cache = cache
         end
 
+        # request based on keywords
         def full_paper_info(keywords, count)
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({

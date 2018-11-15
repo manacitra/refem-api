@@ -6,7 +6,8 @@ module RefEm
     class For
       ENTITY_REPOSITORY = {
         Entity::Paper => Papers,
-        Entity::Reference => References
+        Entity::Reference => References,
+        Entity::Citation => Citations
       }.freeze
 
       def self.klass(entity_klass)

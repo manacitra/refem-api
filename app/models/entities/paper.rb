@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 require_relative 'reference.rb'
+require_relative 'citation.rb'
 
 module RefEm
   module Entity
@@ -15,16 +17,15 @@ module RefEm
       attribute :date,        Strict::String
       attribute :field,       Strict::String
       attribute :references,  Array.of(Reference).optional
+      attribute :citations,   Array.of(Citation).optional
       attribute :doi,         Strict::String.optional
 
-#      attribute :references,  Strict::Array.member(Paper).optional
-
       def to_attr_hash
-        to_hash.reject { |key, _| [:id, :references].include? key }
+        to_hash.reject { |key, _| [:id, :references, :citations].include? key }
       end
-      
+
       # def ref_to_array
-      #   reference_array = references.split(";")    
+      #   reference_array = references.split(";")
       # end
     end
   end

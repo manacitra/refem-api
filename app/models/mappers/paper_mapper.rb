@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'json'
 require_relative 'citation_mapper'
 
@@ -48,6 +49,7 @@ module RefEm
           @reference_mapper = ReferenceMapper.new(
             token, gateway_class
           )
+          @citation_mapper = CitationMapper.new
         end
 
         def build_entity
@@ -60,6 +62,7 @@ module RefEm
             date: date,
             field: field,
             references: references,
+            citations: citations,
             doi: doi
           )
         end
@@ -99,6 +102,10 @@ module RefEm
         # connect with reference mapper
         def references
           @reference_mapper.load_several(@data['RId']) unless @kind_of_find
+        end
+
+        def citations
+          @citation_mapper.find_data_by(@data['E']['DOI'])
         end
 
         def doi
