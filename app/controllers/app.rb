@@ -96,7 +96,6 @@ module RefEm
             paper_find_from_database = Repository::For.klass(Entity::Paper)
               .find_paper_content(id)
 
-
             view 'paper_content', locals: { paper_content: paper_find_from_database  }
           end
         end
