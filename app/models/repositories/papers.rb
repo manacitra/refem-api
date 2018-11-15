@@ -29,6 +29,7 @@ module RefEm
 
       def self.create(entity)
         raise 'Paper already exists' if find(entity)
+
         db_paper = PersistPaper.new(entity).call
         rebuild_entity(db_paper)
       end
@@ -74,7 +75,6 @@ module RefEm
               db_paper.add_reference_paper(References.db_find_or_create(reference))
             end
           end
-          #create_paper
         end
       end
     end

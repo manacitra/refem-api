@@ -30,10 +30,10 @@ describe 'Tests Semantic Scholar API library' do
 
     it 'BAD: should raise exception on incorrect project' do
       proc do
-        RefEm::SSPaper::SSMapper
+        RefEm::MSPaper::CitationMapper
           .new
           .find_data_by('foobar')
-      end.must_raise RefEm::SSPaper::Api::Response::NotFound
+      end.must_raise RefEm::MSPaper::SSApi::Response::NotFound
     end
   end
 end

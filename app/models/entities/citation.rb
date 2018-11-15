@@ -6,12 +6,17 @@ module RefEm
     class FromSS < Dry::Struct
       include Dry::Types.module
 
+      attribute :id,                           Integer.optional
       attribute :citation_velocity,            Strict::Integer
       attribute :citation_dois,                Strict::Array.of(String) # sometimes doi is null
       attribute :citation_titles,              Strict::Array.of(String)
       attribute :influential_citation_count,   Strict::Integer
       attribute :venue,                        Strict::String
       attribute :focus_doi,                    Strict::String # Paper that we interested in
+
+      def to_attr_hash
+        to_hash.reject { |key, _| [:id].include? key}
+      end
     end
   end
 end

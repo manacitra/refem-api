@@ -4,10 +4,10 @@ require 'json'
 
 module RefEm
   # Provides access to microsoft data
-  module SSPaper
+  module MSPaper
     # Data Mapper: microsoft paper -> paper
-    class SSMapper
-      def initialize(gateway_class = RefEm::SSPaper::Api)
+    class CitationMapper
+      def initialize(gateway_class = RefEm::MSPaper::SSApi)
         @gateway_class = gateway_class
         @gateway = @gateway_class.new
       end
@@ -18,47 +18,34 @@ module RefEm
       end
 
       def build_entity(data)
-        SSDataMapper.new(data, @gateway_class).build_entity
+        DataMapper.new(data, @gateway_class).build_entity
       end
       # Extracts entity specific elements from data structure
-      class SSDataMapper
+      class DataMapper
         def initialize(data, gateway_class)
           @data = data
-          @ssmapper = SSMapper.new(gateway_class)
+          @ssmapper = CitationMapper.new(gateway_class)
         end
 
         def build_entity
-          RefEm::Entity::Paper.new(
-            id: nil,
-            origin_id: origin_id,
+          RefEm::Entity::FromSS.new(
+            id: id,
+            doi: doi,
             citation_velocity: citation_velocity,
             citation_dois: citation_dois,
             citation_titles: citation_titles,
             influential_citation_count: influential_citation_count,
-            venue: venue
+            venue: venue,
+            focus_doi: focus_doi
           )
 
           #paper id from paper table as foreign key
         end
-        
+
         private
 
-        def id; end
-        def year; end
-        def date; end
-        def field; end
-        def origin_id; end
-
-        def title
-          @data['title']
-        end
-
-        def author;
-          # authors = ''
-          # @data['authors'].each { |author| 
-          #   authors += "#{author['name']};"
-          # }
-          # authors
+        def id
+          @data['id']
         end
 
         def citation_velocity
@@ -81,7 +68,7 @@ module RefEm
           @data['venue']
         end
 
-        def focus_doi
+        def doi
           @data['doi']
         end
       end

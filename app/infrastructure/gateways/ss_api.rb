@@ -4,9 +4,9 @@ require 'http'
 # Namespace for entire library
 module RefEm
   # Library for Semantic Scholar  API
-  module SSPaper
+  module MSPaper
     # Library for Semantic Scholar Search API
-    class Api
+    class SSApi
       def initialize; end
 
       def paper_data(doi)

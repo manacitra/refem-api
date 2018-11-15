@@ -7,7 +7,7 @@ module RefEm
   # Configuration for the App
   class App < Roda
     plugin :environments
-    
+
     extend Econfig::Shortcut
     Econfig.env = environment.to_s
     Econfig.root = '.'
