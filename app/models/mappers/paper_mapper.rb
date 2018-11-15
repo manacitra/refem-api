@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 require 'json'
+require_relative 'citation_mapper'
 
 module RefEm
   # Provides access to microsoft data
@@ -16,6 +18,9 @@ module RefEm
         paper_array = []
         paper_count = 0
         full_find = true
+        # get all paper information
+        # filter that nil Rid and nil DOI
+        # build Entity
         @gateway.full_paper_data(keywords, 20).map { |data|
           unless paper_count == 10 || data['RId'] == [] || data['E']['DOI'] == nil
             paper_array.push(build_entity(data, full_find)) 
@@ -30,21 +35,24 @@ module RefEm
         @gateway.paper_data(id).map { |data|
           build_entity(data, full_find) 
         }
-  
       end
 
       def build_entity(data, kind_of_find)
         DataMapper.new(data, @token, @gateway_class, kind_of_find).build_entity
       end
-      
+
       # Extracts entity specific elements from data structure
       class DataMapper
         def initialize(data, token, gateway_class, kind_of_find)
           @data = data
           @kind_of_find = kind_of_find
+          puts "==============="
+          puts data["Ti"]
+          puts data["RId"]
           @reference_mapper = ReferenceMapper.new(
             token, gateway_class
           )
+          @citation_mapper = CitationMapper.new
         end
 
         def build_entity
@@ -57,6 +65,7 @@ module RefEm
             date: date,
             field: field,
             references: references,
+            citations: citations,
             doi: doi
           )
         end
@@ -93,8 +102,13 @@ module RefEm
           field
         end
 
+        # connect with reference mapper
         def references
-          @reference_mapper.load_several(@data['RId']) unless @kind_of_find
+          @reference_mapper.load_several(@data['RId']) if !@data['RId'].nil?          
+        end
+
+        def citations
+          @citation_mapper.find_data_by(@data['E']['DOI']) 
         end
 
         def doi

@@ -13,11 +13,18 @@ describe 'Tests Semantic Scholar API library' do
   end
 
   describe 'Paper information' do
-#     it 'HAPPY: should provide correct paper attributes' do
-#       paper =
-#         RefEm::SSPaper::SSMapper
-#           .new
-#           .find_data_by(DOI)
+    it 'HAPPY: should provide correct paper attributes' do
+      citations =
+        RefEm::MSPaper::CitationMapper
+          .new
+          .find_data_by("10.1109/TNET.2002.808407")
+      citations.map { |citation|
+        # puts citation
+        puts citation.author
+        puts citation.title
+      }
+    end
+  
 #       _(paper.title).must_equal SS_CORRECT['title']
 #       _(paper.authors).must_equal SS_CORRECT['authors']
 # #      _(paper.citation_velocity).must_equal SS_CORRECT['citationVelocity']
@@ -28,12 +35,12 @@ describe 'Tests Semantic Scholar API library' do
 #       _(paper.focus_doi).must_equal SS_CORRECT['focus_doi']
 #    end
 
-    it 'BAD: should raise exception on incorrect project' do
-      proc do
-        RefEm::SSPaper::SSMapper
-          .new
-          .find_data_by('foobar')
-      end.must_raise RefEm::SSPaper::Api::Response::NotFound
-    end
+    # it 'BAD: should raise exception on incorrect project' do
+    #   proc do
+    #     RefEm::MSPaper::CitationMapper
+    #       .new
+    #       .find_data_by('foobar')
+    #   end.must_raise RefEm::MSPaper::SSApi::Response::NotFound
+    # end
   end
 end

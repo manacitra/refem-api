@@ -13,12 +13,14 @@ module RefEm
       end
 
       def find_several(references)
+        # puts references
         @gateway.reference_data(references).map { |data|
           ReferenceMapper.build_entity(data)
         }
       end
 
       def load_several(references)
+        # puts references
         @gateway.reference_data(references).map do |data|
           ReferenceMapper.build_entity(data)
         end
@@ -27,7 +29,7 @@ module RefEm
       def self.build_entity(data)
         DataMapper.new(data).build_entity
       end
-      
+
       # Extracts entity specific elements from data structure
       class DataMapper
         def initialize(data)

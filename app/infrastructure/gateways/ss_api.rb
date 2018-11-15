@@ -4,14 +4,17 @@ require 'http'
 # Namespace for entire library
 module RefEm
   # Library for Semantic Scholar  API
-  module SSPaper
+  module MSPaper
     # Library for Semantic Scholar Search API
-    class Api
+    class SSApi
       def initialize; end
 
       def paper_data(doi)
         Request.new.ss_paper_data(doi).parse
       end
+
+      
+
       # Class to request from API, no key needed
       class Request
         LOOKUP_PATH = 'http://api.semanticscholar.org/v1/paper/'
@@ -25,10 +28,6 @@ module RefEm
           http_response = HTTP.headers(
             'Accept' => 'application/json'
           ).get(url)
-
-          Response.new(http_response).tap do |response|
-            raise(response.error) unless response.successful?
-          end
         end
       end
       # Class to get http response from API

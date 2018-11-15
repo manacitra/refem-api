@@ -3,15 +3,20 @@
 module RefEm
   module Entity
     # Domain entity for paper
-    class FromSS < Dry::Struct
+    class Citation < Dry::Struct
       include Dry::Types.module
 
-      attribute :citation_velocity,            Strict::Integer
-      attribute :citation_dois,                Strict::Array.of(String) # sometimes doi is null
-      attribute :citation_titles,              Strict::Array.of(String)
-      attribute :influential_citation_count,   Strict::Integer
-      attribute :venue,                        Strict::String
-      attribute :focus_doi,                    Strict::String # Paper that we interested in
+      attribute :id,                 Strict::Integer.optional
+      attribute :origin_id,          Strict::String
+      attribute :title,              Strict::String
+      attribute :author,             Strict::Array.of(String)
+      attribute :year,               Strict::Integer.optional
+      attribute :doi,                Strict::String.optional
+      attribute :venue,              Strict::String.optional
+
+      def to_attr_hash
+        to_hash.reject { |key, _| [:id].include? key}
+      end
     end
   end
 end

@@ -29,6 +29,7 @@ module RefEm
 
       def self.create(entity)
         raise 'Paper already exists' if find(entity)
+
         db_paper = PersistPaper.new(entity).call
         rebuild_entity(db_paper)
       end
@@ -48,8 +49,10 @@ module RefEm
           # field:          db_record.field,
           # references:     db_record.references,
           # doi:            db_record.doi
+
           db_record.to_hash.merge(
-            references: References.rebuild_many(db_record.reference_papers)
+            references: References.rebuild_many(db_record.reference_papers),
+            citations: Citations.rebuild_many(db_record.citation_papers)
           )
         )
       end
@@ -72,9 +75,14 @@ module RefEm
           create_paper.tap do |db_paper|
             @entity.references.each do |reference|
               db_paper.add_reference_paper(References.db_find_or_create(reference))
+              puts '****************'
+              puts @entity.citations.class
+              puts @entity.references.class
+            end
+            @entity.citations.each do |citation|
+              db_paper.add_citation_paper(Citations.db_find_or_create(citation))
             end
           end
-          #create_paper
         end
       end
     end

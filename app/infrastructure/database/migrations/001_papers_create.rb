@@ -13,7 +13,7 @@ Sequel.migration do
       Integer   :year
       String    :date
       String    :field
-      String    :doi, unique: true, null: true
+      String    :doi, null: true
 
       DateTime :created_at
       DateTime :updated_at

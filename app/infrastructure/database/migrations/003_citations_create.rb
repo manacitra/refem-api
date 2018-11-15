@@ -8,9 +8,8 @@ Sequel.migration do
       primary_key :id
       foreign_key :paper_doi, :papers
 
-      String  :citation_doi
-      String  :origin_id
       String  :doi
+      String  :citation_doi
       Integer :citation_velocity
       String  :citation_titles
       Integer :influential_citation_count
