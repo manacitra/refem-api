@@ -39,10 +39,9 @@ namespace :db do
 
   desc 'Wipe records from all tables'
   task :wipe => :config do
-    unless app.environment == :production
-      DatabaseHelper.setup_database_cleaner
-      DatabaseHelper.wipe_database
-    end
+    require_relative 'spec/helpers/database_helper.rb'
+    DatabaseHelper.setup_database_cleaner
+    DatabaseHelper.wipe_database
   end
 
   desc 'Delete dev or test database file'
