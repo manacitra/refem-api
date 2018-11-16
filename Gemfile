@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 ruby '2.5.1'
 
+
+
 # Web application related
 gem 'econfig', '~> 2.1'
 gem 'puma', '~> 3.11'
@@ -20,6 +22,10 @@ gem 'http', '~> 3.0'
 # Database related
 gem 'hirb'
 gem 'sequel'
+
+group :production do
+  gem 'pg'
+end
 
 group :development, :test do
   gem 'database_cleaner'
