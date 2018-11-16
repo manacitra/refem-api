@@ -25,11 +25,10 @@ gem 'sequel'
 
 group :production do
   gem 'pg'
-  gem 'database_cleaner'
 end
 
 group :development, :test do
-  
+  gem 'database_cleaner'
   gem 'sqlite3'
 end
 
