@@ -14,12 +14,12 @@ module RefEm
         @gateway = @gateway_class.new(@token)
       end
 
-      def find_papers_by_keywords(keywords, count)
+      def find_papers_by_keywords(keywords)
         show_detail = false
         search_results = []
         paper_count = 0
         @gateway.full_paper_data(keywords, 50).map { |data|
-          unless paper_count >= count.to_i || data['E']['DOI'].nil? || data['RId'] == []
+          unless paper_count >= 10 || data['E']['DOI'].nil? || data['RId'] == []
             search_results.push(build_entity(data, show_detail))
             paper_count += 1
           end

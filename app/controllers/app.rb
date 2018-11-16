@@ -22,50 +22,29 @@ module RefEm
         routing.is do
           # POST /find_paper/
           routing.post do
-            query_param = routing.params['paper_query'].downcase
+            keyword = routing.params['paper_query'].downcase
             # need refactor
-            # paper count must be an integer, and limited to 10 papers
-            # for now we only accept 2 parameters in the query
-            # query format: keyword/paper count
-            routing.halt 400 unless (query_param.split('/')[-1].to_i <= 10) &&
-                                    (query_param.split('/').count == 2)
-            keyword, count = query_param.split('/')
+            # for now we only accept 1 parameter in the query
+            # query format: keyword
 
             # Get paper from ms
             paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword, count)
+              .find_papers_by_keywords(keyword)
 
-            # puts "paper length: #{paper.length}"
-
-            # Add paper to database
-            # paper.each {  |p|
-            #   Repository::For.entity(p).create(p)
-            # }
-            # reference = MSPaper::ReferenceMapper
-            #   .new(App.config.MS_TOKEN)
-            #   .find_several(paper[0].ref_to_array)
-            # # Add reference to database
-            # reference.each {  |r|
-            #   Repository::For.entity(r).create(r)
-            # }
-           
-            # Redirect viewer to find_ page
-            # routing.redirect "find_paper/#{keyword}/#{count}"
             view 'find_paper', locals: { find_paper: paper, keyword: keyword }
           end
         end
 
-        routing.on String, String do |keyword, count|
+        routing.on String do |keyword|
           # GET /find_paper/keyword/paper_count
           routing.get do
             paper_title = RefEm::MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword, count)
+              .find_papers_by_keywords(keyword)
 
             paper = Repository::For.klass(Entity::Paper)
               .find_papers_by_keywords(owner_name, project_name)
-            #puts("!!!! #{paper_title.paper_doi}")
 
             view 'find_paper', locals: { find_paper: paper_title, keyword: keyword }
           end
