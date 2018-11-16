@@ -24,9 +24,7 @@ describe 'Integration Tests of Github API and Database' do
     it 'HAPPY: should be able to save paper to database from MS api' do
       full_paper = RefEm::MSPaper::PaperMapper
         .new(MS_TOKEN)
-        .find_papers_by_keywords(KEYWORDS, COUNT)
-    
-      ID = full_paper[0].origin_id
+        .find_papers_by_keywords(KEYWORDS)
         
       find_paper = RefEm::MSPaper::PaperMapper
         .new(MS_TOKEN)
@@ -46,16 +44,14 @@ describe 'Integration Tests of Github API and Database' do
       _(rebuilt.doi).must_equal(paper.doi)
 
       paper.references.each do |reference|
-        found = rebuilt.references.find do |potential|
+        found = rebuilt.references.find(reference) do |potential|
           potential.origin_id == reference.origin_id
         end
 
         _(found.origin_id).must_equal reference.origin_id
         _(found.title).must_equal reference.title
         _(found.year).must_equal reference.year
-
-
-        _(found.doi).must_equal reference.doi assert_nil
+        _(found.doi).must_equal reference.doi unless reference.doi == nil
         _(found.citation_count).must_equal reference.citation_count
       end
     end

@@ -12,6 +12,8 @@ module RefEm
     Econfig.env = environment.to_s
     Econfig.root = '.'
 
+    use Rack::Session::Cookie, secret: config.SESSION_SECRET
+
     configure :development, :test do
       require 'pry'
 

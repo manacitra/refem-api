@@ -1,5 +1,5 @@
 require 'roda'
-require 'slim'
+require 'slim/include'
 
 module RefEm
   # Web App
@@ -8,6 +8,7 @@ module RefEm
     plugin :assets, path: 'app/views/assets',
                     css: 'style.css'#, js: 'table_row.js'
     plugin :halt
+    plugin :flash
 
     route do |routing|
       routing.assets # load CSS
@@ -27,26 +28,28 @@ module RefEm
             # for now we only accept 1 parameter in the query
             # query format: keyword
 
+            if keyword == ""
+              flash[:error] = 'Please enter the keyword!'
+              routing.redirect '/'
+            end
+
             # Get paper from ms
-            paper = MSPaper::PaperMapper
+            begin
+              paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
               .find_papers_by_keywords(keyword)
+              
+              if paper == []
+                flash[:error] = 'Paper not found'
+                routing.redirect '/'
+              end
+            rescue StandardError
+              flash[:error] = 'Having trouble to get papers'
+              routing.redirect '/'
+            end
+
 
             view 'find_paper', locals: { find_paper: paper, keyword: keyword }
-          end
-        end
-
-        routing.on String do |keyword|
-          # GET /find_paper/keyword/paper_count
-          routing.get do
-            paper_title = RefEm::MSPaper::PaperMapper
-              .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword)
-
-            paper = Repository::For.klass(Entity::Paper)
-              .find_papers_by_keywords(owner_name, project_name)
-
-            view 'find_paper', locals: { find_paper: paper_title, keyword: keyword }
           end
         end
       end
@@ -54,23 +57,46 @@ module RefEm
         routing.on String, String do |keyword, id|
           routing.get do
 
-            paper = Entity::Paper
+            # Get paper from database instead of Microsoft Acadamic
+            begin
+              paper = Repository::For.klass(Entity::Paper)
+                .find_paper_content(id)
+              
+              if paper.nil?
+                # Get paper from Microsoft Acadamic
+                begin
+                  paper = Entity::Paper
 
-            find_paper = MSPaper::PaperMapper
-              .new(App.config.MS_TOKEN)
-              .find_paper(id)
+                  find_paper = MSPaper::PaperMapper
+                    .new(App.config.MS_TOKEN)
+                    .find_paper(id)
 
-            find_paper.each do |p|
-              paper = p if p.origin_id == id.to_i
+                  # take the paper that user want to find
+                   paper = find_paper[0]
+                  
+                  if paper == []
+                    flash[:error] = 'This paper has some errors, please find another one!'
+                    routing.redirect "paper_count/#{keyword}/#{id}"
+                  end
+                rescue StandardError
+                  flash[:error] = 'Having trouble to get the paper detail'
+                  routing.redirect "paper_count/#{keyword}/#{id}"
+                end
+
+                # Add paper to database
+                begin
+                  Repository::For.entity(paper).create(paper)
+                rescue StandardError => error
+                  puts error.backtrace.join("\n")
+                  flash[:error] = 'Having trouble accessing the database'
+                end
+              end
+            rescue StandardError
+              flash[:error] = 'Having trouble accessing the database'
+              routing.redirect '/'
             end
-
-            # Add paper to database
-            Repository::For.entity(paper).create(paper)
-
-            paper_find_from_database = Repository::For.klass(Entity::Paper)
-              .find_paper_content(id)
-
-            view 'paper_content', locals: { paper_content: paper_find_from_database }
+            
+            view 'paper_content', locals: { paper_content: paper }
           end
         end
       end
