@@ -16,7 +16,7 @@ module RefEm
       require 'pry'
 
       # Allows running <reload!> in pry to restart entire app
-      def self.reload
+      def self.reload!
         exec 'pry -r ./init.rb'
       end
     end
