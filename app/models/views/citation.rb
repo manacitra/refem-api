@@ -9,11 +9,11 @@ module Views
       end
   
       def detail_link
-        
+        "https://api.semanticscholar.org/#{@citation.origin_id}"
       end
   
       def index_str
-        "#{@index+1}."
+        "#{@index+1}"
       end
   
       def title

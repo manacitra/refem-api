@@ -9,11 +9,11 @@ module Views
       end
   
       def detail_link
-        
+        "https://academic.microsoft.com/#/detail/#{@reference.origin_id}"
       end
   
       def index_str
-        "#{@index+1}."
+        "#{@index+1}"
       end
   
       def title

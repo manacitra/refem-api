@@ -12,8 +12,12 @@ module Views
       @keyword = keyword
     end
 
-    def detail_link
+    def graph_link
       "/paper_content/#{@keyword}/#{@paper.origin_id}"
+    end
+
+    def detail_link
+      "https://academic.microsoft.com/#/detail/#{@paper.origin_id}"
     end
 
     def index_str

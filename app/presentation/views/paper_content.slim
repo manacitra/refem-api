@@ -4,7 +4,8 @@
         span.paper.attribute Title:
       .col-lg-10.col-md-10.col-sm-6
         span.paper.title
-          = paper.title
+          a class="paper_detail" href="#{paper.detail_link}"
+            = paper.title
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Author:
@@ -29,18 +30,20 @@
     - paper.references.each do |reference|
       .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
-        span.reference.attribute #{reference.index_str} Reference Title:
+        span.reference.attribute #{reference.index_str}. Reference Title:
       .col-lg-10.col-md-10.col-sm-10
-        span.reference.title
-          = reference.title
+        span class="reference_title" id="reference[#{reference.index_str}].title"
+          a class="reference_detail"  href="#{reference.detail_link}"
+            = reference.title
     .row.top_buffer
       .col-lg-12.col-md-12.col-sm-12
         span.dash -----------------------------
     - paper.citations.each do |citation|
       .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
-        span.citation.attribute #{citation.index_str} Citation Title:
+        span.citation.attribute #{citation.index_str}. Citation Title:
       .col-lg-10.col-md-10.col-sm-10
-        span.citation.title
-          = citation.title
+        span class="reference_title" id="citation[#{citation.index_str}].title"
+          a class="reference_detail"  href="#{citation.detail_link}"
+            = citation.title
         
