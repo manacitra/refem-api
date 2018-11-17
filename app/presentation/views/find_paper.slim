@@ -1,36 +1,31 @@
 .container
+  - papers.each do |paper|
     .row
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Title:
       .col-lg-10.col-md-10.col-sm-6
-        span.paper.title
-          a class="paper_detail" href="/paper_content/#{paper_content.origin_id}"
-            = paper_content.title
+        span class="paper_title" id="#{paper.index_str}.title"
+          a class="paper_detail" href="#{paper.detail_link}"
+            = paper.title
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Author:
       .col-lg-10.col-md-10.col-sm-6
-        span.paper.author
-          = paper_content.author
+        span class="paper_author" id="#{paper.index_str}.author"
+          = paper.author
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute Year:
       .col-lg-10.col-md-10.col-sm-6
-        span.paper.year
-          = paper_content.year
+        span class="paper_year" id="#{paper.index_str}.year"
+          = paper.year
     .row.top_buffer
       .col-lg-2.col-md-2.col-sm-2
         span.paper.attribute DOI:
       .col-lg-10.col-md-10.col-sm-6
-        span.paper.doi
-          = paper_content.doi
-    - paper_content.references.each do |reference|
-      .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.reference.attribute Reference Title:
-      .col-lg-10.col-md-10.col-sm-6
-        span.reference.title
-          = reference.title
+        span class="paper_doi" id="#{paper.index_str}.doi"
+          = paper.doi
+    
     .row.top_buffer
       .col-lg-12.col-md-12.col-sm-12
         span.dash -----------------------------

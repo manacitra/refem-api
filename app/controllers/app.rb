@@ -4,8 +4,8 @@ require 'slim/include'
 module RefEm
   # Web App
   class App < Roda
-    plugin :render, engine: 'slim', views: 'app/views'
-    plugin :assets, path: 'app/views/assets',
+    plugin :render, engine: 'slim', views: 'app/presentation/views'
+    plugin :assets, path: 'app/presentation/assets',
                     css: 'style.css'#, js: 'table_row.js'
     plugin :halt
     plugin :flash
@@ -48,8 +48,10 @@ module RefEm
               routing.redirect '/'
             end
 
+            viewable_papers = Views::PaperList.new(paper, keyword)
 
-            view 'find_paper', locals: { find_paper: paper, keyword: keyword }
+
+            view 'find_paper', locals: { papers: viewable_papers, keyword: keyword }
           end
         end
       end
@@ -95,8 +97,10 @@ module RefEm
               flash[:error] = 'Having trouble accessing the database'
               routing.redirect '/'
             end
+
+            viewable_paper = Views::Paper.new(paper, keyword)
             
-            view 'paper_content', locals: { paper_content: paper }
+            view 'paper_content', locals: { paper: viewable_paper }
           end
         end
       end

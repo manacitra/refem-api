@@ -20,7 +20,7 @@ describe 'Tests Semantic Scholar API library' do
           .find_data_by(DOI)
       citations.size.must_be :>=, 0
       first_citation = citations[0]
-      puts first_citation.title
+      puts "TITLE:#{first_citation.title}"
       _(first_citation.title).must_equal CORRECT['title']
       # _(first_citation.author).must_equal CORRECT['citationVelocity']
       # _(first_citation.date).must_equal CORRECT['Date']

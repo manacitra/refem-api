@@ -111,6 +111,8 @@ module RefEm
         def doi
           @data['E']['DOI']
         end
+
+ 
       end
     end
   end
