@@ -21,3 +21,7 @@ CORRECT = YAML.safe_load(File.read('spec/fixtures/ms_results.yml'))
 SS_CORRECT = YAML.safe_load(File.read('spec/fixtures/ss_results.yml'))
 ERROR = {}
 DOI = '10.1162/089120103321337421'
+
+def homepage
+  RefEm::App.config.APP_HOST
+end

@@ -15,7 +15,7 @@ end
 desc 'Run acceptance tests'
 task :spec_accept do
   puts 'NOTE: run `rake run:test` in another process'
-  sh 'ruby spec/acceptance_spec_.rb'
+  sh 'ruby spec/acceptance_spec.rb'
 end
 
 desc 'Keep rerunning tests upon changes'
@@ -32,7 +32,7 @@ namespace :run do
   task :dev do
     sh 'rerun -c "rackup -p 9292"'
   end
-   task :test do
+  task :test do
     sh 'RACK_ENV=test rackup -p 9000'
   end
 end

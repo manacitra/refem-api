@@ -211,6 +211,7 @@ DEPENDENCIES
   roda (~> 3.8)
   rubocop
   ruby-debug-ide
+  selenium-webdriver
   sequel (~> 5.13)
   simplecov (~> 0.16)
   slim (~> 3.0)

@@ -12,7 +12,8 @@ describe 'Acceptance Tests' do
   before do
     DatabaseHelper.wipe_database
     @headless = Headless.new
-    @browser = Watir::Browser.new
+    @headless.start
+    @browser = Watir::Browser.new :chrome
   end
 
   after do
@@ -63,7 +64,7 @@ describe 'Acceptance Tests' do
         @browser.button(id: 'paper_search-submit').click
         # THEN: they should see a warning message
         _(@browser.div(id: 'flash_bar_danger').present?).must_equal true
-        _(@browser.div(id: 'flash_bar_danger').text.downcase).must_include 'Please enter'
+        _(@browser.div(id: 'flash_bar_danger').text.downcase).must_include 'please enter'
       end
       it "(SAD) should be able to search, but API can't serve it" do
         # GIVEN: user is on the home page
@@ -81,11 +82,11 @@ describe 'Acceptance Tests' do
   describe 'Find Paper List Page' do
     it '(HAPPY) should see list of 10 papers related to keyword' do
       # GIVEN: user input a valid keyword
+      good_keyword = KEYWORDS
       papers = RefEm::MSPaper::PaperMapper
         .new(MS_TOKEN)
-        .find_papers_by_keywords(keywords)
+        .find_papers_by_keywords(good_keyword)
       @browser.goto homepage
-      good_keyword = KEYWORDS
       @browser.text_field(id: 'paper_query_input').set(good_keyword)
       # WHEN: user submit the keyword
       @browser.button(id: 'paper_search-submit').click
