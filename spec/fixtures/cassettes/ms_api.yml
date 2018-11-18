@@ -5511,4 +5511,77 @@ http_interactions:
 '
     http_version: 
   recorded_at: Fri, 16 Nov 2018 15:43:24 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&count=50&expr=W%20==%20%27internet%27&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - NO_TOKEN
+  response:
+    status:
+      code: 401
+      message: Access Denied
+    headers:
+      Content-Length:
+      - '198'
+      Content-Type:
+      - application/json
+      Www-Authenticate:
+      - AzureApiManagementKey realm="https://api.labs.cognitive.microsoft.com/academic/v1.0",name="Ocp-Apim-Subscription-Key",type="header"
+      Date:
+      - Sun, 18 Nov 2018 08:25:18 GMT
+    body:
+      encoding: UTF-8
+      string: "\n{\"error\":{\"code\":\"Unspecified\",\"message\":\"Access denied
+        due to invalid subscription key. Make sure you are subscribed to an API you
+        are trying to call and provide the right key.\"}}\n                "
+    http_version: 
+  recorded_at: Sun, 18 Nov 2018 08:25:18 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&expr=Id=we%20cannot%20find%20a%20paper&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - "<MS_TOKEN>"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Length:
+      - '100'
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Request-Context:
+      - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Sun, 18 Nov 2018 08:25:18 GMT
+    body:
+      encoding: UTF-8
+      string: '{"Error":{"Code":"Bad Argument","Message":"Invalid query expression\r\nParameter
+        name: expression"}}'
+    http_version: 
+  recorded_at: Sun, 18 Nov 2018 08:25:19 GMT
 recorded_with: VCR 4.0.0

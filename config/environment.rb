@@ -4,7 +4,7 @@ require 'roda'
 require 'econfig'
 
 module RefEm
-  # Configuration for the App
+  # Environment specific configuration
   class App < Roda
     plugin :environments
 
@@ -28,6 +28,7 @@ module RefEm
     end
 
     configure :production do
+      ENV['DATABASE_URL'] = 'postgres://bpmfdmllhklqln:ad1a36f73023f80b5a370dd03bb2c1377c22194bc0a7ce35ab7f7074da21af01@ec2-50-19-249-121.compute-1.amazonaws.com:5432/d2lfq47819730n'
       # Use deployment platform's DATABASE_URL environment variable
     end
 
