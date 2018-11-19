@@ -2,6 +2,8 @@
 
 require_relative 'reference.rb'
 require_relative 'citation.rb'
+require 'dry-types'
+require 'dry-struct'
 
 module RefEm
   module Entity

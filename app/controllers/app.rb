@@ -6,14 +6,14 @@ module RefEm
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css'#, js: 'table_row.js'
+                    css: 'style.css' # js: 'table_row.js'
     plugin :halt
     plugin :flash
 
     route do |routing|
       routing.assets # load CSS
 
-      # GET / 
+      # GET /
       routing.root do
         papers = Repository::For.klass(Entity::Paper).all
         view 'home', locals: { papers: papers }
@@ -28,7 +28,7 @@ module RefEm
             # for now we only accept 1 parameter in the query
             # query format: keyword
 
-            if keyword == ""
+            if keyword == ''
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
             end
@@ -36,9 +36,9 @@ module RefEm
             # Get paper from ms
             begin
               paper = MSPaper::PaperMapper
-              .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword)
-              
+                .new(App.config.MS_TOKEN)
+                .find_papers_by_keywords(keyword)
+
               if paper == []
                 flash[:error] = 'Paper not found'
                 routing.redirect '/'
@@ -58,12 +58,11 @@ module RefEm
       routing.on 'paper_content' do
         routing.on String, String do |keyword, id|
           routing.get do
-
             # Get paper from database instead of Microsoft Acadamic
             begin
               paper = Repository::For.klass(Entity::Paper)
                 .find_paper_content(id)
-              
+
               if paper.nil?
                 # Get paper from Microsoft Acadamic
                 begin
@@ -72,10 +71,9 @@ module RefEm
                   find_paper = MSPaper::PaperMapper
                     .new(App.config.MS_TOKEN)
                     .find_paper(id)
-
                   # take the paper that user want to find
-                   paper = find_paper[0]
-                  
+                  paper = find_paper[0]
+
                   if paper == []
                     flash[:error] = 'This paper has some errors, please find another one!'
                     routing.redirect "paper_count/#{keyword}/#{id}"
@@ -99,7 +97,7 @@ module RefEm
             end
 
             viewable_paper = Views::Paper.new(paper, keyword)
-            
+
             view 'paper_content', locals: { paper: viewable_paper }
           end
         end

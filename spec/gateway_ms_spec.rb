@@ -1,9 +1,11 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
-require_relative 'spec_helper.rb'
+require_relative 'helpers/spec_helper.rb'
 require_relative 'helpers/vcr_helper.rb'
 
 describe 'Test microsoft academic search library' do
+  VcrHelper.setup_vcr
+
   before do
     VcrHelper.configure_vcr_for_ms
   end
