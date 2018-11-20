@@ -90,4 +90,46 @@ describe 'Acceptance Tests' do
       end
     end
   end
+  describe 'Find Paper List Page' do
+    it '(HAPPY) should see list of 10 papers related to keyword' do
+      # GIVEN: user input a valid keyword
+      good_keyword = KEYWORDS
+
+      papers = RefEm::MSPaper::PaperMapper
+        .new(MS_TOKEN)
+        .find_papers_by_keywords(good_keyword)
+      @browser.goto homepage
+      
+      @browser.text_field(id: 'paper_query_input').set(good_keyword)
+      # WHEN: user submit the keyword
+      @browser.button(id: 'paper_search-submit').click
+      # THEN: they should see the related paper list
+      Watir::Wait.until {
+        @browser.span(id: 'paper[9].title').present?
+      }
+
+      puts "present: #{@browser.a(class: 'paper_detail').present?}"
+      puts "container: #{@browser.div(class: 'container').present?}"
+
+      puts "a count: #{ @browser.div(class: 'container').as.count}"
+      
+      related_paper_titles = @browser.div(class: 'container').divs.select do |s|
+        puts "a1234: #{s.span(class: %w[paper_title]).present?}"
+        s.span(class: 'paper_title').present?
+      end
+
+      _(related_paper_titles.count).must_equal 10
+      # related_paper_authors = @browser.span(class: 'paper_author').must_equal 10
+      # related_paper_years = @browser.span(class: 'paper_year').must_equal 10
+      # related_paper_dois = @browser.span(class: 'paper_doi').must_equal 10
+    end
+  end
+  # describe 'Display Paper Content (References and Citations)' do
+  #   it '(HAPPY) should get list of refences' do
+  #     # references = 
+  #   end
+  #   it '(HAPPY) should get list of citations' do
+  #     # citations = 
+  #   end
+  # end
 end

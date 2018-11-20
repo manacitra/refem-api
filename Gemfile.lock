@@ -18,6 +18,9 @@ GEM
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    data_magic (1.2)
+      faker (>= 1.1.2)
+      yml_reader (>= 0.6)
     database_cleaner (1.7.0)
     debase (0.2.2)
       debase-ruby_core_source (>= 0.10.2)
@@ -55,6 +58,8 @@ GEM
     econfig (2.1.0)
     equalizer (0.0.11)
     eventmachine (1.2.7)
+    faker (1.9.1)
+      i18n (>= 0.7)
     ffi (1.9.25)
     flog (4.6.2)
       path_expander (~> 1.0)
@@ -75,6 +80,8 @@ GEM
     http_parser.rb (0.6.0)
     httparty (0.16.2)
       multi_xml (>= 0.5.2)
+    i18n (1.1.1)
+      concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     jaro_winkler (1.5.1)
     json (2.1.0)
@@ -92,11 +99,16 @@ GEM
     multi_xml (0.6.0)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
+    page-object (2.2.4)
+      page_navigation (>= 0.10)
+      selenium-webdriver (~> 3.0)
+      watir (~> 6.8)
+    page_navigation (0.10)
+      data_magic (>= 0.22)
     parallel (1.12.1)
     parser (2.5.1.2)
       ast (~> 2.4.0)
     path_expander (1.0.3)
-    pg (0.21.0)
     powerpack (0.1.2)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -184,6 +196,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff
     yard (0.9.16)
+    yml_reader (0.7)
 
 PLATFORMS
   ruby
@@ -201,20 +214,16 @@ DEPENDENCIES
   httparty
   minitest (~> 5.11)
   minitest-rg (~> 5.2)
-  pg (~> 0.18)
+  page-object
   pry
   puma (~> 3.11)
   rack (~> 2.0.6)
   rake (~> 12.3)
   reek
-  rerun
+  rerun (~> 0.13)
   roda (~> 3.8)
   rubocop
   ruby-debug-ide
-<<<<<<< HEAD
-  selenium-webdriver
-=======
->>>>>>> b3ff02d4916a47ae47ce6cfd9d7ce60d419e29c3
   sequel (~> 5.13)
   simplecov (~> 0.16)
   slim (~> 3.0)
@@ -222,11 +231,7 @@ DEPENDENCIES
   sqlite3
   vcr (~> 4.0)
   watir (~> 6.14)
-<<<<<<< HEAD
   webmock
-=======
-  webmock (~> 3.4)
->>>>>>> b3ff02d4916a47ae47ce6cfd9d7ce60d419e29c3
 
 RUBY VERSION
    ruby 2.5.3p105

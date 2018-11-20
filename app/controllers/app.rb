@@ -23,36 +23,47 @@ module RefEm
         routing.is do
           # POST /find_paper/
           routing.post do
-            keyword = routing.params['paper_query'].downcase
             # need refactor
             # for now we only accept 1 parameter in the query
             # query format: keyword
-
-            if keyword == ''
+            # Redirect viewer to project page
+            keyword = routing.params['paper_query'].downcase
+            
+            if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
             end
 
-            # Get paper from ms
-            begin
-              paper = MSPaper::PaperMapper
-                .new(App.config.MS_TOKEN)
-                .find_papers_by_keywords(keyword)
+            routing.redirect "find_paper/#{keyword}"
+          end
 
-              if paper == []
-                flash[:error] = 'Paper not found'
-                routing.redirect '/'
-              end
-            rescue StandardError
-              flash[:error] = 'Having trouble to get papers'
+          # GET /find_paper/
+          routing.get do
+            flash[:error] = 'Please enter the keyword!'
+            routing.redirect '/'
+          end
+        end
+
+        routing.on String do |keyword|
+            
+          # Get paper from ms
+          begin
+            paper = MSPaper::PaperMapper
+              .new(App.config.MS_TOKEN)
+              .find_papers_by_keywords(keyword)
+
+            if paper == []
+              flash[:error] = 'Paper not found'
               routing.redirect '/'
             end
-
-            viewable_papers = Views::PaperList.new(paper, keyword)
-
-
-            view 'find_paper', locals: { papers: viewable_papers, keyword: keyword }
+          rescue StandardError
+            flash[:error] = 'Having trouble to get papers'
+            routing.redirect '/'
           end
+
+          viewable_papers = Views::PaperList.new(paper, keyword)
+
+          view "find_paper", locals: { papers: viewable_papers, keyword: keyword }
         end
       end
       routing.on 'paper_content' do
