@@ -46,6 +46,14 @@ h1 {
   height: 30px;
 }
 
+.papers_table {
+  border-collapse: separate !important;;
+}
+
+.papers_table > tr > td{
+  border: 2px solid gray;
+}
+
 .query-bar {
   background-color: #eeeeee;
   padding: 5px 5px 5px 5px;

@@ -52,6 +52,7 @@ module RefEm
               .new(App.config.MS_TOKEN)
               .find_papers_by_keywords(keyword)
 
+            # If can't get the paper from microsoft acadamic api
             if paper == []
               flash[:error] = 'Paper not found'
               routing.redirect '/'
@@ -69,6 +70,7 @@ module RefEm
       routing.on 'paper_content' do
         routing.on String, String do |keyword, id|
           routing.get do
+
             # Get paper from database instead of Microsoft Acadamic
             begin
               paper = Repository::For.klass(Entity::Paper)
@@ -85,13 +87,13 @@ module RefEm
                   # take the paper that user want to find
                   paper = find_paper[0]
 
-                  if paper == []
-                    flash[:error] = 'This paper has some errors, please find another one!'
-                    routing.redirect "paper_count/#{keyword}/#{id}"
+                  if paper.nil?
+                    flash[:error] = "Can't find this paper, please find another one!"
+                    routing.redirect "/"
                   end
                 rescue StandardError
                   flash[:error] = 'Having trouble to get the paper detail'
-                  routing.redirect "paper_count/#{keyword}/#{id}"
+                  routing.redirect "/"
                 end
 
                 # Add paper to database
@@ -111,6 +113,13 @@ module RefEm
 
             view 'paper_content', locals: { paper: viewable_paper }
           end
+        end
+
+
+        # input the incorrect url
+        routing.on String do |keyword|
+          flash[:error] = 'Please enter the correct url'
+          routing.redirect '/'
         end
       end
     end

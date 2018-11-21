@@ -14,5 +14,16 @@ module Views
         yield c
       end
     end
+
+    def five_citations
+
+      citations = []
+      for num in 0..4
+        citations.push(@citations[num])
+      end
+      citations.each do |c|
+        yield c
+      end
+    end
   end
 end

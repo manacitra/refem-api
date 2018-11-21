@@ -15,6 +15,10 @@ module Views
       def index_str
         "#{@index+1}"
       end
+
+      def index
+        @index
+      end
   
       def title
         @reference.title
