@@ -6,7 +6,8 @@ module RefEm
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css' # js: 'table_row.js'
+                    css: 'style.css',
+                    js: 'customize.js'
     plugin :halt
     plugin :flash
 
@@ -28,13 +29,15 @@ module RefEm
             # query format: keyword
             # Redirect viewer to project page
             keyword = routing.params['paper_query'].downcase
+            #decide which type user want to search (keyword or title)
+            searchType = routing.params['searchType'].downcase
             
             if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
             end
 
-            routing.redirect "find_paper/#{keyword}"
+            routing.redirect "find_paper/#{searchType}/#{keyword}"
           end
 
           # GET /find_paper/
@@ -44,13 +47,13 @@ module RefEm
           end
         end
 
-        routing.on String do |keyword|
+        routing.on String, String do |searchType, keyword|
             
           # Get paper from ms
           begin
             paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword)
+              .find_papers_by_keywords(keyword, searchType)
 
             # If can't get the paper from microsoft acadamic api
             if paper == []

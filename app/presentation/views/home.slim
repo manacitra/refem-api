@@ -1,9 +1,23 @@
 .container
   form role="form" action="/find_paper" method='POST' id='show-project-form'
     .row.vertical-align.query-bar
-      .col-md-2.col-sm-3
-        .text-right Enter Keyword:
-      .col-md-8.col-sm-6
+      .col-md-2.col-sm-2
+        .text-right Enter 
+        .row
+          .col-md-12.col-sm-12
+            .form-check.form-check-inline
+              input {
+                type='radio' name='searchType'
+                id='search_keyword' value='keyword' checked='checked'
+              }
+              label class="form-check-label" for="inlineRadioOptions" Keyword :
+            .form-check.form-check-inline
+              input {
+                type='radio' name='searchType'
+                id='search_title' value='title'
+              }
+              label class="form-check-label" for="inlineRadioOptions" Title :
+      .col-md-8.col-sm-7
         input {
           type='text' name='paper_query'
           id='paper_query_input' class="form-control"

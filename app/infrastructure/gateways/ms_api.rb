@@ -17,8 +17,8 @@ module RefEm
       end
 
       # parse data from response with keywords input
-      def full_paper_data(keywords, count)
-        paper_response = Request.new(@ms_token).full_paper_info(keywords, count)
+      def full_paper_data(keywords, searchType)
+        paper_response = Request.new(@ms_token).full_paper_info(keywords, searchType)
         create_new_data_format(JSON.parse(paper_response.body))
       end
 
@@ -66,13 +66,14 @@ module RefEm
         end
 
         # request based on keywords
-        def full_paper_info(keywords, count)
+        def full_paper_info(keywords, searchType)
+          keyword = concat_keywords(keywords, searchType)
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({
             # Request parameters
-            'expr' => "W == '#{keywords}'",
+            'expr' => keyword,
             'model' => 'latest',
-            'count' => "#{count}",
+            'count' => "50",
             'offset' => '0',
             'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
           })
@@ -133,6 +134,28 @@ module RefEm
             ref_array = (ref_array + ", Id=#{data}") if ref_array != ""
           }
           ref_array
+        end
+
+        def concat_keywords(keyword, searchType)
+          keyword_array = ''
+          
+          if searchType == 'keyword' 
+            # split keyword by white space
+            keywords = keyword.split('%20')
+            
+            keywords.map { |data|
+              if keyword_array == ""
+                keyword_array = ("W=='#{data}'") 
+              else
+                keyword_array = (keyword_array + ", W=='#{data}'") if keyword_array != ""
+              end
+            }
+            keyword_array = "Or(#{keyword_array})"
+          else # search type is 'title'
+            title = keyword.gsub! '%20', ' '
+            keyword_array = "Ti=='#{title}'"
+          end
+          keyword_array
         end
 
         def get(uri)
