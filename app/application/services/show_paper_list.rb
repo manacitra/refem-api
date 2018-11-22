@@ -4,7 +4,7 @@ require 'dry/transaction'
 
 module RefEm
   module Service
-    # Transaction to store project from Github API to database
+    # Transaction to store project from MS API to database
     class ShowPaperList
       include Dry::Transaction
 
