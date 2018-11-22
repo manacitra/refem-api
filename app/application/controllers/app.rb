@@ -9,7 +9,8 @@ module RefEm
     include RouteHelpers
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css' # js: 'table_row.js'
+                    css: 'style.css',
+                    js: 'customize.js'
     plugin :halt
     plugin :flash
     plugin :all_verbs
@@ -29,14 +30,25 @@ module RefEm
         routing.is do
           # POST /find_paper/
           routing.post do
+<<<<<<< HEAD:app/controllers/app.rb
+            # need refactor
+            # for now we only accept 1 parameter in the query
+            # query format: keyword
+            # Redirect viewer to project page
+            keyword = routing.params['paper_query'].downcase
+            #decide which type user want to search (keyword or title)
+            searchType = routing.params['searchType'].downcase
+            
+=======
             keyword = Forms::Keyword.call(routing.params)
 
+>>>>>>> 281ee8e36e3310ec8e6508435889efa00abfc175:app/application/controllers/app.rb
             if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
             end
 
-            routing.redirect "find_paper/#{keyword}"
+            routing.redirect "find_paper/#{searchType}/#{keyword}"
           end
 
           # GET /find_paper/
@@ -46,13 +58,18 @@ module RefEm
           end
         end
 
+<<<<<<< HEAD:app/controllers/app.rb
+        routing.on String, String do |searchType, keyword|
+            
+=======
         routing.on String do |keyword|
 
+>>>>>>> 281ee8e36e3310ec8e6508435889efa00abfc175:app/application/controllers/app.rb
           # Get paper from ms
           begin
             paper = MSPaper::PaperMapper
               .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword)
+              .find_papers_by_keywords(keyword, searchType)
 
             # If can't get the paper from microsoft acadamic api
             if paper == []

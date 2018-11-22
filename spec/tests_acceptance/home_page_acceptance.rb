@@ -2,6 +2,7 @@
 
 require_relative '../helpers/acceptance_helper.rb'
 require_relative 'pages/home_page.rb'
+require_relative 'pages/paperList_page.rb'
 
 describe 'Homepage Acceptance Tests' do
   include PageObject::PageFactory
@@ -11,7 +12,7 @@ describe 'Homepage Acceptance Tests' do
   before do
     DatabaseHelper.wipe_database
     @headless = Headless.new
-    @headless.start
+    # @headless.start
     @browser = Watir::Browser.new :chrome
   end
 
@@ -33,22 +34,37 @@ describe 'Homepage Acceptance Tests' do
     end
   end
   describe 'Search papers based on keyword' do
-    it '(HAPPY) should be able to search papers' do
+    it '(HAPPY) should be able to search papers by keywords' do
       # GIVEN: user is on the home page
       visit HomePage do |page|
         # WHEN: user adds a keyword and submit
         good_keyword = KEYWORDS
+        searchType = 'keyword'
         page.add_new_keyword(good_keyword)
 
-        # THEN: user should find themselves a list of papers
+        # THEN: user should go to paper list page
         @browser.url.include? 'internet'
+        visit(PaperListPage, using_params: { keyword: good_keyword, searchType: searchType}) 
+      end
+    end
+    it '(HAPPY) should be able to search papers by title' do
+    # GIVEN: user is on the home page
+      visit HomePage do |page|
+        # WHEN: user adds a keyword and submit
+        good_title = 'chord a scalable peer to peer lookup protocol for internet applications'
+        searchType = 'title'
+        page.searchType_title
+        page.add_new_keyword(good_title)
+        
+        # THEN: user should go to paper list page
+        visit(PaperListPage, using_params: { keyword: good_title, searchType: searchType}) 
       end
     end
     it '(BAD) should not be input invalid keywords' do
       # GIVEN: user is on the home page
       visit HomePage do |page|
         # WHEN: user inputs a bad/invalid keyword
-        bad_keyword = 'crazy input'
+        bad_keyword = 'disojcs'
         page.add_new_keyword(bad_keyword)
         # THEN: user should see a warning message
         _(page.warning_message.downcase).must_include 'not found'
