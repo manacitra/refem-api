@@ -1,14 +1,20 @@
 require 'roda'
+require 'slim'
 require 'slim/include'
+require_relative 'helpers.rb'
 
 module RefEm
   # Web App
   class App < Roda
+    include RouteHelpers
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets',
                     css: 'style.css' # js: 'table_row.js'
     plugin :halt
     plugin :flash
+    plugin :all_verbs
+
+    use Rack::MethodOverride
 
     route do |routing|
       routing.assets # load CSS
@@ -23,12 +29,8 @@ module RefEm
         routing.is do
           # POST /find_paper/
           routing.post do
-            # need refactor
-            # for now we only accept 1 parameter in the query
-            # query format: keyword
-            # Redirect viewer to project page
-            keyword = routing.params['paper_query'].downcase
-            
+            keyword = Forms::Keyword.call(routing.params)
+
             if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
@@ -45,7 +47,7 @@ module RefEm
         end
 
         routing.on String do |keyword|
-            
+
           # Get paper from ms
           begin
             paper = MSPaper::PaperMapper
@@ -70,7 +72,6 @@ module RefEm
       routing.on 'paper_content' do
         routing.on String, String do |keyword, id|
           routing.get do
-
             # Get paper from database instead of Microsoft Acadamic
             begin
               paper = Repository::For.klass(Entity::Paper)
@@ -89,11 +90,11 @@ module RefEm
 
                   if paper.nil?
                     flash[:error] = "Can't find this paper, please find another one!"
-                    routing.redirect "/"
+                    routing.redirect '/'
                   end
                 rescue StandardError
                   flash[:error] = 'Having trouble to get the paper detail'
-                  routing.redirect "/"
+                  routing.redirect '/'
                 end
 
                 # Add paper to database

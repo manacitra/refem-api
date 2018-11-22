@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ENV['RACK_ENV'] = 'test'
+ENV['RACK_ENV'] ||= 'test'
 
 require 'simplecov'
 SimpleCov.start
@@ -16,7 +16,7 @@ require_relative '../../init.rb'
 
 KEYWORDS = 'internet'
 ID = '2118428193'
-PAPER_TITLE = paper_title = 'chord a scalable peer to peer lookup protocol for internet applications'
+PAPER_TITLE = 'chord a scalable peer to peer lookup protocol for internet applications'
 PAPER_DOI = '10.1109/TNET.2002.808407'
 PAPER_YEAR = '2003'
 MS_TOKEN = RefEm::App.config.MS_TOKEN
