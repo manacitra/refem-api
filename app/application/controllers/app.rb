@@ -30,7 +30,6 @@ module RefEm
         routing.is do
           # POST /find_paper/
           routing.post do
-<<<<<<< HEAD:app/controllers/app.rb
             # need refactor
             # for now we only accept 1 parameter in the query
             # query format: keyword
@@ -39,10 +38,6 @@ module RefEm
             #decide which type user want to search (keyword or title)
             searchType = routing.params['searchType'].downcase
             
-=======
-            keyword = Forms::Keyword.call(routing.params)
-
->>>>>>> 281ee8e36e3310ec8e6508435889efa00abfc175:app/application/controllers/app.rb
             if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
@@ -58,13 +53,8 @@ module RefEm
           end
         end
 
-<<<<<<< HEAD:app/controllers/app.rb
         routing.on String, String do |searchType, keyword|
             
-=======
-        routing.on String do |keyword|
-
->>>>>>> 281ee8e36e3310ec8e6508435889efa00abfc175:app/application/controllers/app.rb
           # Get paper from ms
           begin
             paper = MSPaper::PaperMapper
