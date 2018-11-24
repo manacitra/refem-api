@@ -6,7 +6,7 @@ module RefEm
   module Forms
     Keyword = Dry::Validation.Params do
       # only allows alphabet and space for title
-      KEYWORD_REGEX = /^[a-zA-Z][\sa-zA-Z]*$/
+      KEYWORD_REGEX = /^[a-zA-Z:"?][\sa-zA-Z:"?]*$/
 
       required(:keyword).filled(format?: KEYWORD_REGEX)
 

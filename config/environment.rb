@@ -18,7 +18,7 @@ module RefEm
       require 'pry'
 
       # Allows running <reload!> in pry to restart entire app
-      def self.reload
+      def self.reload!
         exec 'pry -r ./init.rb'
       end
     end
@@ -34,7 +34,7 @@ module RefEm
     end
 
     configure :production do
-      ENV['DATABASE_URL'] = 'postgres://bpmfdmllhklqln:ad1a36f73023f80b5a370dd03bb2c1377c22194bc0a7ce35ab7f7074da21af01@ec2-50-19-249-121.compute-1.amazonaws.com:5432/d2lfq47819730n'
+      ENV['DATABASE_URL'] = 'postgres://mrwuznqrumkeci:c997196fc30f00178cf6480688fc90005c637d9bfc59955bed462722607c13aa@ec2-54-163-230-178.compute-1.amazonaws.com:5432/d9qssv086o5b19'
       # Use deployment platform's DATABASE_URL environment variable
     end
 

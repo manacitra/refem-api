@@ -31,8 +31,9 @@ class VcrHelper
     )
   end
 
-  def self.configure_vcr_for_ss
-    VCR.configure
+  def self.configure_vcr_for_ss(recording: :new_episodes)
+    VCR.configure do
+    end
 
     VCR.insert_cassette(
       SS_CASSETTE,
