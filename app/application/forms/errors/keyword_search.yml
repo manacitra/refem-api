@@ -1,3 +1,4 @@
 en:
   errors:
     keyword: 'Invalid keyword for paper search'
+    searchType: 'Invalid search type'

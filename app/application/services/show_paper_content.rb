@@ -4,49 +4,53 @@ require 'dry/transaction'
 
 module RefEm
   module Service
-    # Transaction to store project from MS API to database
-    class ShowPaperList
+    # Transaction to store paper from MS API to database
+    class ShowPaperContent
       include Dry::Transaction
 
-      step :show_paper_details
-      step :show_reference
-      step :show_citation
+      step :find_main_paper
+      step :store_paper
 
       private
 
-      def validate_input(input)
-        if input.success?
-          keyword = input[:keyword].split
-          Success(owner_name: owner_name, project_name: project_name)
+      def find_main_paper(input)
+        if (paper = paper_in_database(input))
+          input[:local_paper] = paper
         else
-          Failure(input.errors.values.join('; '))
+          input[:remote_paper] = paper_from_microsoft(input)[0]
         end
-      end
 
-      def find_project(input)
-        if (project = project_in_database(input))
-          input[:local_project] = project
-        else
-          input[:remote_project] = project_from_github(input)
-        end
         Success(input)
       rescue StandardError => error
         Failure(error.to_s)
       end
 
-      # following are support methods that other services could use
-
-      def project_from_github(input)
-        Github::ProjectMapper
-          .new(App.config.GITHUB_TOKEN)
-          .find(input[:owner_name], input[:project_name])
-      rescue StandardError
-        raise 'Could not find that keyword'
+      def store_paper(input)
+        paper =
+          if (new_paper = input[:remote_paper])
+            Repository::For.entity(new_paper).create(new_paper)
+          else
+            input[:local_paper]
+          end
+        Success(paper)
+      rescue StandardError => error
+        puts error.backtrace.join("\n")
+        Failure('Having trouble accessing the database')
       end
 
-      def project_in_database(input)
-        Repository::For.klass(Entity::Paper)
+      # following are support methods that other services could use
 
+      def paper_from_microsoft(input)
+        MSPaper::PaperMapper
+          .new(App.config.MS_TOKEN)
+          .find_paper(input[:id])
+      rescue StandardError
+        raise 'Could not find papers by the ID'
+      end
+
+      def paper_in_database(input)
+        Repository::For.klass(Entity::Paper)
+          .find_paper_content(input[:id])
       end
     end
   end
