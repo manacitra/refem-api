@@ -24,11 +24,10 @@ describe 'Paper content page Acceptance Tests' do
   it '(HAPPY) should see the main paper detail, references and citations' do
 
     # GIVEN: user use valid keyword, paper ID to type on the url
-    good_keyword = KEYWORDS
     paper_id = ID
 
     # WHEN: user go to paper detail page directly
-    visit(PaperContentPage, using_params: { keyword: good_keyword, id: paper_id
+    visit(PaperContentPage, using_params: { id: paper_id
                                         }) do |page|
       # THEN: user should main paper(paper detail, references and citations)             
       # main paper detail test  
@@ -46,27 +45,15 @@ describe 'Paper content page Acceptance Tests' do
     end
   end
 
-  it '(BAD) user use invalid keyword and paper ID to go to paper detail page' do
-    bad_keyword = 'crazy input'
+  it '(BAD) user use invalid paper ID to go to paper detail page' do
     bad_paper_id = '98237492343242'
 
     # GIVEN: user inputs a invalid keyword and paper id
     # WHEN: user goes to the invalid url
-    visit(PaperContentPage, using_params: { keyword: bad_keyword, id: bad_paper_id
+    visit(PaperContentPage, using_params: { id: bad_paper_id
                                         }) do |page|
       # THEN: user will go to home page directly and show the error message
-      _(page.warning_message.downcase).must_include "can't find this paper"
-    end
-  end
-
-  it '(BAD) user use invalid keyword and paper ID to go to paper detail page' do
-    good_keyword = KEYWORDS
-
-    # GIVEN: user just inputs a keyword
-    # WHEN: user goes to the invalid url
-    visit(PaperContentPage, using_params: { keyword: good_keyword}) do |page|
-      # THEN: user will go to home page directly and show the error message
-      _(page.warning_message.downcase).must_include "enter the correct url"
+      _(page.warning_message.downcase).must_include "could not find papers"
     end
   end
 end

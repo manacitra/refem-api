@@ -37,7 +37,7 @@ module RefEm
             keyword = routing.params['paper_query'].downcase
             #decide which type user want to search (keyword or title)
             searchType = routing.params['searchType'].downcase
-            
+
             if keyword == '' || keyword == nil
               flash[:error] = 'Please enter the keyword!'
               routing.redirect '/'
@@ -54,78 +54,46 @@ module RefEm
         end
 
         routing.on String, String do |searchType, keyword|
-            
-          # Get paper from ms
-          begin
-            paper = MSPaper::PaperMapper
-              .new(App.config.MS_TOKEN)
-              .find_papers_by_keywords(keyword, searchType)
 
-            # If can't get the paper from microsoft acadamic api
-            if paper == []
-              flash[:error] = 'Paper not found'
-              routing.redirect '/'
-            end
-          rescue StandardError
-            flash[:error] = 'Having trouble to get papers'
+          keywords = Forms::Keyword.call(
+            keyword: keyword,
+            searchType: searchType
+          )
+          find_paper = Service::ShowPaperList.new.call(keywords)
+          
+          if find_paper.failure?
+            flash[:error] = find_paper.failure
             routing.redirect '/'
           end
 
-          viewable_papers = Views::PaperList.new(paper, keyword)
+          paper = find_paper.value!
+          
+          viewable_papers = Views::PaperList.new(paper[:papers], paper[:keyword])
 
-          view "find_paper", locals: { papers: viewable_papers, keyword: keyword }
+          view "find_paper", locals: { papers: viewable_papers}
         end
       end
       routing.on 'paper_content' do
-        routing.on String, String do |keyword, id|
+        routing.on String do |id|
           routing.get do
-            # Get paper from database instead of Microsoft Acadamic
-            begin
-              paper = Repository::For.klass(Entity::Paper)
-                .find_paper_content(id)
 
-              if paper.nil?
-                # Get paper from Microsoft Acadamic
-                begin
-                  paper = Entity::Paper
+            paper = Service::ShowPaperContent.new.call(id: id)
 
-                  find_paper = MSPaper::PaperMapper
-                    .new(App.config.MS_TOKEN)
-                    .find_paper(id)
-                  # take the paper that user want to find
-                  paper = find_paper[0]
-
-                  if paper.nil?
-                    flash[:error] = "Can't find this paper, please find another one!"
-                    routing.redirect '/'
-                  end
-                rescue StandardError
-                  flash[:error] = 'Having trouble to get the paper detail'
-                  routing.redirect '/'
-                end
-
-                # Add paper to database
-                begin
-                  Repository::For.entity(paper).create(paper)
-                rescue StandardError => error
-                  puts error.backtrace.join("\n")
-                  flash[:error] = 'Having trouble accessing the database'
-                end
-              end
-            rescue StandardError
-              flash[:error] = 'Having trouble accessing the database'
+            if paper.failure?
+              flash[:error] = paper.failure
               routing.redirect '/'
             end
 
-            viewable_paper = Views::Paper.new(paper, keyword)
+            # get main paper object value
+            paper = paper.value!
+
+            viewable_paper = Views::Paper.new(paper)
 
             view 'paper_content', locals: { paper: viewable_paper }
           end
         end
-
-
-        # input the incorrect url
-        routing.on String do |keyword|
+        # GET /find_paper/
+        routing.get do
           flash[:error] = 'Please enter the correct url'
           routing.redirect '/'
         end

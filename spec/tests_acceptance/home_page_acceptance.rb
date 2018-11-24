@@ -12,7 +12,7 @@ describe 'Homepage Acceptance Tests' do
   before do
     DatabaseHelper.wipe_database
     @headless = Headless.new
-    # @headless.start
+    @headless.start
     @browser = Watir::Browser.new :chrome
   end
 

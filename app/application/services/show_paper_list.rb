@@ -15,37 +15,40 @@ module RefEm
 
       def validate_input(input)
         if input.success?
-          keyword = input[:keyword].split
-          Success(owner_name: owner_name, project_name: project_name)
+          keyword = input[:keyword].downcase
+          searchType = input[:searchType].downcase
+          
+          Success(keyword: keyword, searchType: searchType)
         else
           Failure(input.errors.values.join('; '))
         end
       end
 
-      def find_project(input)
-        if (project = project_in_database(input))
-          input[:local_project] = project
-        else
-          input[:remote_project] = project_from_github(input)
+      def find_paper(input)
+        begin
+          input[:papers] = paper_from_microsoft(input)
+          unless input[:papers] == []
+            Success(input)
+          else
+            raise 'Could not find papers by the keyword'
+          end
+        rescue StandardError => error
+          Failure(error.to_s)
         end
-        Success(input)
-      rescue StandardError => error
-        Failure(error.to_s)
       end
 
       # following are support methods that other services could use
 
-      def project_from_github(input)
-        Github::ProjectMapper
-          .new(App.config.GITHUB_TOKEN)
-          .find(input[:owner_name], input[:project_name])
+      def paper_from_microsoft(input)
+        MSPaper::PaperMapper
+          .new(App.config.MS_TOKEN)
+          .find_papers_by_keywords(input[:keyword], input[:searchType])
       rescue StandardError
-        raise 'Could not find that keyword'
+        raise 'Could not find papers by the keyword'
       end
 
       def project_in_database(input)
         Repository::For.klass(Entity::Paper)
-
       end
     end
   end
