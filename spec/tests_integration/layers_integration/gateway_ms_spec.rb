@@ -32,7 +32,7 @@ describe 'Test microsoft academic search library' do
       paper.size.must_equal 1
     end
 
-    it 'SAD: should raise exception when unautorized' do
+    it 'BAD: should raise exception when unautorized' do
       proc do
         RefEm::MSPaper::PaperMapper
           .new('NO_TOKEN')
@@ -40,7 +40,7 @@ describe 'Test microsoft academic search library' do
       end.must_raise RefEm::MSPaper::Api::Response::Unauthorized
     end
 
-    it 'SAD: should raise exception when not find a paper' do
+    it 'BAD: should raise exception when not find a paper' do
       proc do
         RefEm::MSPaper::PaperMapper
           .new(MS_TOKEN).find_paper('we cannot find a paper')

@@ -16,14 +16,12 @@ describe 'Tests Semantic Scholar API library' do
 
   describe 'Get the correct paper info' do
     it 'Happy: should provide the correct paper information by DOI' do
-    paper = RefEm::MSPaper::SSApi
-            .new
-            .paper_data(DOI)
-    paper['title'].must_equal SS_CORRECT['title']
-    paper['authors'][0]['name'].must_equal SS_CORRECT['authors'][0]
-    # puts 'xxxxxxxxxx'
-    # puts SS_CORRECT['authors']
-    paper['venue'].must_equal SS_CORRECT['venue']
+      paper = RefEm::MSPaper::SSApi
+        .new
+        .paper_data(DOI)
+      paper['title'].must_equal SS_CORRECT['title']
+      paper['authors'][0]['name'].must_equal SS_CORRECT['authors'][0]
+      paper['venue'].must_equal SS_CORRECT['venue']
     end
   end
 
@@ -36,36 +34,16 @@ describe 'Tests Semantic Scholar API library' do
       citations.size.must_be :>=, 0
       first_citation = citations[0]
       _(first_citation.title).must_equal SS_CORRECT['citation_titles'][0]
-      puts first_citation.author
-      puts 'cccccccccccccccccc'
-      puts SS_CORRECT['citations'][0]['authors']
-      _(first_citation.author).must_equal (SS_CORRECT['citations'][0]['authors'])
-        .map{ |author| author['name'] }
-      # _(first_citation.date).must_equal CORRECT['Date']
-      # _(first_citation.doi).must_equal CORRECT['DOI']
-      # citations.map { |citation|
-      #   puts citation
-      #   puts citation.author
-      #   puts citation.title
-      # }
+      _(first_citation.author.split(';')[0]) \
+        .must_equal (SS_CORRECT['citations'][0]['authors'][0]['name'])
+      _(first_citation.year).must_equal (SS_CORRECT['citations'][0]['year'])
+      _(first_citation.venue).must_equal (SS_CORRECT['citations'][0]['venue'])
     end
-  
-#       _(paper.title).must_equal SS_CORRECT['title']
-#       _(paper.authors).must_equal SS_CORRECT['authors']
-# #      _(paper.citation_velocity).must_equal SS_CORRECT['citationVelocity']
-#       _(paper.citation_dois)[2].must_equal SS_CORRECT['citation_dois'][2]
-#       _(paper.citation_titles)[2].must_equal SS_CORRECT['citation_titles'][2]
-#       _(paper.influential_citation_count).must_equal SS_CORRECT['influential_citation_count']
-#       _(paper.venue).must_equal SS_CORRECT['venue']
-#       _(paper.focus_doi).must_equal SS_CORRECT['focus_doi']
-#    end
 
-    # it 'BAD: should raise exception on incorrect project' do
-    #   proc do
-    #     RefEm::MSPaper::CitationMapper
-    #       .new
-    #       .find_data_by('foobar')
-    #   end.must_raise RefEm::MSPaper::SSApi::Response::NotFound
-    # end
+    it 'SAD: should return nil if doi not registered in SS' do
+      expect(RefEm::MSPaper::CitationMapper
+        .new
+        .find_data_by('foobar')).to be_nil
+    end
   end
 end
