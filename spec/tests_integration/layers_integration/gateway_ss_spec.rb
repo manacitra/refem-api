@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
-require_relative 'helpers/spec_helper.rb'
-require_relative 'helpers/vcr_helper.rb'
+require_relative '../../helpers/spec_helper.rb'
+require_relative '../../helpers/vcr_helper.rb'
 
 describe 'Tests Semantic Scholar API library' do
   VcrHelper.setup_vcr
@@ -20,9 +20,9 @@ describe 'Tests Semantic Scholar API library' do
             .new
             .paper_data(DOI)
     paper['title'].must_equal SS_CORRECT['title']
-    paper['authors'][0]['name'].must_equal SS_CORRECT['authors'][0]['name']
-    puts 'xxxxxxxxxx'
-    puts SS_CORRECT['authors']
+    paper['authors'][0]['name'].must_equal SS_CORRECT['authors'][0]
+    # puts 'xxxxxxxxxx'
+    # puts SS_CORRECT['authors']
     paper['venue'].must_equal SS_CORRECT['venue']
     end
   end
@@ -36,7 +36,11 @@ describe 'Tests Semantic Scholar API library' do
       citations.size.must_be :>=, 0
       first_citation = citations[0]
       _(first_citation.title).must_equal SS_CORRECT['citation_titles'][0]
-      _(first_citation.author).must_equal SS_CORRECT['citationVelocity']
+      puts first_citation.author
+      puts 'cccccccccccccccccc'
+      puts SS_CORRECT['citations'][0]['authors']
+      _(first_citation.author).must_equal (SS_CORRECT['citations'][0]['authors'])
+        .map{ |author| author['name'] }
       # _(first_citation.date).must_equal CORRECT['Date']
       # _(first_citation.doi).must_equal CORRECT['DOI']
       # citations.map { |citation|

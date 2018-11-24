@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'helpers/spec_helper.rb'
-require_relative 'helpers/vcr_helper.rb'
+require_relative '../../helpers/spec_helper.rb'
+require_relative '../../helpers/vcr_helper.rb'
 
 describe 'Test microsoft academic search library' do
   VcrHelper.setup_vcr
@@ -17,7 +17,7 @@ describe 'Test microsoft academic search library' do
   describe 'Paper information' do
     it 'HAPPY: should provide list of papers with correct attributes' do
       papers = RefEm::MSPaper::PaperMapper
-        .new(MS_TOKEN).find_papers_by_keywords(KEYWORDS)
+        .new(MS_TOKEN).find_papers_by_keywords(KEYWORDS, SEARCH_TYPE)
       first_paper = papers[0]
       papers.size.must_equal 10
       _(first_paper.origin_id).must_equal CORRECT['Id']
@@ -36,7 +36,7 @@ describe 'Test microsoft academic search library' do
       proc do
         RefEm::MSPaper::PaperMapper
           .new('NO_TOKEN')
-          .find_papers_by_keywords(KEYWORDS)
+          .find_papers_by_keywords(KEYWORDS, SEARCH_TYPE)
       end.must_raise RefEm::MSPaper::Api::Response::Unauthorized
     end
 

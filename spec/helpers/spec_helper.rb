@@ -10,11 +10,12 @@ require 'yaml'
 require 'minitest/autorun'
 require 'minitest/rg'
 
-require 'pry' # for degbugging
+require 'pry' # for debugging
 
 require_relative '../../init.rb'
 
 KEYWORDS = 'internet'
+SEARCH_TYPE = 'keyword'
 ID = '2118428193'
 PAPER_TITLE = 'chord a scalable peer to peer lookup protocol for internet applications'
 PAPER_DOI = '10.1109/TNET.2002.808407'
