@@ -21,13 +21,13 @@ describe 'ShowPaperContent Service Integration Test' do
     first_paper_result = RefEm::MSPaper::PaperMapper
       .new(MS_TOKEN).find_papers_by_keywords(KEYWORDS, SEARCH_TYPE)[0]
     search_request = RefEm::Forms::Keyword.call(keyword: KEYWORDS, searchType: SEARCH_TYPE)
-    
+
     # WHEN: the service is called with the request form object
     paper_list = RefEm::Service::ShowPaperList.new.call(search_request)
-    
+
     # THEN: the result should report success
     _(paper_list.success?).must_equal true
-    
+
     # ..and give the same information result as paper search
     first_retrieved = paper_list.value![:papers][0]
     first_retrieved.must_equal first_paper_result
@@ -71,6 +71,4 @@ describe 'ShowPaperContent Service Integration Test' do
     (paper_list.success?).must_equal false
     (paper_list.failure.downcase).must_include 'could not find'
   end
-
-
 end
