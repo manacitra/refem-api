@@ -23,7 +23,9 @@ module RefEm
       # GET /
       routing.root do
         papers = Repository::For.klass(Entity::Paper).all
-        view 'home', locals: { papers: papers }
+
+        viewable_papers = Views::PaperList.new(papers)
+        view 'home', locals: { papers: viewable_papers }
       end
 
       routing.on 'find_paper' do
