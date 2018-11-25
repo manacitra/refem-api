@@ -43,7 +43,7 @@ describe 'Tests Semantic Scholar API library' do
     it 'SAD: should return nil if doi not registered in SS' do
       expect(RefEm::MSPaper::CitationMapper
         .new
-        .find_data_by('foobar')).to be_nil
+        .find_data_by('foobar')).must_equal nil
     end
   end
 end
