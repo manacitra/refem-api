@@ -1,49 +1,58 @@
 .container
-    .row
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Title:
-      .col-lg-10.col-md-10.col-sm-6
-        span.paper.title
-          a class="paper_detail" href="#{paper.detail_link}"
-            = paper.title
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Author:
-      .col-lg-10.col-md-10.col-sm-6
-        span.paper.author
-          = paper.author
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Year:
-      .col-lg-10.col-md-10.col-sm-6
-        span.paper.year
-          = paper.year
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute DOI:
-      .col-lg-10.col-md-10.col-sm-6
-        span.paper.doi
-          = paper.doi
-    .row.top_buffer
-      .col-lg-12.col-md-12.col-sm-12
-        span.dash -----------------------------
-    - paper.references.each do |reference|
-      .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.reference.attribute #{reference.index_str}. Reference Title:
-      .col-lg-10.col-md-10.col-sm-10
-        span class="reference_title" id="reference[#{reference.index_str}].title"
-          a class="reference_detail"  href="#{reference.detail_link}"
-            = reference.title
-    .row.top_buffer
-      .col-lg-12.col-md-12.col-sm-12
-        span.dash -----------------------------
-    - paper.citations.each do |citation|
-      .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.citation.attribute #{citation.index_str}. Citation Title:
-      .col-lg-10.col-md-10.col-sm-10
-        span class="reference_title" id="citation[#{citation.index_str}].title"
-          a class="reference_detail"  href="#{citation.detail_link}"
-            = citation.title
+  table.table id="main_paper_table"
+    tbody
+      tr id="paper_row"
+        td id="paper_data"
+          .paper_title
+            span.paper.attribute Title: 
+            span class="paper_title" id="paper.title"
+              a class="paper_detail" id="paper.link" href="#{paper.detail_link}"
+                = paper.title
+
+          .paper_author
+            span.paper.attribute Author: 
+            span class="paper_author" id="paper.author"
+              = paper.author
+
+          .paper_year
+            span.paper.attribute Year: 
+            span class="paper_year" id="paper.year"
+              = paper.year
+
+          .paper_doi
+            span.paper.attribute DOI: 
+            span class="paper_doi" id="paper.doi"
+              = paper.doi
+
+  table class="table papers_table" id="papers_table"
+    thead
+      tr
+        th References
+        th Paper
+        th Citations
+    tbody
+    - for num in 0..4
+      tr
+        td id="reference_col"
+          - paper.references.five_references do |reference|
+            - if reference.index == num
+              .paper_reference
+                span.reference.attribute #{reference.index_str}. Reference Title:
+                div class="reference_title" id="reference[#{reference.index_str}].title"
+                  a class="reference_detail" id="reference[#{reference.index_str}].link"  href="#{reference.detail_link}"
+                    = reference.title
+        -if num == 0
+          td rowspan=5 style="text-align: center; vertical-align: middle;"
+            .main_paper
+              = paper.title
+        td
+          - paper.citations.five_citations do |citation|
+            - if citation.index == num
+              .paper_citation
+                span.citation.attribute #{citation.index_str}. Citation Title:
+                div class="citation_title" id="citation[#{citation.index_str}].title"
+                  a class="citation_detail"  href="#{citation.detail_link}"
+                    = citation.title
+    
+    
         

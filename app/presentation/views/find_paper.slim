@@ -1,32 +1,27 @@
 .container
-  - papers.each do |paper|
-    .row
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Title:
-      .col-lg-10.col-md-10.col-sm-6
-        span class="paper_title" id="#{paper.index_str}.title"
-          a class="paper_detail" href="#{paper.graph_link}"
-            = paper.title
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Author:
-      .col-lg-10.col-md-10.col-sm-6
-        span class="paper_author" id="#{paper.index_str}.author"
-          = paper.author
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute Year:
-      .col-lg-10.col-md-10.col-sm-6
-        span class="paper_year" id="#{paper.index_str}.year"
-          = paper.year
-    .row.top_buffer
-      .col-lg-2.col-md-2.col-sm-2
-        span.paper.attribute DOI:
-      .col-lg-10.col-md-10.col-sm-6
-        span class="paper_doi" id="#{paper.index_str}.doi"
-          = paper.doi
-    
-    .row.top_buffer
-      .col-lg-12.col-md-12.col-sm-12
-        span.dash -----------------------------
+  table.table id="papers_table"
+    tbody
+    - papers.each do |paper|
+      tr id="paper_row"
+        td id="paper_data"
+          .paper_title
+            span.paper.attribute Title: 
+            span class="paper_title" id="#{paper.index_str}.title"
+              a class="paper_detail" id="#{paper.index_str}.link" href="#{paper.graph_link}"
+                = paper.title
+
+          .paper_author
+            span.paper.attribute Author: 
+            span class="paper_author" id="#{paper.index_str}.author"
+              = paper.author
+
+          .paper_year
+            span.paper.attribute Year: 
+            span class="paper_year" id="#{paper.index_str}.year"
+              = paper.year
+
+          .paper_doi
+            span.paper.attribute DOI: 
+            span class="paper_doi" id="#{paper.index_str}.doi"
+              = paper.doi
         

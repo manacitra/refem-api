@@ -8,6 +8,10 @@ h1 {
   font-size: 1.2em;
 }
 
+/* .cancel-display {
+  display: block !important;
+} */
+
 .paper.attribute {
   font-weight: bold;
 }
@@ -24,6 +28,11 @@ h1 {
   font-weight: bold;
 }
 
+.text-big {
+  font-weight: bold;
+  font-size: 23px;
+}
+
 .vcenter {
   display: flex;
 }
@@ -35,7 +44,7 @@ h1 {
 
 .vertical-align > [class^="col-"],
 .vertical-align > [class*=" col-"] {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center; 
 }
@@ -46,13 +55,22 @@ h1 {
   height: 30px;
 }
 
+.papers_table {
+  border-collapse: separate !important;
+}
+
+.papers_table > tr > td{
+  border: 2px solid gray;
+}
+
 .query-bar {
   background-color: #eeeeee;
   padding: 5px 5px 5px 5px;
 }
 
 footer {
-  padding: 0.5in;
+  padding-top:  0.5in;
+  padding-left: 1.5in;
   font-size: 11px;
   color: rgb(100, 100, 100);
 }

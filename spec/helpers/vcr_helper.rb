@@ -17,7 +17,7 @@ class VcrHelper
     end
   end
 
-  def self.configure_vcr_for_ms
+  def self.configure_vcr_for_ms(recording: :new_episodes)
     VCR.configure do |c|
       c.filter_sensitive_data('<MS_TOKEN>') { MS_TOKEN }
       c.filter_sensitive_data('<MS_TOKEN_ESC>') { CGI.escape(MS_TOKEN) }
@@ -25,16 +25,21 @@ class VcrHelper
 
     VCR.insert_cassette(
       MS_CASSETTE,
-      record: :new_episodes,
-      match_requests_on: %i[method uri headers]
+      record: recording,
+      match_requests_on: %i[method uri headers],
+      allow_playback_repeats: true
     )
   end
 
-  def self.configure_vcr_for_ss
+  def self.configure_vcr_for_ss(recording: :new_episodes)
+    VCR.configure do
+    end
+
     VCR.insert_cassette(
       SS_CASSETTE,
-      record: :new_episodes,
-      match_requests_on: %i[method uri headers]
+      record: recording,
+      match_requests_on: %i[method uri headers],
+      allow_playback_repeats: true
     )
   end
 

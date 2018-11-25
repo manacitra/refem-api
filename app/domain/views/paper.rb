@@ -6,14 +6,14 @@ require_relative 'citations_list'
 module Views
   # View for a single paper entity
   class Paper
-    def initialize(paper, keyword, index = nil)
+    def initialize(paper, index = nil)
       @paper = paper
       @index = index
-      @keyword = keyword
+      # @keyword = keyword
     end
 
     def graph_link
-      "/paper_content/#{@keyword}/#{@paper.origin_id}"
+      "/paper_content/#{@paper.origin_id}"
     end
 
     def detail_link
@@ -22,6 +22,10 @@ module Views
 
     def index_str
       "paper[#{@index}]"
+    end
+
+    def index
+      "#{@index+1}."
     end
 
     def title
