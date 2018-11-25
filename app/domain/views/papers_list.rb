@@ -19,5 +19,9 @@ module Views
     def keyword
       @keyword
     end
+
+    def any?
+      @papers.any?
+    end
   end
 end

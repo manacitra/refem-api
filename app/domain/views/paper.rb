@@ -24,6 +24,10 @@ module Views
       "paper[#{@index}]"
     end
 
+    def index
+      "#{@index+1}."
+    end
+
     def title
       @paper.title
     end
