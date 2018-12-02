@@ -11,6 +11,9 @@ module RefEm
     # Represents Paper information for API output
     class Paper < Roar::Decorator
       include Roar::JSON
+      include Roar::Hypermedia
+      include Roar::Decorator::HypermediaConsumer
+      
       property :title
       property :author
       property :year
