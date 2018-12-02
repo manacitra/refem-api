@@ -1,6 +1,6 @@
 module RefEm
   module Representer
-    # Represents Paper information for API output
+    # Represents PaperList information for API output
     class PaperList < Roar::Decorator
       include Roar::JSON
 
