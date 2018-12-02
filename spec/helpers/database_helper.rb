@@ -11,8 +11,8 @@ class DatabaseHelper
   end
 
   def self.wipe_database
-    RefEm::App.DB.run('PRAGMA foreign_keys = OFF')
+    RefEm::Api.DB.run('PRAGMA foreign_keys = OFF')
     DatabaseCleaner.clean
-    RefEm::App.DB.run('PRAGMA foreign_keys = ON')
+    RefEm::Api.DB.run('PRAGMA foreign_keys = ON')
   end
 end

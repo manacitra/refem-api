@@ -8,22 +8,13 @@ module RefEm
     class ShowPaperList
       include Dry::Transaction
 
-      step :validate_input
       step :find_paper
 
       private
 
-      def validate_input(input)
-        if input.success?
-          keyword = input[:keyword].downcase
-          searchType = input[:searchType].downcase
-          
-          Success(keyword: keyword, searchType: searchType)
-        else
-          Failure(input.errors.values.join('; '))
-        end
-      end
+      MS_NOT_FOUND_MSG = 'Could not find that paper on Microsoft'
 
+      # Expects input[:keyword] and input[:searchType]
       def find_paper(input)
         begin
           input[:papers] = paper_from_microsoft(input)
@@ -33,7 +24,8 @@ module RefEm
             raise 'Could not find papers by the keyword'
           end
         rescue StandardError => error
-          Failure(error.to_s)
+          Failure(Value::Result.new(status: :not_found,
+                                    message: :error.to_s))
         end
       end
 
@@ -44,7 +36,7 @@ module RefEm
           .new(App.config.MS_TOKEN)
           .find_papers_by_keywords(input[:keyword], input[:searchType])
       rescue StandardError
-        raise 'Could not find papers by the keyword'
+        raise MS_NOT_FOUND_MSG
       end
 
       def project_in_database(input)

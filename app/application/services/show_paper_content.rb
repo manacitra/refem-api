@@ -13,6 +13,9 @@ module RefEm
 
       private
 
+      DB_ERR_MSG = 'Having trouble accessing the database'
+      MS_ID_NOT_FOUND = 'Could not find papers by the ID'
+
       def find_main_paper(input)
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
@@ -22,20 +25,22 @@ module RefEm
 
         Success(input)
       rescue StandardError => error
-        Failure(error.to_s)
+        Failure(Value::Result.new(status: :not_found,
+                                  message: :error.to_s))
       end
 
       def store_paper(input)
-        paper =
-          if (new_paper = input[:remote_paper])
-            Repository::For.entity(new_paper).create(new_paper)
-          else
-            input[:local_paper]
-          end
+        if (new_paper = input[:remote_paper])
+          Repository::For.entity(new_paper).create(new_paper)
+        else
+          input[:local_paper]
+        end.yield_self do |paper|
+          Success(Value::Result.new(status: :created, message: paper))
+        end
         Success(paper)
       rescue StandardError => error
         puts error.backtrace.join("\n")
-        Failure('Having trouble accessing the database')
+        Failure(Value::Result.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       # following are support methods that other services could use
@@ -45,7 +50,7 @@ module RefEm
           .new(App.config.MS_TOKEN)
           .find_paper(input[:id])
       rescue StandardError
-        raise 'Could not find papers by the ID'
+        raise MS_ID_NOT_FOUND
       end
 
       def paper_in_database(input)

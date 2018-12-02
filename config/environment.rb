@@ -5,7 +5,7 @@ require 'econfig'
 
 module RefEm
   # Environment specific configuration
-  class App < Roda
+  class Api < Roda
     plugin :environments
 
     extend Econfig::Shortcut

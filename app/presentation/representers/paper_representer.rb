@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+require 'roar/decorator'
+require 'roar/json'
+
+require_relative 'citation_representer'
+require_relative 'reference_representer'
+
+module RefEm
+  module Representer
+    # Represents Paper information for API output
+    class Paper < Roar::Decorator
+      include Roar::JSON
+      property :title
+      property :author
+      property :year
+      property :field
+      property :venue
+      property :doi
+      collection :citations, extend: Representer::Citation, class: OpenStruct
+      collection :references, extend: Representer::Reference, class: OpenStruct
+
+      link :self do
+        "#{Api.config.API_HOST}/paper/#{doi}"
+      end
+
+      private
+
+      def doi
+        represented.doi
+      end
+
+    end
+  end
+end

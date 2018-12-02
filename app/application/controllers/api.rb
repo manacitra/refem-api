@@ -1,18 +1,10 @@
 require 'roda'
-require 'slim'
-require 'slim/include'
-require_relative 'helpers.rb'
 
 module RefEm
   # Web App
-  class App < Roda
+  class Api < Roda
     include RouteHelpers
-    plugin :render, engine: 'slim', views: 'app/presentation/views'
-    plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css',
-                    js: 'customize.js'
     plugin :halt
-    plugin :flash
     plugin :all_verbs
 
     use Rack::MethodOverride

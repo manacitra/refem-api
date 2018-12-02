@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+require 'roar/decorator'
+require 'roar/json'
+
+require_relative 'citation_representer.rb'
+
+module RefEm
+  module Representer
+    # Represents Reference information for API output
+    class Reference < Roar::Decorator
+      include Roar::JSON
+      # reference use the same structure as citation
+      property :citation, extend: Representer::Citation, class: OpenStruct
+    end
+  end
+end
