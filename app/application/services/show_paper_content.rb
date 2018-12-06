@@ -31,7 +31,7 @@ module RefEm
         end
       rescue StandardError => error
         Failure(Value::Result.new(status: :internal_error,
-                                  message: :error.to_s))
+                                  message: MS_ID_NOT_FOUND))
       end
 
       def calculate_top_paper(input)
@@ -79,8 +79,6 @@ module RefEm
         MSPaper::PaperMapper
           .new(Api.config.MS_TOKEN)
           .find_paper(input[:id])
-      rescue StandardError
-        raise MS_ID_NOT_FOUND
       end
 
       def paper_in_database(input)
