@@ -10,86 +10,65 @@ module RefEm
     use Rack::MethodOverride
 
     route do |routing|
-      routing.assets # load CSS
+      response['Content-Type'] = 'application/json'
 
       # GET /
       routing.root do
-        papers = Repository::For.klass(Entity::Paper).all
+        message = "RefEm API v1 at /api/v1/ in #{Api.environment} mode"
 
-        viewable_papers = Views::PaperList.new(papers)
-        view 'home', locals: { papers: viewable_papers }
+        result_response = Representer::HttpResponse.new(
+          Value::Result.new(status: :ok, message: message)
+        )
+
+        response.status = result_response.http_status_code
+        result_response.to_json
       end
 
-      routing.on 'find_paper' do
-        routing.is do
-          # POST /find_paper/
-          routing.post do
-            # need refactor
-            # for now we only accept 1 parameter in the query
-            # query format: keyword
-            # Redirect viewer to project page
-            keyword = routing.params['paper_query'].downcase
-            #decide which type user want to search (keyword or title)
-            searchType = routing.params['searchType'].downcase
+      routing.on 'api/v1' do
+        routing.on 'paper' do
 
-            if keyword == '' || keyword == nil
-              flash[:error] = 'Please enter the keyword!'
-              routing.redirect '/'
+          routing.on String, String do |searchType, keyword|
+            # GET /paper/keyword?searchType={title, keyword}
+            path_request = PaperRequestPath.new(keyword, searchType)
+            result = Service::ShowPaperList.new.call(
+              keyword: keyword,
+              searchType: searchType
+            )
+            
+            if result.failure?
+              failed = Representer::HttpResponse.new(result.failure)
+              routing.halt failed.http_status_code, failed.to_json
             end
 
-            routing.redirect "find_paper/#{searchType}/#{keyword}"
+            http_response = Representer::HttpResponse.new(result.value!)
+            response.status = http_response.http_status_code
+
+            Representer::PaperList.new(
+              result.value!.message
+            ).to_json
+
           end
+        
+      
+          routing.on String do |id|
+            # GET /paper/id
+            routing.get do
+              result = Service::ShowPaperContent.new.call(id: id)
 
-          # GET /find_paper/
-          routing.get do
-            flash[:error] = 'Please enter the keyword!'
-            routing.redirect '/'
-          end
-        end
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
 
-        routing.on String, String do |searchType, keyword|
+              # get main paper object value
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
 
-          keywords = Forms::Keyword.call(
-            keyword: keyword,
-            searchType: searchType
-          )
-          find_paper = Service::ShowPaperList.new.call(keywords)
-          
-          if find_paper.failure?
-            flash[:error] = find_paper.failure
-            routing.redirect '/'
-          end
-
-          paper = find_paper.value!
-          
-          viewable_papers = Views::PaperList.new(paper[:papers], paper[:keyword])
-
-          view "find_paper", locals: { papers: viewable_papers}
-        end
-      end
-      routing.on 'paper_content' do
-        routing.on String do |id|
-          routing.get do
-
-            paper = Service::ShowPaperContent.new.call(id: id)
-
-            if paper.failure?
-              flash[:error] = paper.failure
-              routing.redirect '/'
+              Representer::TopPaper.new(
+                result.value!.message
+              ).to_json
             end
-
-            # get main paper object value
-            paper = paper.value!
-
-            viewable_paper = Views::Paper.new(paper)
-
-            view 'paper_content', locals: { paper: viewable_paper }
           end
-        end
-        # GET /find_paper/
-        routing.get do
-          flash[:error] = 'Please enter the correct url'
-          routing.redirect '/'
         end
       end
     end

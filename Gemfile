@@ -37,9 +37,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
-group :production do
-  gem 'pg', '~> 0.18'
-end
+# group :production do
+#   gem 'pg', '~> 0.18'
+# end
 
 # DEBUGGING
 group :development, :test do

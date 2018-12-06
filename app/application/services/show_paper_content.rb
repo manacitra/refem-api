@@ -9,6 +9,7 @@ module RefEm
       include Dry::Transaction
 
       step :find_main_paper
+      step :calculate_top_paper
       step :store_paper
 
       private
@@ -23,21 +24,50 @@ module RefEm
           input[:remote_paper] = paper_from_microsoft(input)[0]
         end
 
-        Success(input)
+        if (input[:local_paper].nil? && input[:remote_paper].nil?)
+          Failure(Value::Result.new(status: :not_found, message: MS_ID_NOT_FOUND))
+        else
+          Success(input)
+        end
       rescue StandardError => error
-        Failure(Value::Result.new(status: :not_found,
+        Failure(Value::Result.new(status: :internal_error,
                                   message: :error.to_s))
       end
 
-      def store_paper(input)
-        if (new_paper = input[:remote_paper])
-          Repository::For.entity(new_paper).create(new_paper)
+      def calculate_top_paper(input)
+        if input[:local_paper].nil?
+          paper = input[:remote_paper]
         else
-          input[:local_paper]
-        end.yield_self do |paper|
-          Success(Value::Result.new(status: :created, message: paper))
+          paper = input[:local_paper]
         end
-        Success(paper)
+        top_paper = MSPaper::TopPaperMapper.new(paper)
+        # rank the references and citations
+        paper = top_paper.top_papers
+
+        
+        if input[:local_paper].nil?
+          input[:remote_paper] = paper
+        else
+          input[:local_paper] = paper
+        end
+      
+        Success(input)
+        # rescue StandardError
+        #   raise 'Could not find papers by the ID'
+      end
+
+      def store_paper(input)
+        paper =
+          if (new_paper = input[:remote_paper])
+            Repository::For.entity(new_paper).create(new_paper)
+          else
+            input[:local_paper]
+          end
+        
+        Value::MainPaper.new(paper)
+          .yield_self do |paper|
+            Success(Value::Result.new(status: :ok, message: paper))
+          end
       rescue StandardError => error
         puts error.backtrace.join("\n")
         Failure(Value::Result.new(status: :internal_error, message: DB_ERR_MSG))
@@ -47,7 +77,7 @@ module RefEm
 
       def paper_from_microsoft(input)
         MSPaper::PaperMapper
-          .new(App.config.MS_TOKEN)
+          .new(Api.config.MS_TOKEN)
           .find_paper(input[:id])
       rescue StandardError
         raise MS_ID_NOT_FOUND

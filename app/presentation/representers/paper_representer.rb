@@ -13,24 +13,23 @@ module RefEm
       include Roar::JSON
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
-      
+
+      property :origin_id
       property :title
       property :author
       property :year
-      property :field
-      property :venue
       property :doi
       collection :citations, extend: Representer::Citation, class: OpenStruct
       collection :references, extend: Representer::Reference, class: OpenStruct
 
       link :self do
-        "#{Api.config.API_HOST}/paper/#{doi}"
+        "#{Api.config.API_HOST}/paper/#{origin_id}"
       end
 
       private
 
-      def doi
-        represented.doi
+      def origin_id
+        represented.origin_id
       end
 
     end
