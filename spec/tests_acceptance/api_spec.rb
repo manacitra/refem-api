@@ -90,7 +90,7 @@ describe 'Test API routes' do
 
       _(main_paper['paper']['references'].count).must_equal 5
       _(main_paper['paper']['references'][0]['title']).must_equal "chord a scalable peer to peer lookup service for internet applications"
-      _(main_paper['paper']['references'][0]['links'][0]['href']).must_equal "https://academic.microsoft.com/#/detail/2158049821"
+      _(main_paper['paper']['references'][0]['link']).must_equal "https://academic.microsoft.com/#/detail/2158049821"
     end
 
     it 'should be report error for an invalid paper Id' do
