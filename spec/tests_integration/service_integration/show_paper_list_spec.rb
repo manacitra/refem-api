@@ -41,7 +41,7 @@ describe 'ShowPaperList Service Integration Test' do
 
     # THEN: the service should report failure with an error message
     (paper_list.success?).must_equal false
-    (paper_list.failure.message.downcase).must_include 'invalid keyword'
+    _(paper_list.failure.message.downcase).must_include 'keyword'
   end
 
   it 'BAD: should gracefully fail for invalid paper search type' do
@@ -53,7 +53,7 @@ describe 'ShowPaperList Service Integration Test' do
 
     # THEN: the service should report failure with an error message
     paper_list.success?.must_equal false
-    paper_list.failure.message.downcase.must_include 'invalid search type'
+    _(paper_list.failure.message.downcase).must_include 'search type'
   end
 
   it 'SAD: should gracefully fail for unavailable information from API' do
@@ -65,6 +65,6 @@ describe 'ShowPaperList Service Integration Test' do
 
     # THEN: the service should report failure with an error message
     paper_list.success?.must_equal false
-    paper_list.failure.message.downcase.must_include 'could not find'
+    _(paper_list.failure.message.downcase).must_include 'could not find'
   end
 end

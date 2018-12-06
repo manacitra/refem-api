@@ -13,7 +13,7 @@ module RefEm
       private
 
       MS_NOT_FOUND_MSG = 'Could not find that paper on Microsoft'
-      MS_NOT_FOUND_BY_KEYWORD_MSG = 'Could not find papers by the keyword'
+      MS_NOT_FOUND_BY_KEYWORD_MSG = 'Could not find papers by the keyword or search type'
 
       # Expects input[:keyword] and input[:searchType]
       def find_paper(input)
