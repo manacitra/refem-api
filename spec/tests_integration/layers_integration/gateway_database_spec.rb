@@ -81,11 +81,8 @@ describe 'Integration Tests of SS API and Database' do
       rebuilt = RefEm::Repository::For.entity(paper).create(paper)
 
       _(rebuilt.origin_id).must_equal(paper.origin_id)
-      puts "rebuilt.origin_id: #{rebuilt.origin_id}"
       _(rebuilt.title).must_equal(paper.title)
-      puts "rebuilt.title: #{rebuilt.title}"
       _(rebuilt.author).must_equal(paper.author)
-      puts "rebuilt.author: #{rebuilt.author}"
       _(rebuilt.year).must_equal(paper.year)
       _(rebuilt.date).must_equal(paper.date)
       _(rebuilt.field).must_equal(paper.field)

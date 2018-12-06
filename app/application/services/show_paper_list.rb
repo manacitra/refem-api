@@ -26,11 +26,11 @@ module RefEm
               end
           else
             Failure(Value::Result.new(status: :not_found,
-                                    message: MS_NOT_FOUND_BY_KEYWORD_MSG))
+                                    message: MS_NOT_FOUND_MSG))
           end
         rescue StandardError => error
           Failure(Value::Result.new(status: :internal_error,
-                                    message: :error.to_s))
+                                    message: MS_NOT_FOUND_BY_KEYWORD_MSG))
         end
       end
 
