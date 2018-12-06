@@ -13,7 +13,6 @@ module RefEm
       include Roar::JSON
 
       property :paper, extend: Representer::Paper, class: OpenStruct
-
     end
   end
 end
