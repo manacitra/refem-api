@@ -10,21 +10,10 @@ module RefEm
       include Roar::JSON
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
+      
       property :title
-      # property :author
-      # property :year
-      # property :venue
-      property :doi
-
-      link :self do
-        "https://api.semanticscholar.org/#{origin_id}"
-      end
-
-      private
-
-      def origin_id
-        represented.origin_id
-      end
+      property :link
+     
     end
   end
 end

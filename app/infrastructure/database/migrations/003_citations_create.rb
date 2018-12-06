@@ -15,6 +15,7 @@ Sequel.migration do
       String    :doi
       String    :venue
       Integer   :influential_citation_count
+      String   :link,            null: true
 
       DateTime :created_at
       DateTime :updated_at

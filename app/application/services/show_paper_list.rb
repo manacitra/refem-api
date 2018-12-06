@@ -40,9 +40,6 @@ module RefEm
         MSPaper::PaperMapper
           .new(Api.config.MS_TOKEN)
           .find_papers_by_keywords(input[:keyword], input[:searchType])
-      rescue StandardError
-        Failure(Value::Result.new(status: :not_found,
-                                    message: MS_NOT_FOUND_MSG))
       end
     end
   end

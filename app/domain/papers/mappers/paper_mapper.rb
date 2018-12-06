@@ -63,7 +63,8 @@ module RefEm
             field: field,
             doi: doi,
             references: references,
-            citations: citations
+            citations: citations,
+            link: link
           )
         end
 
@@ -112,6 +113,9 @@ module RefEm
           @data['E']['DOI']
         end
 
+        def link
+          "https://academic.microsoft.com/#/detail/#{@data['Id']}"
+        end
  
       end
     end

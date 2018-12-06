@@ -19,11 +19,12 @@ module RefEm
       property :author
       property :year
       property :doi
+      property :link
       collection :citations, extend: Representer::Citation, class: OpenStruct
       collection :references, extend: Representer::Reference, class: OpenStruct
 
       link :self do
-        "#{Api.config.API_HOST}/paper/#{origin_id}"
+        "#{Api.config.API_HOST}/api/v1/paper/#{origin_id}/references_and_citations"
       end
 
       private

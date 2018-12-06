@@ -12,19 +12,10 @@ module RefEm
       include Roar::JSON
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
-      # reference use the same structure as citation
-      # property :citation, extend: Representer::Citation, class: OpenStruct
+
       property :title
+      property :link
      
-      link :self do
-        "https://academic.microsoft.com/#/detail/#{origin_id}"
-      end
-
-      private
-
-      def origin_id
-        represented.origin_id
-      end
     end
   end
 end
