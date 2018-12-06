@@ -5657,4 +5657,152 @@ http_interactions:
         are trying to call and provide the right key.\"}}\n                "
     http_version: 
   recorded_at: Sat, 24 Nov 2018 09:28:54 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&expr=Id=2938294722342&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - "<MS_TOKEN>"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '41'
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Request-Context:
+      - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Wed, 05 Dec 2018 07:38:47 GMT
+    body:
+      encoding: UTF-8
+      string: '{"expr":"Id=2938294722342","entities":[]}'
+    http_version: 
+  recorded_at: Wed, 05 Dec 2018 07:38:47 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&count=50&expr=Or(W==%27woeihewif%27)&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - "<MS_TOKEN>"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '43'
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Request-Context:
+      - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Wed, 05 Dec 2018 07:52:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"expr":"Or(W==''woeihewif'')","entities":[]}'
+    http_version: 
+  recorded_at: Wed, 05 Dec 2018 07:52:25 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&count=50&expr=Or(W==%27woeihewif%27)&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - "<MS_TOKEN>"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '43'
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Request-Context:
+      - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Wed, 05 Dec 2018 07:52:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"expr":"Or(W==''woeihewif'')","entities":[]}'
+    http_version: 
+  recorded_at: Wed, 05 Dec 2018 07:52:26 GMT
+- request:
+    method: get
+    uri: https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?attributes=Id,Ti,AA.AuN,Y,D,F.FN,E,RId&count=50&expr=Ti==%27%27&model=latest&offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Ocp-Apim-Subscription-Key:
+      - "<MS_TOKEN>"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '31'
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Request-Context:
+      - appId=cid-v1:7cd06f0e-6d73-46a5-9c10-4ebe681d0156
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Wed, 05 Dec 2018 07:54:25 GMT
+    body:
+      encoding: UTF-8
+      string: '{"expr":"Ti==''''","entities":[]}'
+    http_version: 
+  recorded_at: Wed, 05 Dec 2018 07:54:24 GMT
 recorded_with: VCR 4.0.0

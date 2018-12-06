@@ -21,16 +21,11 @@ module RefEm
       attribute :references,  Array.of(Reference).optional
       attribute :citations,   Array.of(Citation).optional
       attribute :doi,         Strict::String.optional
-      # attribute :citation_velocity, Strict::Integer
-      # attribute :influential_citation_count, Strict::Integer
+      attribute :link,        Strict::String.optional
 
       def to_attr_hash
         to_hash.reject { |key, _| [:id, :references, :citations].include? key }
       end
-
-      # def ref_to_array
-      #   reference_array = references.split(";")
-      # end
     end
   end
 end

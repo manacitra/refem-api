@@ -9,9 +9,13 @@ module RefEm
       include Dry::Transaction
 
       step :find_main_paper
+      step :calculate_top_paper
       step :store_paper
 
       private
+
+      DB_ERR_MSG = 'Having trouble accessing the database'
+      MS_ID_NOT_FOUND = 'Could not find papers by the ID'
 
       def find_main_paper(input)
         if (paper = paper_in_database(input))
@@ -20,9 +24,36 @@ module RefEm
           input[:remote_paper] = paper_from_microsoft(input)[0]
         end
 
-        Success(input)
+        if (input[:local_paper].nil? && input[:remote_paper].nil?)
+          Failure(Value::Result.new(status: :not_found, message: MS_ID_NOT_FOUND))
+        else
+          Success(input)
+        end
       rescue StandardError => error
-        Failure(error.to_s)
+        Failure(Value::Result.new(status: :internal_error,
+                                  message: MS_ID_NOT_FOUND))
+      end
+
+      def calculate_top_paper(input)
+        if input[:local_paper].nil?
+          paper = input[:remote_paper]
+        else
+          paper = input[:local_paper]
+        end
+        top_paper = MSPaper::TopPaperMapper.new(paper)
+        # rank the references and citations
+        paper = top_paper.top_papers
+
+        
+        if input[:local_paper].nil?
+          input[:remote_paper] = paper
+        else
+          input[:local_paper] = paper
+        end
+      
+        Success(input)
+        # rescue StandardError
+        #   raise 'Could not find papers by the ID'
       end
 
       def store_paper(input)
@@ -32,20 +63,22 @@ module RefEm
           else
             input[:local_paper]
           end
-        Success(paper)
+        
+        Value::MainPaper.new(paper)
+          .yield_self do |paper|
+            Success(Value::Result.new(status: :ok, message: paper))
+          end
       rescue StandardError => error
         puts error.backtrace.join("\n")
-        Failure('Having trouble accessing the database')
+        Failure(Value::Result.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       # following are support methods that other services could use
 
       def paper_from_microsoft(input)
         MSPaper::PaperMapper
-          .new(App.config.MS_TOKEN)
+          .new(Api.config.MS_TOKEN)
           .find_paper(input[:id])
-      rescue StandardError
-        raise 'Could not find papers by the ID'
       end
 
       def paper_in_database(input)

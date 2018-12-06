@@ -1,16 +1,22 @@
 ---
   development:
+    API_HOST: http://localhost:9000
     # Infrastructure
     DB_FILENAME: app/infrastructure/database/local/dev.db
 
 
   test:
+    API_HOST: http://localhost:9090
   # Infrastructure
     DB_FILENAME: app/infrastructure/database/local/test.db
 
 
   app_test:
+    API_HOST: http://localhost:9090
     # Infrastructure
     DB_FILENAME: app/infrastructure/database/local/test.db
     # Application
     APP_HOST: http://localhost:9000
+
+production:
+  API_HOST: https://refem-api.herokuapp.com

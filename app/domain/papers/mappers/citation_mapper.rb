@@ -41,10 +41,11 @@ module RefEm
             year: year,
             doi: doi,
             venue: venue,
-            # citation_velocity: citation_velocity,
+            influential_citation_count: influential_citation_count,
+            link: link
             # citation_dois: citation_dois,
             # citation_titles: citation_titles,
-            # influential_citation_count: influential_citation_count
+            
           )
 
           #paper id from paper table as foreign key
@@ -82,9 +83,13 @@ module RefEm
           @data['venue']
         end
 
-        # def citation_velocity
-        #   @data['citationVelocity']
-        # end
+        def influential_citation_count
+          @data['influentialCitationCount']
+        end
+
+        def link
+          "https://api.semanticscholar.org/#{@data['paperId']}"
+        end
 
         # def citation_dois
         #   @data['citations'].map { |n| n['doi'] }.compact

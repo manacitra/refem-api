@@ -8,32 +8,29 @@ module RefEm
     class ShowPaperList
       include Dry::Transaction
 
-      step :validate_input
       step :find_paper
 
       private
 
-      def validate_input(input)
-        if input.success?
-          keyword = input[:keyword].downcase
-          searchType = input[:searchType].downcase
-          
-          Success(keyword: keyword, searchType: searchType)
-        else
-          Failure(input.errors.values.join('; '))
-        end
-      end
+      MS_NOT_FOUND_MSG = 'Could not find that paper on Microsoft'
+      MS_NOT_FOUND_BY_KEYWORD_MSG = 'Could not find papers by the keyword or search type'
 
+      # Expects input[:keyword] and input[:searchType]
       def find_paper(input)
         begin
           input[:papers] = paper_from_microsoft(input)
           unless input[:papers] == []
-            Success(input)
+            Value::PaperList.new(input[:papers])
+              .yield_self do |papers|
+                Success(Value::Result.new(status: :ok, message: papers))
+              end
           else
-            raise 'Could not find papers by the keyword'
+            Failure(Value::Result.new(status: :not_found,
+                                    message: MS_NOT_FOUND_MSG))
           end
         rescue StandardError => error
-          Failure(error.to_s)
+          Failure(Value::Result.new(status: :internal_error,
+                                    message: MS_NOT_FOUND_BY_KEYWORD_MSG))
         end
       end
 
@@ -41,14 +38,8 @@ module RefEm
 
       def paper_from_microsoft(input)
         MSPaper::PaperMapper
-          .new(App.config.MS_TOKEN)
+          .new(Api.config.MS_TOKEN)
           .find_papers_by_keywords(input[:keyword], input[:searchType])
-      rescue StandardError
-        raise 'Could not find papers by the keyword'
-      end
-
-      def project_in_database(input)
-        Repository::For.klass(Entity::Paper)
       end
     end
   end

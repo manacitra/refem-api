@@ -32,10 +32,10 @@ end
 
 namespace :run do
   task :dev do
-    sh 'rerun -c "rackup -p 9292"'
+    sh 'rerun -c "rackup -p 9090"'
   end
   task :test do
-    sh 'RACK_ENV=test rackup -p 9000'
+    sh 'RACK_ENV=test rackup -p 9090'
   end
 end
 
@@ -43,15 +43,14 @@ namespace :db do
   task :config do
     require 'sequel'
     require_relative 'config/environment.rb' #load config info
-    # require_relative 'spec/helpers/database_helper.rb'
-    @app = RefEm::App
+    @api = RefEm::Api
   end
 
   desc 'Run migrations'
   task :migrate => :config do
     Sequel.extension :migration
-    puts "Migrating #{@app.environment} database to latest"
-    Sequel::Migrator.run(@app.DB, 'app/infrastructure/database/migrations')
+    puts "Migrating #{@api.environment} database to latest"
+    Sequel::Migrator.run(@api.DB, 'app/infrastructure/database/migrations')
   end
 
   desc 'Wipe records from all tables'
@@ -63,13 +62,13 @@ namespace :db do
 
   desc 'Delete dev or test database file'
   task :drop => :config do
-    if @app.environment == :production
+    if @api.environment == :production
       puts 'Cannot remove production database!'
       return
     end
 
-    FileUtils.rm(@app.config.DB_FILENAME)
-    puts "Deleted #{@app.config.DB_FILENAME}"
+    FileUtils.rm(@api.config.DB_FILENAME)
+    puts "Deleted #{@api.config.DB_FILENAME}"
   end
 end
 
@@ -88,7 +87,7 @@ namespace :vcr do
 end
 
 namespace :quality do
-  CODE = 'app/'
+  CODE = 'app'
 
   desc 'run all quality checks'
   task all: %i[:rubocop :reek :flog]

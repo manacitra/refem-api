@@ -8,12 +8,14 @@ Sequel.migration do
       primary_key :id
       # foreign_key :paper_doi, :papers
 
-      String   :origin_id,       unique: true
+      String    :origin_id,       unique: true
       String    :title,           null: false
       String    :author
       Integer   :year
       String    :doi
       String    :venue
+      Integer   :influential_citation_count
+      String   :link,            null: true
 
       DateTime :created_at
       DateTime :updated_at
