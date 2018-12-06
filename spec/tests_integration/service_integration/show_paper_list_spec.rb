@@ -71,3 +71,4 @@ describe 'ShowPaperList Service Integration Test' do
     _(paper_list.failure.message.downcase.to_s).must_include 'could not find'
   end
 end
+# codeship
