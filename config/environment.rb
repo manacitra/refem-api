@@ -41,7 +41,7 @@ module RefEm
       # Use deployment platform's DATABASE_URL environment variable
       use Rack::Cache,
           verbose: true,
-          metastore: config.REDISCLOUD_URL + '/0/metastore',
+          metastore: config.REDISCLOUD_URL + '/0/metastore', # use first database
           entitystore: config.REDISCLOUD_URL + '/0/entitystore'
     end
 

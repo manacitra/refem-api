@@ -53,7 +53,8 @@ module RefEm
             # GET /paper/id
             routing.get do
               # the reference and citation won't change that fast actually
-              response.cache_control public: true, max_age: 21_600
+              # use public - not contain sensitive information
+              response.cache_control public: true, max_age: 10#21_600
               result = Service::ShowPaperContent.new.call(id: id)
 
               if result.failure?
