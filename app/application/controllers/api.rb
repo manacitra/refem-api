@@ -6,6 +6,7 @@ module RefEm
     include RouteHelpers
     plugin :halt
     plugin :all_verbs
+    plugin :caching
 
     use Rack::MethodOverride
 
@@ -34,7 +35,7 @@ module RefEm
               keyword: keyword,
               searchType: searchType
             )
-            
+
             if result.failure?
               failed = Representer::HttpResponse.new(result.failure)
               routing.halt failed.http_status_code, failed.to_json
@@ -46,13 +47,13 @@ module RefEm
             Representer::PaperList.new(
               result.value!.message
             ).to_json
-
           end
-        
-      
+
           routing.on String do |id|
             # GET /paper/id
             routing.get do
+              # the reference and citation won't change that fast actually
+              response.cache_control public: true, max_age: 21_600
               result = Service::ShowPaperContent.new.call(id: id)
 
               if result.failure?
