@@ -9,6 +9,9 @@ gem 'rack', '~> 2.0.6'
 gem 'econfig', '~> 2.1'
 gem 'puma', '~> 3.11'
 gem 'roda', '~> 3.8'
+gem 'rack-cache', '~> 1.8'
+gem 'redis', '~> 4.0'
+gem 'redis-rack-cache', '~> 2.0'
 
   # Controllers and services
 gem 'dry-monads'
@@ -37,9 +40,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
-# group :production do
-#   gem 'pg', '~> 0.18'
-# end
+group :production do
+   gem 'pg', '~> 0.18'
+end
 
 # DEBUGGING
 group :development, :test do

@@ -19,7 +19,6 @@ Rake::TestTask.new(:spec_accept) do |t|
   t.warning = false
 end
 
-
 desc 'Keep rerunning tests upon changes'
 task :respec do
   sh "rerun -c 'rake spec' --ignore 'coverage/*'"
@@ -34,8 +33,49 @@ namespace :run do
   task :dev do
     sh 'rerun -c "rackup -p 9090"'
   end
+
   task :test do
     sh 'RACK_ENV=test rackup -p 9090'
+  end
+end
+
+namespace :cache do
+  task :config do
+    require_relative 'config/environment.rb' # load config info
+    require_relative 'app/infrastructure/cache/init.rb' # load cache client
+    @api = RefEm::Api
+  end
+
+  namespace :list do
+    task :dev do
+      puts 'Finding development cache'
+      list = `ls _cache`
+      puts 'No local cache found' if list.empty?
+      puts list
+    end
+
+    task :production => :config do
+      puts 'Finding production cache'
+      keys = RefEm::Cache::Client.new(@api.config).keys
+      puts 'No keys found' if keys.none?
+      keys.each { |key| puts "Key: #{key}" }
+    end
+  end
+
+  namespace :wipe do
+    task :dev do
+      puts 'Deleting development cache'
+      sh 'rm -rf _cache/*'
+    end
+
+    task :production => :config do
+      print 'Are you sure you wish to wipe the production cache? (y/n) '
+      if STDIN.gets.chomp.casecmp('y').zero?
+        puts 'Deleting production cache'
+        wiped = RefEm::Cache::Client.new(@api.config).wipe
+        wiped.keys.each { |key| puts "Wiped: #{key}" }
+      end
+    end
   end
 end
 

@@ -140,6 +140,7 @@ GEM
     parser (2.5.1.2)
       ast (~> 2.4.0)
     path_expander (1.0.3)
+    pg (0.21.0)
     powerpack (0.1.2)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -156,6 +157,8 @@ GEM
       json
       websocket (~> 1.0)
     rack (2.0.6)
+    rack-cache (1.8.0)
+      rack (>= 0.4)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
@@ -163,6 +166,12 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redis (4.0.3)
+    redis-rack-cache (2.0.2)
+      rack-cache (>= 1.6, < 2)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.6.0)
+      redis (>= 2.2, < 5)
     reek (5.2.0)
       codeclimate-engine-rb (~> 0.4.0)
       kwalify (~> 0.7.0)
@@ -262,13 +271,17 @@ DEPENDENCIES
   minitest (~> 5.11)
   minitest-rg (~> 5.2)
   multi_json
+  pg (~> 0.18)
   pry
   pry-rescue
   pry-stack_explorer
   puma (~> 3.11)
   rack (~> 2.0.6)
+  rack-cache (~> 1.8)
   rack-test
   rake (~> 12.3)
+  redis (~> 4.0)
+  redis-rack-cache (~> 2.0)
   reek
   rerun (~> 0.13)
   roar
