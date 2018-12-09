@@ -38,6 +38,7 @@ module RefEm
 
     configure :production do
       # Use deployment platform's DATABASE_URL environment variable
+      ENV['DATABASE_URL'] = 'postgres://ojgpzeujvmcrrd:63f90912d2183860c9b8794b1148cad72768ffa4d928fc7d97344c1840f6a9be@ec2-54-235-133-42.compute-1.amazonaws.com:5432/dekt3dgt8mg92b'
       use Rack::Cache,
           verbose: true,
           metastore: config.REDISCLOUD_URL + '/0/metastore',
