@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'concurrent'
 
 module RefEm
   # Provides access to microsoft data
@@ -16,11 +17,21 @@ module RefEm
       def find_data_by(doi)
         data = @gateway.paper_data(doi)
         unless data['error']
-          data['citations'].map { |citation|
-            build_entity(citation)
+          influential_citations =
+            data['citations'].select do |citation|
+              citation if citation['isInfluential']
+            end
+          citation_list = []
+          influential_citations.map{ |citation|
+            influential_citation_id = citation['paperId']
+            influential_citation = @gateway.paper_data(influential_citation_id)
+            citation_list.push(build_entity(influential_citation))
           }
+          citation_list
         end
       end
+
+      
 
       def build_entity(data)
         DataMapper.new(data, @gateway_class).build_entity
