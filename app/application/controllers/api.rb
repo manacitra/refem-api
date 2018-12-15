@@ -71,6 +71,24 @@ module RefEm
               ).to_json
             end
           end
+
+          routing.is do
+            # GET /paper?list={base64 json array of paper id}
+            routing.get do
+              result = Service::ListPapers.new.call(
+                list_request: Value::ListRequest.new(routing.params)
+              )
+
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+              Representer::PaperList.new(result.value!.message).to_json
+            end
+          end
         end
       end
     end
