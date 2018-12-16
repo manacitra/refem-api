@@ -23,15 +23,15 @@ module RefEm
             end
           citation_list = []
           influential_citations.map{ |citation|
-            influential_citation_id = citation['paperId']
-            influential_citation = @gateway.paper_data(influential_citation_id)
-            citation_list.push(build_entity(influential_citation))
-          }
+            Concurrent::Promise
+              .new { influential_citation = @gateway.paper_data(citation['paperId']) }
+              .then { |c| citation_list.push(build_entity(c)) }
+              .rescue { { error: "api is crashed!"} }
+              .execute
+          }.map(&:value)
           citation_list
         end
       end
-
-      
 
       def build_entity(data)
         DataMapper.new(data, @gateway_class).build_entity
