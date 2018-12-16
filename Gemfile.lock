@@ -4,6 +4,17 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
+    aws-eventstream (1.0.1)
+    aws-partitions (1.125.0)
+    aws-sdk-core (3.44.0)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-sqs (1.10.0)
+      aws-sdk-core (~> 3, >= 3.39.0)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -114,6 +125,7 @@ GEM
     ice_nine (0.11.2)
     interception (0.5)
     jaro_winkler (1.5.1)
+    jmespath (1.4.0)
     json (2.1.0)
     kramdown (1.17.0)
     kwalify (0.7.2)
@@ -204,6 +216,10 @@ GEM
     safe_yaml (1.0.4)
     sequel (5.14.0)
     sexp_processor (4.11.0)
+    shoryuken (4.0.2)
+      aws-sdk-core (>= 2)
+      concurrent-ruby
+      thor
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -257,6 +273,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk-sqs (~> 1)
   database_cleaner
   dry-monads
   dry-struct (~> 0.5)
@@ -288,6 +305,7 @@ DEPENDENCIES
   roda (~> 3.8)
   rubocop
   sequel (~> 5.13)
+  shoryuken (~> 4)
   simplecov (~> 0.16)
   solargraph
   sqlite3
@@ -299,4 +317,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.17.1
+   1.17.2
