@@ -18,10 +18,10 @@ describe 'Tests Semantic Scholar API library' do
     it 'Happy: should provide the correct paper information by DOI' do
       paper = RefEm::MSPaper::SSApi
         .new
-        .paper_data(DOI)
-      paper['title'].must_equal SS_CORRECT['title']
-      paper['authors'][0]['name'].must_equal SS_CORRECT['authors'][0]
-      paper['venue'].must_equal SS_CORRECT['venue']
+        .paper_data(PAPER_DOI)
+      paper['title'].must_equal PAPER_TITLE_
+      paper['year'].must_equal PAPER_YEAR
+      paper['author'].must_equal PAPER_AUTHOR
     end
   end
 
@@ -30,14 +30,11 @@ describe 'Tests Semantic Scholar API library' do
       citations =
         RefEm::MSPaper::CitationMapper
           .new
-          .find_data_by(DOI)
+          .find_data_by(PAPER_DOI)
       citations.size.must_be :>=, 0
       first_citation = citations[0]
-      _(first_citation.title).must_equal SS_CORRECT['citation_titles'][0]
-      _(first_citation.author.split(';')[0]) \
-        .must_equal (SS_CORRECT['citations'][0]['authors'][0]['name'])
-      _(first_citation.year).must_equal (SS_CORRECT['citations'][0]['year'])
-      _(first_citation.venue).must_equal (SS_CORRECT['citations'][0]['venue'])
+      puts "paper title: #{first_citation.title}"
+      _(first_citation.title).must_equal CITATION_TITLE
     end
 
     it 'SAD: should return nil if doi not registered in SS' do
