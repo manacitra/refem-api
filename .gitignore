@@ -3,3 +3,4 @@ coverage/
 .bundle/
 *.db
 _snippets/
+_cache/
