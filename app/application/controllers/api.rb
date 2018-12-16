@@ -54,8 +54,8 @@ module RefEm
             routing.get do
               # the reference and citation won't change that fast actually
               # use public - not contain sensitive information
-              #response.cache_control public: true, max_age: 10#21_600
-              Cache::Control.new(response).turn_on if Env.new(Api).production?
+              @api = RefEm::Api
+              Cache::Control.new(response).turn_on if RefEm::Env.new(@api).production?
               result = Service::ShowPaperContent.new.call(id: id)
 
               if result.failure?
