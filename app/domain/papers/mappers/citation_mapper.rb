@@ -24,12 +24,14 @@ module RefEm
           citation_list = []
           influential_citations.map{ |citation|
             Concurrent::Promise
-              .new { influential_citation = @gateway.paper_data(citation['paperId']) }
+              .execute { @gateway.paper_data(citation['paperId']) }
               .then { |c| citation_list.push(build_entity(c)) }
-              .rescue { { error: "api is crashed!"} }
-              .execute
           }.map(&:value)
           citation_list
+          #   influential_citation = @gateway.paper_data(citation['paperId'])
+          #   citation_list.push(build_entity(influential_citation))
+          # }.map(&:value)
+          # citation_list
         end
       end
 
@@ -108,10 +110,6 @@ module RefEm
 
         # def citation_titles
         #   @data['citations'].map { |n| n['title'] }.compact
-        # end
-
-        # def influential_citation_count
-        #   @data['influentialCitationCount']
         # end
       end
     end

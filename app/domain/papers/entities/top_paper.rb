@@ -25,12 +25,14 @@ module RefEm
 
       def citations_rank
         citation_score_list = []
-        @paper.citations.each { |citation|
-          item = [citation, citation.influential_citation_count]
-          # puts "citation influential: #{citation.influential_citation_count}"
-          citation_score_list.push(item)
-        }
-        paper_rank(citation_score_list)
+        unless @paper.citations == []
+          @paper.citations.each { |citation|
+            item = [citation, citation.influential_citation_count]
+            # puts "citation influential: #{citation.influential_citation_count}"
+            citation_score_list.push(item)
+          }
+          paper_rank(citation_score_list)
+        end 
       end
     end
   end
