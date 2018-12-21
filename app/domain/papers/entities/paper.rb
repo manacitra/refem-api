@@ -11,13 +11,13 @@ module RefEm
     class Paper < Dry::Struct
       include Dry::Types.module
 
-      attribute :id,          Integer.optional
+      attribute :id,          Strict::Integer.optional
       attribute :origin_id,   Strict::Integer
       attribute :title,       Strict::String
-      attribute :author,      Strict::String
-      attribute :year,        Strict::Integer
-      attribute :date,        Strict::String
-      attribute :field,       Strict::String
+      attribute :author,      Strict::String.optional
+      attribute :year,        Strict::Integer.optional
+      attribute :date,        Strict::String.optional
+      attribute :field,       Strict::String.optional
       attribute :references,  Array.of(Reference).optional
       attribute :citations,   Array.of(Citation).optional
       attribute :doi,         Strict::String.optional
