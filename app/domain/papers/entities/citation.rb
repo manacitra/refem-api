@@ -20,7 +20,7 @@ module RefEm
       attribute :link,                                    Strict::String.optional
 
       def to_attr_hash
-        to_hash.reject { |key, _| [:id].include? key}
+        to_hash.reject { |key, _| [:id].include? key }
       end
     end
   end

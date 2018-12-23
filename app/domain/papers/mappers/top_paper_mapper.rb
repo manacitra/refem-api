@@ -20,7 +20,7 @@ module RefEm
 
         # create main paper contain top five references and citations
         paper_contain_top_ref_cit = RefEm::Entity::Paper.new(
-            paper_contain_top_ref_cit_hash.merge(
+          paper_contain_top_ref_cit_hash.merge(
             references: references_list,
             citations: citations_list
           )
@@ -30,13 +30,12 @@ module RefEm
       end
 
       def top_references
-        references_list = build_entity.references_rank
+        build_entity.references_rank
       end
 
       def top_citations
-        citations_list = build_entity.citations_rank
+        build_entity.citations_rank
       end
-    
     end
   end
 end

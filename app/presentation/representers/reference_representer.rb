@@ -16,7 +16,7 @@ module RefEm
       property :title
       property :reference_content
       property :link
-     
+
     end
   end
 end

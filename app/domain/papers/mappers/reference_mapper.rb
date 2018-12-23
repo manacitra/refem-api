@@ -77,7 +77,7 @@ module RefEm
         end
 
         def author
-          author = ""
+          author = ''
           @data['AA'].each { |auth|
             author += "#{auth};"
           }
@@ -97,17 +97,17 @@ module RefEm
         end
 
         def references
-          reference = ""
+          reference = ''
           if @data['RId'] != nil
             @data['RId'].each { |r|
               reference += "#{r};"
-            } 
+            }
           end
           reference
         end
-        
+
         def field
-          field = ""
+          field = ''
           @data['F'].each { |f|
             field += "#{f};"
           }
