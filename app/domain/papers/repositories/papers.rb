@@ -87,7 +87,7 @@ module RefEm
             end
             @entity.citations.each do |citation|
               db_paper.add_citation_paper(Citations.db_find_or_create(citation))
-            end
+            end unless @entity.citations.nil?
           end
         end
       end

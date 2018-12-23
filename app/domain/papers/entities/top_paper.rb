@@ -25,7 +25,7 @@ module RefEm
 
       def citations_rank
         citation_score_list = []
-        unless @paper.citations == []
+        unless @paper.citations.nil? || @paper.citations == []
           @paper.citations.each { |citation|
             item = [citation, citation.influential_citation_count]
             # puts "citation influential: #{citation.influential_citation_count}"

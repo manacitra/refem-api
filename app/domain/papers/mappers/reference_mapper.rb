@@ -23,13 +23,14 @@ module RefEm
       def load_several(references, reference_contents)
         # puts references
         references_array = []
-        @gateway.reference_data(references).each do |data|
+        @gateway.reference_data(references).map do |data|
           reference_contents.each do |key, value|
             if key.to_i == data['Id']
               refernece = ReferenceMapper.build_entity(data, value)
               references_array.push(refernece)
             end
           end
+          # ReferenceMapper.build_entity(data, 'good')
         end
         references_array
       end
