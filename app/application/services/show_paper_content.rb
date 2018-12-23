@@ -24,7 +24,7 @@ module RefEm
           input[:remote_paper] = paper_from_microsoft(input)[0]
         end
 
-        if (input[:local_paper].nil? && input[:remote_paper].nil?)
+        if input[:local_paper].nil? && input[:remote_paper].nil?
           Failure(Value::Result.new(status: :not_found, message: MS_ID_NOT_FOUND))
         else
           Success(input)
@@ -43,7 +43,6 @@ module RefEm
         top_paper = MSPaper::TopPaperMapper.new(paper)
         # rank the references and citations
         paper = top_paper.top_papers
-
 
         if input[:local_paper].nil?
           input[:remote_paper] = paper

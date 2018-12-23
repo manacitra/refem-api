@@ -30,7 +30,6 @@ module RefEm
 
       routing.on 'api/v1' do
         routing.on 'paper' do
-
           routing.on String, String do |searchType, keyword|
             # GET /paper/keyword?searchType={title, keyword}
             path_request = PaperRequestPath.new(keyword, searchType)
