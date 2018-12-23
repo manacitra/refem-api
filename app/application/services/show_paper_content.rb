@@ -44,13 +44,13 @@ module RefEm
         # rank the references and citations
         paper = top_paper.top_papers
 
-        
+
         if input[:local_paper].nil?
           input[:remote_paper] = paper
         else
           input[:local_paper] = paper
         end
-      
+
         Success(input)
         # rescue StandardError
         #   raise 'Could not find papers by the ID'
@@ -63,7 +63,7 @@ module RefEm
           else
             input[:local_paper]
           end
-        
+
         Value::MainPaper.new(paper)
           .yield_self do |paper|
             Success(Value::Result.new(status: :ok, message: paper))

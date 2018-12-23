@@ -15,7 +15,7 @@ module RefEm
 
       property :title
       property :link
-     
+
     end
   end
 end

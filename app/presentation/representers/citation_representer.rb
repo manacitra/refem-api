@@ -10,10 +10,10 @@ module RefEm
       include Roar::JSON
       include Roar::Hypermedia
       include Roar::Decorator::HypermediaConsumer
-      
+
       property :title
       property :link
-     
+
     end
   end
 end
