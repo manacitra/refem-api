@@ -27,6 +27,7 @@ module RefEm
       attribute :first_page,         Strict::Integer.optional
       attribute :last_page,          Strict::Integer.optional
       attribute :citation_count,     Strict::Integer.optional
+      attribute :reference_content,  Strict::String.optional
       attribute :link,               Strict::String.optional
 
       def to_attr_hash

@@ -35,8 +35,12 @@ module RefEm
         poller = Aws::SQS::QueuePoller.new(@queue_url, client: @sqs)
         poller.poll(idle_timeout: IDLE_TIMEOUT) do |msg|
           yield msg.body if block_given?
+          puts "mmm: #{JSON.parse(msg.body)}"
           p = JSON.parse(msg.body)
-          paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p['origin_id'])
+          puts "id: #{p}"
+          paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p)
+          puts "paper class: #{paper[0].title}"
+          paper
         end
       end
     end

@@ -36,8 +36,6 @@ module RefEm
               searchType: searchType
             )
 
-            puts "see here: in the controller"
-
             if result.failure?
               failed = Representer::HttpResponse.new(result.failure)
               routing.halt failed.http_status_code, failed.to_json

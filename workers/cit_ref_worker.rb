@@ -22,10 +22,9 @@ class CitRefWorker
 
   def perform(_sqs_msg, request)
     puts "hello, can you see me?"
-    paper = RefEm::Representer::Paper
-      .new(OpenStruct.new).from_json(request)
+    paper_id = request.body
     # paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(input[:id])
-    paper = Entity::Paper.new(origin_id: 32432432, title: 'QQQQQ')
+    paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(paper_id)
     puts "paper title: #{paper.title}"
     Representer::Paper.new(paper).to_json
   rescue RefEm::GitRepo::Errors::CannotOverwriteLocalGitRepo

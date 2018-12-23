@@ -19,8 +19,10 @@ module RefEm
 
       def find_main_paper(input)
         if (paper = paper_in_database(input))
+          puts "local paper"
           input[:local_paper] = paper
         else
+          puts "remote paper"
           input[:remote_paper] = paper_from_microsoft(input)[0]
         end
 
@@ -79,6 +81,11 @@ module RefEm
         MSPaper::PaperMapper
           .new(Api.config.MS_TOKEN)
           .find_paper(input[:id])
+        # origin_id = input[:id]
+        # paper = Entity::Paper.new(origin_id: origin_id)
+        
+        # Messaging::Queue.new(Api.config.CLONE_QUEUE_URL, Api.config)
+        #   .send(Representer::Paper.new(paper).to_json)
       end
 
       def paper_in_database(input)

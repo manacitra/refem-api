@@ -102,7 +102,7 @@ module RefEm
 
         # connect with reference mapper
         def references
-          @reference_mapper.load_several(@data['RId']) if @show_detail == true
+          @reference_mapper.load_several(@data['RId'], @data['E']['CC']) if @show_detail == true
         end
 
         def citations

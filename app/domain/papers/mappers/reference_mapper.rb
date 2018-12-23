@@ -20,21 +20,29 @@ module RefEm
         }
       end
 
-      def load_several(references)
+      def load_several(references, reference_contents)
         # puts references
-        @gateway.reference_data(references).map do |data|
-          ReferenceMapper.build_entity(data)
+        references_array = []
+        @gateway.reference_data(references).each do |data|
+          reference_contents.each do |key, value|
+            if key.to_i == data['Id']
+              refernece = ReferenceMapper.build_entity(data, value)
+              references_array.push(refernece)
+            end
+          end
         end
+        references_array
       end
 
-      def self.build_entity(data)
-        DataMapper.new(data).build_entity
+      def self.build_entity(data, content)
+        DataMapper.new(data, content).build_entity
       end
 
       # Extracts entity specific elements from data structure
       class DataMapper
-        def initialize(data)
+        def initialize(data, content)
           @data = data
+          @reference_content = content
         end
 
         def build_entity
@@ -57,6 +65,7 @@ module RefEm
             first_page: first_page,
             last_page: last_page,
             citation_count: citation_count,
+            reference_content: reference_content,
             link: link
           )
         end
@@ -143,6 +152,10 @@ module RefEm
 
         def last_page
           @data['E']['LP']
+        end
+
+        def reference_content
+          @reference_content[0]
         end
 
         def link
