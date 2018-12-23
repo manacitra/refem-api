@@ -38,22 +38,8 @@ module RefEm
               searchType: searchType
             )
 
-<<<<<<< HEAD
-            if result.failure?
-              failed = Representer::HttpResponse.new(result.failure)
-              routing.halt failed.http_status_code, failed.to_json
-            end
-
-            http_response = Representer::HttpResponse.new(result.value!)
-            response.status = http_response.http_status_code
-
-            Representer::PaperList.new(
-              result.value!.message
-            ).to_json
-=======
             puts "see here: in the controller"
             Representer::For.new(result).status_and_body(response)
->>>>>>> 6ca50e7ce12f0b31c33b7dea4f3d67815b31ea6c
           end
 
           routing.on String do |id|

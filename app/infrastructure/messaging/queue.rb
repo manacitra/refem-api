@@ -29,14 +29,7 @@ module RefEm
           yield msg.body if block_given?
           puts "mmm: #{JSON.parse(msg.body)}"
           p = JSON.parse(msg.body)
-<<<<<<< HEAD
-          puts "id: #{p}"
-          paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p)
-          puts "paper class: #{paper[0].title}"
-          paper
-=======
           MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p['origin_id'])
->>>>>>> 6ca50e7ce12f0b31c33b7dea4f3d67815b31ea6c
         end
       end
     end
