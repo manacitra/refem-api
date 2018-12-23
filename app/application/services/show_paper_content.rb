@@ -19,10 +19,8 @@ module RefEm
 
       def find_main_paper(input)
         if (paper = paper_in_database(input))
-          puts "local paper"
           input[:local_paper] = paper
         else
-          puts "remote paper"
           input[:remote_paper] = paper_from_microsoft(input)[0]
         end
 

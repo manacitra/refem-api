@@ -38,7 +38,6 @@ module RefEm
               searchType: searchType
             )
 
-            puts "see here: in the controller"
             Representer::For.new(result).status_and_body(response)
           end
 
