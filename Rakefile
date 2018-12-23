@@ -41,16 +41,16 @@ namespace :run do
 end
 
 namespace :queues do
-task :config do
-  require 'aws-sdk-sqs'
-  require_relative 'config/environment.rb' # load config info
-  @api = RefEm::Api
+  task :config do
+    require 'aws-sdk-sqs'
+    require_relative 'config/environment.rb' # load config info
+    @api = RefEm::Api
 
-  @sqs = Aws::SQS::Client.new(
-    access_key_id: @api.config.AWS_ACCESS_KEY_ID,
-    secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
-    region: @api.config.AWS_REGION
-  )
+    @sqs = Aws::SQS::Client.new(
+      access_key_id: @api.config.AWS_ACCESS_KEY_ID,
+      secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
+      region: @api.config.AWS_REGION
+    )
   end
 
   desc 'Create SQS queue for Shoryuken'
@@ -187,7 +187,7 @@ namespace :quality do
   CODE = 'app'
 
   desc 'run all quality checks'
-  task all: %i[:rubocop :reek :flog]
+  task all: %i[rubocop reek flog]
 
   task :rubocop do
     sh 'rubocop'

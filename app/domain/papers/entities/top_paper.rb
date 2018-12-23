@@ -32,7 +32,7 @@ module RefEm
             citation_score_list.push(item)
           }
           paper_rank(citation_score_list)
-        end 
+        end
       end
     end
   end

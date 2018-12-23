@@ -116,7 +116,6 @@ module RefEm
         def link
           "https://academic.microsoft.com/#/detail/#{@data['Id']}"
         end
- 
       end
     end
   end
