@@ -4,6 +4,8 @@ require_relative '../init.rb'
 
 require 'econfig'
 require 'shoryuken'
+require 'json'
+require 'redis'
 
 # Shoryuken worker class to clone repos in parallel
 class CitRefWorker
@@ -21,14 +23,18 @@ class CitRefWorker
   shoryuken_options queue: config.CIT_REF_QUEUE_URL, auto_delete: true
 
   def perform(_sqs_msg, request)
-    puts "hello, can you see me?"
-    paper_id = request.body
-    # paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(input[:id])
-    paper = MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(paper_id)
-    puts "paper title: #{paper.title}"
-    Representer::Paper.new(paper).to_json
-  rescue RefEm::GitRepo::Errors::CannotOverwriteLocalGitRepo
+    paper_id = JSON.parse(request)
+    paper = RefEm::MSPaper::PaperMapper.new(RefEm::Api.config.MS_TOKEN).find_paper(paper_id)
+    paper_to_json = RefEm::Representer::Paper.new(paper[0]).to_json
+    request_id = [paper_id, Time.now.to_f].hash
+    redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+    redis.set(request_id, paper_to_json)
+
+    content = redis.get("#{request_id}")
+    puts "redis content: #{content}"
+
+  rescue RefEm::MSPaper::Errors::CannotCacheLocalPaper
     # only catch errors you absolutely expect!
-    puts 'CLONE EXISTS -- ignoring request'
+    puts 'CACHE EXISTS -- ignoring request'
   end
 end

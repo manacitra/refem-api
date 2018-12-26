@@ -89,7 +89,7 @@ describe 'Test API routes' do
       #_(main_paper['paper']['citations'][0]['links'][0]['href']).must_equal "https://api.semanticscholar.org/818e72a3a379ff0211a466610e53e7e1943358ae"
 
       _(main_paper['paper']['references'].count).must_equal 5
-      _(main_paper['paper']['references'][0]['title']).must_equal "pastry scalable decentralized object location and routing for large scale peer to peer systems"
+      _(main_paper['paper']['references'][0]['title']).must_equal "chord a scalable peer to peer lookup service for internet applications"
       _(main_paper['paper']['references'][0]['link']).must_equal "https://academic.microsoft.com/#/detail/2167898414"
     end
 

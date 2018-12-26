@@ -7,7 +7,7 @@ Sequel.migration do
     create_table(:references) do
       primary_key :id
 
-      Integer   :origin_id,           unique: true
+      Integer   :origin_id
       String    :title,               null: false
       String    :author
       Integer   :year

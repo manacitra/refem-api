@@ -80,7 +80,7 @@ module RefEm
         def call
           create_paper.tap do |db_paper|
             @entity.references.each do |reference|
-              db_paper.add_reference_paper(References.db_find_or_create(reference))
+              db_paper.add_reference_paper(References.db_find_or_create(reference)) 
               # puts '****************'
               # puts @entity.citations.class
               # puts @entity.references.class

@@ -8,7 +8,7 @@ Sequel.migration do
       primary_key :id
       # foreign_key :paper_doi, :papers
 
-      String    :origin_id,       unique: true
+      String    :origin_id
       String    :title,           null: false
       String    :author
       Integer   :year

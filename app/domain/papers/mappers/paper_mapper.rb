@@ -6,6 +6,11 @@ require_relative 'citation_mapper'
 module RefEm
   # Provides access to microsoft data
   module MSPaper
+    
+    class Errors
+      CannotCacheLocalPaper = Class.new(StandardError)
+    end
+
     # Data Mapper: microsoft paper -> paper
     class PaperMapper
       def initialize(ms_token, gateway_class = MSPaper::Api)
@@ -106,7 +111,7 @@ module RefEm
         end
 
         def citations
-          @citation_mapper.find_data_by(@data['E']['DOI']) if @show_detail == true
+          # @citation_mapper.find_data_by(@data['E']['DOI']) if @show_detail == true
         end
 
         def doi
