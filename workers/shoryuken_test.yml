@@ -1,2 +1,2 @@
 queues:
-  - https://sqs.ap-northeast-1.amazonaws.com/102844561395/citation_reference_queue	
+  - https://sqs.ap-northeast-1.amazonaws.com/102844561395/citation_reference_test	

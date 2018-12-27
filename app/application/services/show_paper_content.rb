@@ -75,9 +75,11 @@ module RefEm
       # following are support methods that other services could use
 
       def paper_from_microsoft(input)
-        MSPaper::PaperMapper
+        a = MSPaper::PaperMapper
           .new(Api.config.MS_TOKEN)
           .find_paper(input[:id])
+        puts a
+        a
         # origin_id = input[:id]
         # paper = Entity::Paper.new(origin_id: origin_id)
         

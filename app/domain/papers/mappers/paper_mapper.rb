@@ -111,7 +111,7 @@ module RefEm
         end
 
         def citations
-          # @citation_mapper.find_data_by(@data['E']['DOI']) if @show_detail == true
+          @citation_mapper.find_data_by(@data['E']['DOI']) if @show_detail == true
         end
 
         def doi
