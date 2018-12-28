@@ -32,7 +32,6 @@ module RefEm
         routing.on 'paper' do
           routing.on String, String do |searchType, keyword|
             # GET /paper/keyword?searchType={title, keyword}
-            path_request = PaperRequestPath.new(keyword, searchType)
             result = Service::ShowPaperList.new.call(
               keyword: keyword,
               searchType: searchType
@@ -44,12 +43,18 @@ module RefEm
           routing.on String do |id|
             # GET /paper/id
             routing.get do
-              # the reference and citation won't change that fast actually
-              # use public - not contain sensitive information
               @api = RefEm::Api
               Cache::Control.new(response).turn_on if RefEm::Env.new(@api).production?
-              # response.cache_control public: true, max_age: 10
-              result = Service::ShowPaperContent.new.call(id: id)
+
+              path_request = PaperRequestPath.new(id)
+              request_id = [request.env, request.path, Time.now.to_f].hash
+
+              result = Service::ShowPaperContent.new.call(
+                requested: path_request,
+                request_id: request_id,
+                config: Api.config
+              )
+
               Representer::For.new(result).status_and_body(response)
             end
           end
