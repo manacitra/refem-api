@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
-require_relative '../init.rb'
+require_relative '../app/domain/init.rb'
+require_relative '../app/application/values/init.rb'
+require_relative '../app/presentation/representers/init.rb'
+require_relative
+require_relative 'progress_reporter.rb'
 
 require 'econfig'
 require 'shoryuken'
-require 'json'
 require 'redis'
 
 module CitRef
-  # Shoryuken worker class to clone repos in parallel
+  # Shoryuken worker class to get paper from api and send progress report in parallel
   class Worker
     extend Econfig::Shortcut
     Econfig.env = ENV['RACK_ENV'] || 'development'
+    Econfig.root = File.expand_path('..', File.dirname(__FILE__))
 
     Shoryuken.sqs_client = Aws::SQS::Client.new(
       access_key_id: config.AWS_ACCESS_KEY_ID,
@@ -20,21 +24,42 @@ module CitRef
     )
 
     include Shoryuken::Worker
+    Shoryuken.sqs_client_receive_message_opts = { wait_time_seconds: 20 }
     shoryuken_options queue: config.CIT_REF_QUEUE_URL, auto_delete: true
 
     def perform(_sqs_msg, request)
-      paper_id = JSON.parse(request)
-      paper = RefEm::MSPaper::PaperMapper.new(RefEm::Api.config.MS_TOKEN).find_paper(paper_id)
+      # use setup_job to get required info for worker
+      paper_id, request_id, reporter = setup_job(request)
+
+      # start publishing progress
+      reporter.publish(FetchMonitor.starting_percent)
+      # add code to monitor progress
+
+      # find paper content object and parse it into json
+      paper = RefEm::MSPaper::PaperMapper.new(RefEm::Api.config.MS_TOKEN)
+        .find_paper(paper_id)
       paper_to_json = RefEm::Representer::Paper.new(paper[0]).to_json
-      request_id = [paper_id, Time.now.to_f].hash
+
+      # save serialized paper into redis
       redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
       redis.set(request_id, paper_to_json)
 
-      content = redis.get("#{request_id}")
-      puts "redis content: #{content}"
+      # content = redis.get(request_id.to_s)
+      # puts "redis content: #{content}"
     rescue RefEm::MSPaper::Errors::CannotCacheLocalPaper
       # only catch errors you absolutely expect!
       puts 'CACHE EXISTS -- ignoring request'
+    end
+
+    private
+
+    def setup_job(request)
+      paper_request = RefEm::Representer::PaperRequest
+        .new(OpenStruct.new).from_json(request)
+
+      [paper_request.paper_id,
+       paper_request.request_id,
+       ProgressReporter.new(Worker.config, paper_request.request_id)]
     end
   end
 end

@@ -6,7 +6,7 @@ require_relative 'citation_mapper'
 module RefEm
   # Provides access to microsoft data
   module MSPaper
-    
+
     class Errors
       CannotCacheLocalPaper = Class.new(StandardError)
     end

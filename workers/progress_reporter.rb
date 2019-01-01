@@ -3,7 +3,7 @@
 require 'http'
 
 module CitRef
-  # Reports progress as percent to Faye endpoint
+  # Reports progress to Faye endpoint
   class ProgressReporter
     def initialize(config, channel_id)
       @config = config

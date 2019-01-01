@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/transaction'
+require 'redis'
 
 module RefEm
   module Service
@@ -14,24 +15,30 @@ module RefEm
 
       private
 
+      NO_PAPER_ERR = 'Paper Not Found'
+      PAPER_ERR = 'Could not get details for this paper'
       DB_ERR_MSG = 'Having trouble accessing the database'
       MS_ID_NOT_FOUND = 'Could not find papers by the ID'
 
       def find_main_paper(input)
-        if (paper = paper_in_database(input))
-          input[:local_paper] = paper
-        else
-          input[:remote_paper] = paper_from_microsoft(input)[0]
-        end
+        # if request_id already cached in redis, get the result
+        redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+        return Success(input) if (request = redis.get(input[:request_id].to_s))
 
-        if input[:local_paper].nil? && input[:remote_paper].nil?
-          Failure(Value::Result.new(status: :not_found, message: MS_ID_NOT_FOUND))
-        else
-          Success(input)
-        end
+        # else send requested paper_id and unique queue request_id info to queue
+        input[:paper_id] = input[:requested].id
+
+        Messaging::Queue.new(Api.config.CIT_REF_QUEUE_URL, Api.config)
+          .send(paper_request_json)
+
+        # send status and queue request_id to web api -> web app
+        Failure(
+          Value::Result.new(status: :processing,
+                            message: { request_id: input[:request_id] })
+        )
       rescue StandardError => error
-        Failure(Value::Result.new(status: :internal_error,
-                                  message: MS_ID_NOT_FOUND))
+        puts [error.inspect, error.backtrace].flatten.join("\n")
+        Failure(Value::Result.new(status: :internal_error, message: PAPER_ERR))
       end
 
       def calculate_top_paper(input)
@@ -80,16 +87,19 @@ module RefEm
           .find_paper(input[:id])
         puts a
         a
-        # origin_id = input[:id]
-        # paper = Entity::Paper.new(origin_id: origin_id)
-        
-        # Messaging::Queue.new(Api.config.CLONE_QUEUE_URL, Api.config)
-        #   .send(Representer::Paper.new(paper).to_json)
       end
 
       def paper_in_database(input)
         Repository::For.klass(Entity::Paper)
           .find_paper_content(input[:id])
+      end
+
+      # Utility function
+      # json representer for paper_id and queue request_id
+      def paper_request_json(input)
+        Value::PaperRequest.new(input[:paper_id], input[:request_id])
+          .yield_self { |request| Representer::PaperRequest.new(request) }
+          .yield_self(&:to_json)
       end
     end
   end

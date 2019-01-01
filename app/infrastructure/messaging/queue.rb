@@ -14,7 +14,7 @@ module RefEm
         @sqs = Aws::SQS::Client.new(
           access_key_id: config.AWS_ACCESS_KEY_ID,
           secret_access_key: config.AWS_SECRET_ACCESS_KEY,
-          region: 'ap-northeast-1'
+          region: config.AWS_REGION
         )
         @queue = Aws::SQS::Queue.new(url: queue_url, client: @sqs)
       end
@@ -27,9 +27,9 @@ module RefEm
         poller = Aws::SQS::QueuePoller.new(@queue_url, client: @sqs)
         poller.poll(idle_timeout: IDLE_TIMEOUT) do |msg|
           yield msg.body if block_given?
-          puts "mmm: #{JSON.parse(msg.body)}"
-          p = JSON.parse(msg.body)
-          MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p['origin_id'])
+          # puts "mmm: #{JSON.parse(msg.body)}"
+          # p = JSON.parse(msg.body)
+          # MSPaper::PaperMapper.new(Api.config.MS_TOKEN).find_paper(p['origin_id'])
         end
       end
     end
