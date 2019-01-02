@@ -55,6 +55,8 @@ module RefEm
                 config: Api.config
               )
 
+              puts "my result: #{result}"
+
               Representer::For.new(result).status_and_body(response)
             end
           end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/transaction'
+require 'json'
 require 'redis'
 
 module RefEm
@@ -22,15 +23,29 @@ module RefEm
 
       def find_main_paper(input)
         # if request_id already cached in redis, get the result
-        redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-        return Success(input) if (request = redis.get(input[:request_id].to_s))
+        # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+        # return Success(input) if (request = redis.get(input[:request_id].to_s))
+        input[:paper_id] = input[:requested].id
+        if (paper = paper_in_database(input))
+          input[:local_paper] = paper
+        else
+          Messaging::Queue.new(Api.config.CIT_REF_QUEUE_URL, Api.config)
+           .send(paper_request_json(input))
+
+           redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+           puts "request id: #{input[:request_id]}"
+           puts "paper id: #{input[:paper_id]}"
+           input[:remote_paper] = redis.get(input[:paper_id])
+           puts "paper from redis: #{input[:remote_paper]}"
+        end
+
+        
+
+        return Success(input) unless input[:local_paper].nil?
+        return Success(input) unless input[:remote_paper].nil?
 
         # else send requested paper_id and unique queue request_id info to queue
-        input[:paper_id] = input[:requested].id
-
-        Messaging::Queue.new(Api.config.CIT_REF_QUEUE_URL, Api.config)
-          .send(paper_request_json)
-
+        
         # send status and queue request_id to web api -> web app
         Failure(
           Value::Result.new(status: :processing,
@@ -43,10 +58,14 @@ module RefEm
 
       def calculate_top_paper(input)
         if input[:local_paper].nil?
-          paper = input[:remote_paper]
+          paper_from_json = JSON.parse(input[:remote_paper])
+          puts "---------------paper_from_json: #{paper_from_json.class}-------------------"
+          paper_from_json = paper_from_json.merge(id: nil)
+          paper = Entity::Paper.new(paper_from_json)
         else
           paper = input[:local_paper]
         end
+        puts "paper: #{paper}"
         top_paper = MSPaper::TopPaperMapper.new(paper)
         # rank the references and citations
         paper = top_paper.top_papers
@@ -82,16 +101,13 @@ module RefEm
       # following are support methods that other services could use
 
       def paper_from_microsoft(input)
-        a = MSPaper::PaperMapper
-          .new(Api.config.MS_TOKEN)
-          .find_paper(input[:id])
-        puts a
-        a
+        Messaging::Queue.new(Api.config.CIT_REF_QUEUE_URL, Api.config)
+          .send(paper_request_json(input))
       end
 
       def paper_in_database(input)
         Repository::For.klass(Entity::Paper)
-          .find_paper_content(input[:id])
+          .find_paper_content(input[:paper_id])
       end
 
       # Utility function
