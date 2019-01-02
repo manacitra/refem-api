@@ -58,9 +58,10 @@ module RefEm
 
       def calculate_top_paper(input)
         if input[:local_paper].nil?
-          paper_from_json = JSON.parse(input[:remote_paper])
+          paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           puts "---------------paper_from_json: #{paper_from_json.class}-------------------"
           paper_from_json = paper_from_json.merge(id: nil)
+          puts "paper: #{paper_from_json}"
           paper = Entity::Paper.new(paper_from_json)
         else
           paper = input[:local_paper]
