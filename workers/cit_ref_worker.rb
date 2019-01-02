@@ -46,7 +46,7 @@ module CitRef
         .find_paper(paper_id)
       
       puts "paper finish"
-      paper_to_json = RefEm::Representer::Paper.new(paper[0]).to_json
+      paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
 
       # save serialized paper into redis
       redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)

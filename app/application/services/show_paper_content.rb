@@ -61,12 +61,21 @@ module RefEm
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           puts "---------------paper_from_json: #{paper_from_json.class}-------------------"
           paper_from_json = paper_from_json.merge(id: nil)
-          puts "paper: #{paper_from_json}"
-          paper = Entity::Paper.new(paper_from_json)
+          paper_from_json = paper_from_json.map { |k, v| [k.to_sym, v] }.to_h
+          paper_from_json[:references] = paper_from_json[:references].map { |ref|
+            ref.map{ |k, v| [k.to_sym, v] }.to_h
+          }
+          paper_from_json[:citations] = paper_from_json[:citations].map { |cit|
+            cit.each { |k, v| [k.to_sym, v] }.to_h
+          }
+          paper = MSPaper::PaperJsonMapper.new(nil)
+            .build_entity(paper_from_json, true)
+          # puts "paper: #{paper_from_json}"
+          # paper = Entity::Paper.new(paper_from_json)
+          puts "paper reference: #{paper.references}"
         else
           paper = input[:local_paper]
         end
-        puts "paper: #{paper}"
         top_paper = MSPaper::TopPaperMapper.new(paper)
         # rank the references and citations
         paper = top_paper.top_papers

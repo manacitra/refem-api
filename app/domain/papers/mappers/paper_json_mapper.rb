@@ -1,0 +1,92 @@
+# frozen_string_literal: true
+
+require 'json'
+
+module RefEm
+  # Provides access to microsoft data
+  module MSPaper
+
+    class Errors
+      CannotCacheLocalPaper = Class.new(StandardError)
+    end
+
+    # Data Mapper: microsoft paper -> paper
+    class PaperJsonMapper
+      def initialize(data)
+        @data = data
+      end
+
+      def build_entity(data)
+        DataMapper.new(data).build_entity
+      end
+
+      # Extracts entity specific elements from data structure
+      class DataMapper
+        def initialize(data)
+          @data = data
+        end
+
+        def build_entity
+          RefEm::Entity::Paper.new(
+            id: nil,
+            origin_id: origin_id,
+            title: title,
+            author: author,
+            year: year,
+            date: date,
+            field: field,
+            doi: doi,
+            references: references,
+            citations: citations,
+            link: link
+          )
+        end
+
+        def origin_id
+          @data[:origin_id]
+        end
+
+        def author
+          @data[:author]
+        end
+
+        def title
+          @data[:title]
+        end
+
+        def year
+          @data[:year]
+        end
+
+        def date
+          @data[:date]
+        end
+
+        def field
+          @data[:field]
+        end
+
+        # connect with reference mapper
+        def references
+          @data[:references].map { |ref|
+            RefEm::Entity::Reference.new(ref)
+          }
+        end
+
+        def citations
+          @data[:citations].map { |cit|
+            RefEm::Entity::Citation.new(cit)
+          }
+        end
+
+        def doi
+          @data[:doi]
+        end
+
+        def link
+            @data[:link]
+        end
+      end
+    end
+  end
+end
