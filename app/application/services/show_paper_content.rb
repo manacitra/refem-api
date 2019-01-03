@@ -54,7 +54,7 @@ module RefEm
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           paper_from_json = paper_from_json.merge(id: nil)
           paper_from_json = paper_from_json.map { |k, v| [k.to_sym, v] }.to_h
-          paper_from_json[:referencess] = paper_from_json[:referencess].map { |ref|
+          paper_from_json[:references] = paper_from_json[:references].map { |ref|
             ref.map { |k, v| [k.to_sym, v] }.to_h
           }
           paper_from_json[:citations] = paper_from_json[:citations].map { |cit|

@@ -23,7 +23,7 @@ module RefEm
       property :doi
       property :link
       collection :citations, extend: Representer::CitationJSON, class: OpenStruct
-      collection :referencess, extend: Representer::ReferenceJSON, class: OpenStruct
+      collection :references, extend: Representer::ReferenceJSON, class: OpenStruct
 
       link :self do
         "#{Api.config.API_HOST}/api/v1/paper/#{origin_id}/"

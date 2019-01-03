@@ -15,7 +15,7 @@ module RefEm
       attribute :author,             Strict::String.optional
       attribute :year,               Strict::Integer
       attribute :date,               Strict::String
-      attribute :referencess,         Strict::String.optional
+      attribute :references,         Strict::String.optional
       attribute :field,              Strict::String.optional
       attribute :doi,                Strict::String.optional
       attribute :venue_full,         Strict::String.optional

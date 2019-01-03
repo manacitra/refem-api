@@ -13,7 +13,7 @@ Sequel.migration do
       Integer   :year
       String    :date
       String    :field
-      String    :referencess,          null: true
+      String    :references,          null: true
       String    :doi,                 null: true
       String    :venue_full,          null: true
       Integer   :volume,              null: true
