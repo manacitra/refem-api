@@ -11,11 +11,11 @@ Sequel.migration do
       String    :origin_id
       String    :title,           null: false
       String    :author
-      Integer   :year
+      Integer   :year,            null: true
       String    :doi
       String    :venue
       Integer   :influential_citation_count
-      String   :link,            null: true
+      String    :link,            null: true
 
       DateTime :created_at
       DateTime :updated_at

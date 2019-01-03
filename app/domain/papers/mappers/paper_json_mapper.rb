@@ -6,10 +6,6 @@ module RefEm
   # Provides access to microsoft data
   module MSPaper
 
-    class Errors
-      CannotCacheLocalPaper = Class.new(StandardError)
-    end
-
     # Data Mapper: microsoft paper -> paper
     class PaperJsonMapper
       def initialize(data)
