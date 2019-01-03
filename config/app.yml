@@ -18,5 +18,6 @@
     # Application
     APP_HOST: http://localhost:9000
 
-production:
-  API_HOST: https://refem-api.herokuapp.com
+  production:
+    API_HOST: https://refem-api.herokuapp.com
+    

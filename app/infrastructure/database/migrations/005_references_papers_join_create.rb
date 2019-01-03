@@ -7,7 +7,7 @@ Sequel.migration do
     create_table(:references_papers) do
       primary_key [:paper_id, :reference_id]
       foreign_key :paper_id, :papers
-      foreign_key :reference_id, :references
+      foreign_key :reference_id, :referencess
 
       index [:paper_id, :reference_id]
     end
