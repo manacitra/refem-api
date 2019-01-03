@@ -64,7 +64,7 @@ module RefEm
 
         # connect with reference mapper
         def references
-          @data[:references].map { |ref|
+          @data[:referencess].map { |ref|
             ref[:id] = nil
             ref[:doi] = nil if ref[:doi].nil?
             ref[:volume] = nil if ref[:volume].nil?

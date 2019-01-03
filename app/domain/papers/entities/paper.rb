@@ -18,13 +18,13 @@ module RefEm
       attribute :year,        Strict::Integer.optional
       attribute :date,        Strict::String.optional
       attribute :field,       Strict::String.optional
-      attribute :references,  Array.of(Reference).optional
+      attribute :referencess,  Array.of(Reference).optional
       attribute :citations,   Array.of(Citation).optional
       attribute :doi,         Strict::String.optional
       attribute :link,        Strict::String.optional
 
       def to_attr_hash
-        to_hash.reject { |key, _| [:id, :references, :citations].include? key }
+        to_hash.reject { |key, _| [:id, :referencess, :citations].include? key }
       end
     end
   end
