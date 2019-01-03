@@ -28,7 +28,7 @@ module CitRef
     )
 
     include Shoryuken::Worker
-    Shoryuken.sqs_client_receive_message_opts = { wait_time_seconds: 20 }
+    Shoryuken.sqs_client_receive_message_opts = { wait_time_seconds: 10 }
     shoryuken_options queue: config.CIT_REF_QUEUE_URL, auto_delete: true
 
     def perform(_sqs_msg, request)
@@ -40,10 +40,10 @@ module CitRef
       # add code to monitor progress
 
       # find paper content object and parse it into json
-      puts "paper ID: #{paper_id}"
-      puts "request id: #{request_id}"
+      reporter.publish(FetchMonitor.fetch_percent)
       paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
         .find_paper(paper_id)
+      
       
       puts "paper finish"
       paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
@@ -52,7 +52,6 @@ module CitRef
       redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
       redis.set(paper_id, paper_to_json)
 
-      puts "paper result: #{redis.get(paper_id)}"
 
       # content = redis.get(request_id.to_s)
       # puts "redis content: #{content}"
@@ -67,8 +66,6 @@ module CitRef
     def setup_job(request)
       paper_request = RefEm::Representer::PaperRequest
         .new(OpenStruct.new).from_json(request)
-
-      puts "web socket id: #{paper_request.request_id}"
 
       [paper_request.paper_id,
        paper_request.request_id,

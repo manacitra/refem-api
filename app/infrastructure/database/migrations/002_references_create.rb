@@ -16,13 +16,8 @@ Sequel.migration do
       String    :references,          null: true
       String    :doi,                 null: true
       String    :venue_full,          null: true
-      String    :venue_short,         null: true
       Integer   :volume,              null: true
       String    :journal_name,        null: true
-      String    :journal_abr,         null: true
-      Integer   :issue,               null: true
-      Integer   :first_page,          null: true
-      Integer   :last_page,           null: true
       Integer   :citation_count,      null: true
       String    :reference_content,   null: true
       String    :link,                null: true

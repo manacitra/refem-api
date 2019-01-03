@@ -13,13 +13,6 @@ module RefEm
         @gateway = @gateway_class.new(@token)
       end
 
-      def find_several(references)
-        # puts references
-        @gateway.reference_data(references).map { |data|
-          ReferenceMapper.build_entity(data)
-        }
-      end
-
       def load_several(references, reference_contents)
         # puts references
         references_array = []
@@ -62,13 +55,8 @@ module RefEm
             field: field,
             doi: doi,
             venue_full: venue_full,
-            venue_short: venue_short,
             volume: volume,
             journal_name: journal_name,
-            journal_abr: journal_abr,
-            issue: issue,
-            first_page: first_page,
-            last_page: last_page,
             citation_count: citation_count,
             reference_content: reference_content,
             link: link
@@ -131,32 +119,12 @@ module RefEm
           @data['E']['VFN']
         end
 
-        def venue_short
-          @data['E']['VSN']
-        end
-
         def volume
           @data['E']['V']
         end
 
         def journal_name
           @data['E']['BV']
-        end
-
-        def journal_abr
-          @data['E']['PB']
-        end
-
-        def issue
-          @data['E']['I']
-        end
-
-        def first_page
-          @data['E']['FP']
-        end
-
-        def last_page
-          @data['E']['LP']
         end
 
         def reference_content

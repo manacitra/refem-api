@@ -22,13 +22,8 @@ module RefEm
       property :field
       property :doi
       property :venue_full
-      property :venue_short
       property :volume
       property :journal_name
-      property :journal_abr
-      property :issue
-      property :first_page
-      property :last_page
       property :citation_count
       property :reference_content
       property :link

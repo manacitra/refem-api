@@ -19,13 +19,8 @@ module RefEm
       attribute :field,              Strict::String.optional
       attribute :doi,                Strict::String.optional
       attribute :venue_full,         Strict::String.optional
-      attribute :venue_short,        Strict::String.optional
       attribute :volume,             Strict::Integer.optional
       attribute :journal_name,       Strict::String.optional
-      attribute :journal_abr,        Strict::String.optional
-      attribute :issue,              Strict::Integer.optional
-      attribute :first_page,         Strict::Integer.optional
-      attribute :last_page,          Strict::Integer.optional
       attribute :citation_count,     Strict::Integer.optional
       attribute :reference_content,  Strict::String.optional
       attribute :link,               Strict::String.optional

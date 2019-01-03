@@ -5,6 +5,7 @@ module CitRef
   module FetchMonitor
     FETCH_PROGRESS = {
       'STARTED'   => 15,
+      'FETCHING PAPER'   => 60,
       'FINISHED'  => 100
     }.freeze
 
@@ -16,8 +17,8 @@ module CitRef
       FETCH_PROGRESS['FINISHED'].to_s
     end
 
-    def self.progress(line)
-      FETCH_PROGRESS[first_word_of(line)].to_s
+    def self.fetch_percent
+      FETCH_PROGRESS['FETCHING PAPER'].to_s
     end
 
     def self.percent(stage)

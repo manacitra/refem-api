@@ -16,8 +16,8 @@ module RefEm
         @data = data
       end
 
-      def build_entity(data)
-        DataMapper.new(data).build_entity
+      def build_entity
+        DataMapper.new(@data).build_entity
       end
 
       # Extracts entity specific elements from data structure
@@ -69,12 +69,19 @@ module RefEm
         # connect with reference mapper
         def references
           @data[:references].map { |ref|
+            ref[:id] = nil
+            ref[:doi] = nil if ref[:doi].nil?
+            ref[:volume] = nil if ref[:volume].nil?
+            ref[:journal_name] = nil if ref[:journal_name].nil?
+            
             RefEm::Entity::Reference.new(ref)
           }
         end
 
         def citations
           @data[:citations].map { |cit|
+            cit[:id] = nil
+            cit[:doi] = nil if cit[:doi].nil?
             RefEm::Entity::Citation.new(cit)
           }
         end

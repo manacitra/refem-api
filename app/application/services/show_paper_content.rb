@@ -22,9 +22,7 @@ module RefEm
       MS_ID_NOT_FOUND = 'Could not find papers by the ID'
 
       def find_main_paper(input)
-        # if request_id already cached in redis, get the result
-        # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-        # return Success(input) if (request = redis.get(input[:request_id].to_s))
+        # if paper_id already store in the database, get the result
         input[:paper_id] = input[:requested].id
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
@@ -39,12 +37,8 @@ module RefEm
            puts "paper from redis: #{input[:remote_paper]}"
         end
 
-        
-
         return Success(input) unless input[:local_paper].nil?
         return Success(input) unless input[:remote_paper].nil?
-
-        # else send requested paper_id and unique queue request_id info to queue
         
         # send status and queue request_id to web api -> web app
         Failure(
@@ -59,20 +53,19 @@ module RefEm
       def calculate_top_paper(input)
         if input[:local_paper].nil?
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
-          puts "---------------paper_from_json: #{paper_from_json.class}-------------------"
           paper_from_json = paper_from_json.merge(id: nil)
           paper_from_json = paper_from_json.map { |k, v| [k.to_sym, v] }.to_h
           paper_from_json[:references] = paper_from_json[:references].map { |ref|
-            ref.map{ |k, v| [k.to_sym, v] }.to_h
+            ref.map { |k, v| [k.to_sym, v] }.to_h
           }
           paper_from_json[:citations] = paper_from_json[:citations].map { |cit|
-            cit.each { |k, v| [k.to_sym, v] }.to_h
+            cit.map { |k, v| [k.to_sym, v] }.to_h
           }
-          paper = MSPaper::PaperJsonMapper.new(nil)
-            .build_entity(paper_from_json, true)
+          paper = MSPaper::PaperJsonMapper.new(paper_from_json)
+            .build_entity
           # puts "paper: #{paper_from_json}"
           # paper = Entity::Paper.new(paper_from_json)
-          puts "paper reference: #{paper.references}"
+          
         else
           paper = input[:local_paper]
         end
