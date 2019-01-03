@@ -47,15 +47,15 @@ module RefEm
               Cache::Control.new(response).turn_on if RefEm::Env.new(@api).production?
 
               path_request = PaperRequestPath.new(id)
+              puts "--------------------------id: #{path_request.id}------------------"
               request_id = [request.env, request.path, Time.now.to_f].hash
 
+              puts "request path: #{path_request}"
               result = Service::ShowPaperContent.new.call(
                 requested: path_request,
                 request_id: request_id,
                 config: Api.config
               )
-
-              puts "my result: #{result}"
 
               Representer::For.new(result).status_and_body(response)
             end

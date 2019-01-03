@@ -29,7 +29,14 @@ describe 'ShowPaperContent Service Integration Test' do
       object_rebuilt = RefEm::Repository::For.entity(paper).create(paper)
 
       # WHEN: a paper is picked from the list and service is called with the request object
-      paper_made = RefEm::Service::ShowPaperContent.new.call(id:ID)
+      path_request = RefEm::RouteHelpers::PaperRequestPath.new(ID)
+      request_id = ['test', 'spec', Time.now.to_f].hash
+
+      paper_made = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      )
 
       # THEN: the result should report success
       _(paper_made.success?).must_equal true
@@ -46,10 +53,23 @@ describe 'ShowPaperContent Service Integration Test' do
 
     it 'HAPPY: should find and return existing project in database' do
       # GIVEN: a search request for paper already in the database:
-      db_paper = RefEm::Service::ShowPaperContent.new.call(id:ID).value!.message.paper
+      path_request = RefEm::RouteHelpers::PaperRequestPath.new(ID)
+      request_id = ['test', 'spec', Time.now.to_f].hash
+
+      db_paper = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      ).value!.message.paper
+
+      # db_paper = RefEm::Service::ShowPaperContent.new.call(id:ID).value!.message.paper
 
       # WHEN: a paper is picked from the list and service is called
-      paper_made = RefEm::Service::ShowPaperContent.new.call(id: ID)
+      paper_made = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      )
 
       # THEN: the result should report success..
       (paper_made.success?).must_equal true
@@ -70,7 +90,15 @@ describe 'ShowPaperContent Service Integration Test' do
       BAD_ID = '2118428193a'
 
       # WHEN: the service is called with invalid ID
-      paper_made = RefEm::Service::ShowPaperContent.new.call(id: BAD_ID)
+      path_request = RefEm::RouteHelpers::PaperRequestPath.new(BAD_ID)
+      request_id = ['test', 'spec', Time.now.to_f].hash
+
+      paper_made = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      )
+      
 
       # THEN: the service should report failure with an error message
       paper_made.success?.must_equal false

@@ -82,6 +82,7 @@ module RefEm
           @data[:citations].map { |cit|
             cit[:id] = nil
             cit[:doi] = nil if cit[:doi].nil?
+            cit[:year] = nil if cit[:year].nil?
             RefEm::Entity::Citation.new(cit)
           }
         end

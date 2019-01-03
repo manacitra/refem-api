@@ -29,6 +29,7 @@ module RefEm
       end
 
       def reference_data(references)
+
         paper_response = Request.new(@ms_token).reference_info(references)
         create_new_data_format(JSON.parse(paper_response.body))
       end

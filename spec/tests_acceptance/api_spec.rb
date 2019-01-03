@@ -74,7 +74,15 @@ describe 'Test API routes' do
 
   describe 'Show paper content route' do
     it 'should be able to show paper content' do
-      RefEm::Service::ShowPaperContent.new.call(id: ID)
+      puts "IDDDDDDDDD: #{ID}"
+      path_request = RefEm::RouteHelpers::PaperRequestPath.new(ID)
+      request_id = ['test', 'spec', Time.now.to_f].hash
+
+      paper_made = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      )
 
       get "/api/v1/paper/#{ID}"
       _(last_response.status).must_equal 200
@@ -90,12 +98,23 @@ describe 'Test API routes' do
 
       _(main_paper['paper']['references'].count).must_equal 5
       _(main_paper['paper']['references'][0]['title']).must_equal "chord a scalable peer to peer lookup service for internet applications"
-      _(main_paper['paper']['references'][0]['link']).must_equal "https://academic.microsoft.com/#/detail/2167898414"
+      _(main_paper['paper']['references'][0]['link']).must_equal "https://academic.microsoft.com/#/detail/2158049821"
     end
 
     it 'should be report error for an invalid paper Id' do
-      RefEm::Service::ShowPaperContent.new.call(id: 2938294722342)
+      BAD_ID = 2938294722342
+      path_request = RefEm::RouteHelpers::PaperRequestPath.new(BAD_ID)
+      request_id = ['test', 'spec', Time.now.to_f].hash
 
+      paper_made = RefEm::Service::ShowPaperContent.new.call(
+        requested: path_request,
+        request_id: request_id,
+        config: RefEm::Api.config
+      )
+      
+
+      get "/api/v1/paper/2938294722342"
+      sleep(5)
       get "/api/v1/paper/2938294722342"
       _(last_response.status).must_equal 404
       _(JSON.parse(last_response.body)['status']).must_include 'not'

@@ -23,6 +23,7 @@ module RefEm
 
       def find_main_paper(input)
         # if paper_id already store in the database, get the result
+        puts "requested: #{input[:requested]}"
         input[:paper_id] = input[:requested].id
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
@@ -31,10 +32,8 @@ module RefEm
            .send(paper_request_json(input))
 
            redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-           puts "request id: #{input[:request_id]}"
-           puts "paper id: #{input[:paper_id]}"
            input[:remote_paper] = redis.get(input[:paper_id])
-           puts "paper from redis: #{input[:remote_paper]}"
+
         end
 
         return Success(input) unless input[:local_paper].nil?

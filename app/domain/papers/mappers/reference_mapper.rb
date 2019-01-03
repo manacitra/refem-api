@@ -16,6 +16,7 @@ module RefEm
       def load_several(references, reference_contents)
         # puts references
         references_array = []
+
         @gateway.reference_data(references).each do |data|
           reference_id = data['Id'].to_s
           unless reference_contents[reference_id].nil? 
