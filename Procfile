@@ -1,3 +1,3 @@
 release: rake db:migrate; rake queues:create
-web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-test}
+web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
 worker: bundle exec shoryuken -r ./workers/cit_ref_worker.rb -C ./workers/shoryuken.yml 
