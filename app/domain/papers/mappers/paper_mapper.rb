@@ -67,7 +67,7 @@ module RefEm
             date: date,
             field: field,
             doi: doi,
-            references: references,
+            refs: references,
             citations: citations,
             link: link
           )

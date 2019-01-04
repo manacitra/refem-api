@@ -14,7 +14,7 @@ module RefEm
 
       def references_rank
         reference_score_list = []
-        @paper.references.each { |reference|
+        @paper.refs.each { |reference|
           venue_weight = @venue_score.get_venue_weight(reference.journal_name)
           reference_score = paper_score(reference, venue_weight)
           item = [reference, reference_score]

@@ -18,7 +18,7 @@ module RefEm
       property :author
       property :year
       property :date
-      property :references
+      property :refs
       property :field
       property :doi
       property :venue_full

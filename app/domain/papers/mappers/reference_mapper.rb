@@ -52,7 +52,7 @@ module RefEm
             author: author,
             year: year,
             date: date,
-            references: references,
+            refs: references,
             field: field,
             doi: doi,
             venue_full: venue_full,

@@ -43,12 +43,12 @@ module RefEm
             date:              db_record.date,
             field:             db_record.field,
             doi:               db_record.doi,
-            references:        db_record.references,
+            refs:              db_record.refs,
             venue_full:        db_record.venue_full,
             volume:            db_record.volume,
             journal_name:      db_record.journal_name,
             citation_count:    db_record.citation_count,
-            reference_content:    db_record.reference_content,
+            reference_content: db_record.reference_content,
             link:              db_record.link
           )
         end
