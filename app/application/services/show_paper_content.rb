@@ -38,7 +38,7 @@ module RefEm
 
         return Success(input) unless input[:local_paper].nil?
         return Success(input) unless input[:remote_paper].nil?
-        
+
         # send status and queue request_id to web api -> web app
         Failure(
           Value::Result.new(status: :processing,
@@ -55,7 +55,7 @@ module RefEm
           paper_from_json = paper_from_json.merge(id: nil)
           paper_from_json = paper_from_json.map { |k, v| [k.to_sym, v] }.to_h
           puts "paperJson= #{paper_from_json}"
-          paper_from_json[:references] = paper_from_json[:references].map { |ref|
+          paper_from_json[:refs] = paper_from_json[:refs].map { |ref|
             ref.map { |k, v| [k.to_sym, v] }.to_h
           }
           paper_from_json[:citations] = paper_from_json[:citations].map { |cit|
