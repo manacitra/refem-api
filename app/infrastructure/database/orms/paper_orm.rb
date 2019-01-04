@@ -8,8 +8,8 @@ module RefEm
     class PaperOrm < Sequel::Model(:papers)
       many_to_many :reference_papers,
                    class:      :'RefEm::Database::ReferenceOrm',
-                   join_table: :references_papers,
-                   left_key:   :paper_id, right_key: :reference_id
+                   join_table: :referencess_papers,
+                   left_key:   :paper_id, right_key: :references_id
 
       many_to_many :citation_papers,
                    class:      :'RefEm::Database::CitationOrm',
