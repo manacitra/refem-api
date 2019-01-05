@@ -44,7 +44,7 @@ module RefEm
             # GET /paper/id
             routing.get do
               @api = RefEm::Api
-              Cache::Control.new(response).turn_on if RefEm::Env.new(@api).production?
+              # Cache::Control.new(response).turn_on if RefEm::Env.new(@api).production?
 
               path_request = PaperRequestPath.new(id)
               puts "--------------------------id: #{path_request.id}------------------"
