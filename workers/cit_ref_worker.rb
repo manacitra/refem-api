@@ -34,16 +34,16 @@ module CitRef
     def perform(_sqs_msg, request)
       # use setup_job to get required info for worker
       paper_id, request_id, reporter = setup_job(request)
-      puts "we are in worker perform setup job #{paper_id}"
 
-      # # start publishing progress
-      # reporter.publish(FetchMonitor.starting_percent)
-      # # add code to monitor progress
+      # start publishing progress
+      reporter.publish(FetchMonitor.starting_percent)
 
-      # # find paper content object and parse it into json
-      # reporter.publish(FetchMonitor.fetch_percent)
-      # paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
-      #   .find_paper(paper_id)
+      # find paper content object and parse it into json
+      reporter.publish(FetchMonitor.fetch_percent)
+      puts "-----------before concurrency"
+      paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
+        .find_paper(paper_id)
+      puts "---------------after concurrency"
 
       # puts "paper finish"
       # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
