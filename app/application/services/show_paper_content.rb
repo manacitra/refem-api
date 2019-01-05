@@ -25,8 +25,9 @@ module RefEm
         input[:paper_id] = input[:requested].id
         redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
         return Success(input) if (input[:remote_paper] = redis.get(input[:paper_id]))
-
         # if paper_id already store in the database, get the result
+        puts "requested: #{input[:requested]}"
+        input[:paper_id] = input[:requested].id
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
         else
@@ -39,6 +40,7 @@ module RefEm
         end
 
         return Success(input) unless input[:local_paper].nil?
+        return Success(input) unless input[:remote_paper].nil?
 
         # send status and queue request_id to web api -> web app
         Failure(
@@ -51,7 +53,6 @@ module RefEm
       end
 
       def calculate_top_paper(input)
-        puts "@@@@@@@@@@@@@@@@@@@@@remote paper = #{input[:remote_paper]}"
         if input[:local_paper].nil?
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           paper_from_json = paper_from_json.merge(id: nil)
@@ -89,7 +90,6 @@ module RefEm
       def store_paper(input)
         paper =
           if (new_paper = input[:remote_paper])
-            puts "new_paper = #{new_paper.refs}"
             Repository::For.entity(new_paper).create(new_paper)
           else
             input[:local_paper]
