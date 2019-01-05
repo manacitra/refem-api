@@ -34,27 +34,28 @@ module CitRef
     def perform(_sqs_msg, request)
       # use setup_job to get required info for worker
       paper_id, request_id, reporter = setup_job(request)
+      puts "we are in worker perform setup job #{paper_id}"
 
-      # start publishing progress
-      reporter.publish(FetchMonitor.starting_percent)
-      # add code to monitor progress
+      # # start publishing progress
+      # reporter.publish(FetchMonitor.starting_percent)
+      # # add code to monitor progress
 
-      # find paper content object and parse it into json
-      reporter.publish(FetchMonitor.fetch_percent)
-      paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
-        .find_paper(paper_id)
+      # # find paper content object and parse it into json
+      # reporter.publish(FetchMonitor.fetch_percent)
+      # paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
+      #   .find_paper(paper_id)
 
-      puts "paper finish"
-      paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
+      # puts "paper finish"
+      # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
 
-      # save serialized paper into redis
-      redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-      redis.set(paper_id, paper_to_json)
+      # # save serialized paper into redis
+      # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+      # redis.set(paper_id, paper_to_json)
 
 
-      # content = redis.get(request_id.to_s)
-      # puts "redis content: #{content}"
-      each_second(5) { reporter.publish(FetchMonitor.finished_percent) }
+      # # content = redis.get(request_id.to_s)
+      # # puts "redis content: #{content}"
+      # each_second(5) { reporter.publish(FetchMonitor.finished_percent) }
     rescue RefEm::MSPaper::Errors::CannotCacheLocalPaper
       # only catch errors you absolutely expect!
       puts 'CACHE EXISTS -- ignoring request'
