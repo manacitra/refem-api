@@ -22,6 +22,9 @@ module RefEm
       MS_ID_NOT_FOUND = 'Could not find papers by the ID'
 
       def find_main_paper(input)
+        redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+        return Success(input) if (paper = redis.get(input[:paper_id]))
+
         # if paper_id already store in the database, get the result
         puts "requested: #{input[:requested]}"
         input[:paper_id] = input[:requested].id
