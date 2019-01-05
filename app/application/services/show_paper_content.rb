@@ -65,7 +65,6 @@ module RefEm
             .build_entity
           # puts "paper: #{paper_from_json}"
           # paper = Entity::Paper.new(paper_from_json)
-          
         else
           paper = input[:local_paper]
         end
@@ -78,6 +77,7 @@ module RefEm
         else
           input[:local_paper] = paper
         end
+        puts "paper after ranking: #{paper}"
 
         Success(input)
         # rescue StandardError

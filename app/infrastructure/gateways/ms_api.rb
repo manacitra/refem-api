@@ -29,7 +29,6 @@ module RefEm
       end
 
       def reference_data(references)
-
         paper_response = Request.new(@ms_token).reference_info(references)
         create_new_data_format(JSON.parse(paper_response.body))
       end
@@ -139,13 +138,12 @@ module RefEm
 
         def concat_keywords(keyword, searchType)
           keyword_array = ''
-          
           if searchType == 'keyword' 
             # split keyword by white space
             keywords = keyword.split('%20')
-            
+
             keywords.map { |data|
-              if keyword_array == ""
+              if keyword_array == ''
                 keyword_array = ("W=='#{data}'") 
               else
                 keyword_array = (keyword_array + ", W=='#{data}'") if keyword_array != ""

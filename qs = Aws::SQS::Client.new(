@@ -1,0 +1,28 @@
+=> [32m#<Econfig::Configuration:0x000055970d757a48[0m
+ @backends[32m=[0m
+  [32m#<Econfig::BackendCollection:0x000055970d757a20[0m
+   @backends[32m=[0m
+    [[[33m:memory[0m, [32m#<Econfig::Memory:0x000055970d7578e0[0m @mutex[32m=[0m[32m#<Thread::Mutex:0x000055970d7578b8[0m[32m>[0m, @options[32m=[0m{}[32m>[0m],
+     [[33m:env[0m, [32m#<Econfig::ENV:0x000055970d757818[0m[32m>[0m],
+     [[33m:secrets[0m,
+      [32m#<Econfig::YAML:0x000055970d757750[0m
+       @mutex[32m=[0m[32m#<Thread::Mutex:0x000055970d757728[0m[32m>[0m,
+       @options[32m=[0m
+        {[31m[1;31m"[0m[31mMS_TOKEN[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31md74bd5a4fdb74fc59d46175f39b220a3[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mMS_TOKEN2[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m6f886b4e7ea346868e66c29bda7aabee[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mMS_TOKEN3[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31m9b0910fa5e3c4cfba5159c063899419d[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mSESSION_SECRET[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mksie13foi4lsi2vugmvi[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mREDISCLOUD_URL[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mredis://rediscloud:kkEeh7MLPgvoCyARKAI06AnpHWkF0Acb@redis-18555.c98.us-east-1-4.ec2.cloud.redislabs.com:18555[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mAWS_ACCESS_KEY_ID[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mAKIAIBTK4I2CM2HNITOA[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mAWS_SECRET_ACCESS_KEY[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mF6q/d0nFIejfJ7l+DfuFxOmYk2Qv8BMkddaypvkc[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mAWS_REGION[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31map-northeast-1[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mCIT_REF_QUEUE[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mcitation_reference_queue[1;31m"[0m[31m[0m,
+         [31m[1;31m"[0m[31mCIT_REF_QUEUE_URL[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mhttps://sqs.ap-northeast-1.amazonaws.com/102844561395/citation_reference_development[1;31m"[0m[31m[0m},
+       @path[32m=[0m[31m[1;31m"[0m[31mconfig/secrets.yml[1;31m"[0m[31m[0m[32m>[0m],
+     [[33m:yaml[0m,
+      [32m#<Econfig::YAML:0x000055970d757638[0m
+       @mutex[32m=[0m[32m#<Thread::Mutex:0x000055970d757610[0m[32m>[0m,
+       @options[32m=[0m{[31m[1;31m"[0m[31mAPI_HOST[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mhttp://localhost:9090[1;31m"[0m[31m[0m, [31m[1;31m"[0m[31mDB_FILENAME[1;31m"[0m[31m[0m=>[31m[1;31m"[0m[31mapp/infrastructure/database/local/dev.db[1;31m"[0m[31m[0m},
+       @path[32m=[0m[31m[1;31m"[0m[31mconfig/app.yml[1;31m"[0m[31m[0m[32m>[0m]][32m>[0m,
+ @casts[32m=[0m{},
+ @default_write_backend[32m=[0m[33m:memory[0m[32m>[0m

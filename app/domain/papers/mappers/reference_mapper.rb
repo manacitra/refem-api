@@ -21,13 +21,13 @@ module RefEm
           reference_id = data['Id'].to_s
           unless reference_contents[reference_id].nil? 
             reference_content = reference_contents[reference_id][0] 
-          else 
-            reference_content = ""
+          else
+            reference_content = ''
           end
-          
+
           reference = ReferenceMapper.build_entity(data, reference_content)
           references_array.push(reference)
-          
+
           # ReferenceMapper.build_entity(data, 'good')
         end
         references_array
