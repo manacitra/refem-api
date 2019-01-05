@@ -45,17 +45,17 @@ module CitRef
         .find_paper(paper_id)
       puts "---------------after concurrency"
 
-      # puts "paper finish"
-      # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
+      puts "paper finish"
+      paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
 
-      # # save serialized paper into redis
-      # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-      # redis.set(paper_id, paper_to_json)
+      # save serialized paper into redis
+      redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+      redis.set(paper_id, paper_to_json)
 
 
-      # # content = redis.get(request_id.to_s)
-      # # puts "redis content: #{content}"
-      # each_second(5) { reporter.publish(FetchMonitor.finished_percent) }
+      # content = redis.get(request_id.to_s)
+      # puts "redis content: #{content}"
+      each_second(5) { reporter.publish(FetchMonitor.finished_percent) }
     rescue RefEm::MSPaper::Errors::CannotCacheLocalPaper
       # only catch errors you absolutely expect!
       puts 'CACHE EXISTS -- ignoring request'
