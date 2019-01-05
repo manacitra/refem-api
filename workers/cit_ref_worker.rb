@@ -44,6 +44,12 @@ module CitRef
       paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
         .find_paper(paper_id)
       puts "---------------after concurrency"
+<<<<<<< HEAD
+=======
+
+      puts "paper finish"
+      paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
+>>>>>>> 6e91f350ce71a079781d1c98e36cf16ea553afce
 
       # puts "paper finish"
       # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
