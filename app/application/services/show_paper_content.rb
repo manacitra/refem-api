@@ -23,7 +23,7 @@ module RefEm
 
       def find_main_paper(input)
         redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-        return Success(input) if (paper = redis.get(input[:paper_id]))
+        return Success(input) if (input[:remote_paper] = redis.get(input[:paper_id]))
 
         # if paper_id already store in the database, get the result
         puts "requested: #{input[:requested]}"
@@ -40,7 +40,6 @@ module RefEm
         end
 
         return Success(input) unless input[:local_paper].nil?
-        return Success(input) unless input[:remote_paper].nil?
 
         # send status and queue request_id to web api -> web app
         Failure(
