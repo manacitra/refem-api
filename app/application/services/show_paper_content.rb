@@ -22,11 +22,11 @@ module RefEm
       MS_ID_NOT_FOUND = 'Could not find papers by the ID'
 
       def find_main_paper(input)
+        input[:paper_id] = input[:requested].id
         redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
         return Success(input) if (input[:remote_paper] = redis.get(input[:paper_id]))
 
         # if paper_id already store in the database, get the result
-        input[:paper_id] = input[:requested].id
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
         else
@@ -51,6 +51,7 @@ module RefEm
       end
 
       def calculate_top_paper(input)
+        puts "@@@@@@@@@@@@@@@@@@@@@remote paper = #{input[:remote_paper]}"
         if input[:local_paper].nil?
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           paper_from_json = paper_from_json.merge(id: nil)
