@@ -43,8 +43,7 @@ module CitRef
       reporter.publish(FetchMonitor.fetch_percent)
       paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
         .find_paper(paper_id)
-      
-      
+
       puts "paper finish"
       paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
 

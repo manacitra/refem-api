@@ -26,7 +26,6 @@ module RefEm
         return Success(input) if (input[:remote_paper] = redis.get(input[:paper_id]))
 
         # if paper_id already store in the database, get the result
-        puts "requested: #{input[:requested]}"
         input[:paper_id] = input[:requested].id
         if (paper = paper_in_database(input))
           input[:local_paper] = paper
@@ -89,6 +88,7 @@ module RefEm
       def store_paper(input)
         paper =
           if (new_paper = input[:remote_paper])
+            puts "new_paper = #{new_paper.refs}"
             Repository::For.entity(new_paper).create(new_paper)
           else
             input[:local_paper]
