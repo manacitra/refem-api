@@ -44,20 +44,14 @@ module CitRef
       paper = RefEm::MSPaper::PaperMapper.new(Worker.config.MS_TOKEN)
         .find_paper(paper_id)
       puts "---------------after concurrency"
-<<<<<<< HEAD
-=======
 
       puts "paper finish"
       paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
->>>>>>> 6e91f350ce71a079781d1c98e36cf16ea553afce
 
-      # puts "paper finish"
-      # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
-
-      # # save serialized paper into redis
-      # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-      # redis.set(paper_id, paper_to_json)
-
+      # save serialized paper into redis
+      redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+      redis.set(paper_id, paper_to_json)
+      puts "----------------paper saved to redis"
 
       # # content = redis.get(request_id.to_s)
       # # puts "redis content: #{content}"
