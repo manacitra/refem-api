@@ -4,7 +4,7 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:referencess) do
+    create_table(:refpapers) do
       primary_key :id
 
       Integer   :origin_id
