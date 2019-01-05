@@ -69,7 +69,6 @@ module RefEm
             ref[:doi] = nil if ref[:doi].nil?
             ref[:volume] = nil if ref[:volume].nil?
             ref[:journal_name] = nil if ref[:journal_name].nil?
-            
             RefEm::Entity::Reference.new(ref)
           }
         end

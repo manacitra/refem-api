@@ -15,7 +15,7 @@ module RefEm
       end
 
       def self.entity(entity_object)
-          ENTITY_REPOSITORY[entity_object.class]
+        ENTITY_REPOSITORY[entity_object.class]
       end
     end
   end
