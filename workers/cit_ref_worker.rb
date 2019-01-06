@@ -34,11 +34,9 @@ module CitRef
     def perform(_sqs_msg, request)
       # use setup_job to get required info for worker
       paper_id, request_id, reporter = setup_job(request)
-      puts "got paper_id from setup job"
 
       # start publishing progress
       reporter.publish(FetchMonitor.starting_percent)
-      puts "start publishing"
 
       # find paper content object and parse it into json
       reporter.publish(FetchMonitor.fetch_percent)
@@ -47,12 +45,13 @@ module CitRef
         .find_paper(paper_id)
       puts "---------------after concurrency"
 
-      paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
+      # puts "paper finish"
+      # paper_to_json = RefEm::Representer::PaperJSON.new(paper[0]).to_json
 
-      # save serialized paper into redis
-      redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-      redis.set(paper_id, paper_to_json)
-      puts "----------------paper saved to redis"
+      # # save serialized paper into redis
+      # redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+      # redis.set(paper_id, paper_to_json)
+
 
       # # content = redis.get(request_id.to_s)
       # # puts "redis content: #{content}"
