@@ -34,7 +34,7 @@ module CitRef
     def perform(_sqs_msg, request)
       # use setup_job to get required info for worker
       paper_id, request_id, reporter = setup_job(request)
-      puts "--got paper_id from setup job"
+      puts "--got request id: #{request_id}"
 
       # start publishing progress
       reporter.publish(FetchMonitor.starting_percent)
