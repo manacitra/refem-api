@@ -39,6 +39,15 @@ module RefEm
         }
       end
 
+      def find_paper_citation_count(id)
+        show_detail = false
+        main_paper_data = @gateway.paper_data(id)[0]
+        main_paper_doi = main_paper_data['E']['DOI']
+        citation = CitationMapper.new
+        citation_count = citation.find_data_citation_count_by(main_paper_doi)
+        citation_count
+      end
+
       def build_entity(data, show_detail)
         DataMapper.new(data, @token, @gateway_class, show_detail).build_entity
       end
