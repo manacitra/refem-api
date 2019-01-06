@@ -6,7 +6,7 @@ module RefEm
     class Control
       MINUTE = 60 # seconds
       HOUR = 60 * MINUTE
-      DURATION = 6 * HOUR
+      DURATION = 1 * HOUR
 
       def initialize(response)
         @response = response

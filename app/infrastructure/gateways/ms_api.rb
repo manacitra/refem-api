@@ -70,13 +70,12 @@ module RefEm
           keyword = concat_keywords(keywords, searchType)
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({
-            # Request parameters
-            'expr' => keyword,
-            'model' => 'latest',
-            'count' => "50",
-            'offset' => '0',
-            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
-          })
+                                        'expr' => keyword,
+                                        'model' => 'latest',
+                                        'count' => '50',
+                                        'offset' => '0',
+                                        'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
+                                      })
 
           if uri.query && uri.query.length > 0
             uri.query += '&' + query
@@ -90,11 +89,10 @@ module RefEm
         def paper_info(id)
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({
-            # Request parameters
-            'expr' => "Id=#{id}",
-            'model' => 'latest',
-            'offset' => '0',
-            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
+                                        'expr' => "Id=#{id}",
+                                        'model' => 'latest',
+                                        'offset' => '0',
+                                        'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId'
           })
 
           if uri.query && uri.query.length > 0
@@ -111,12 +109,11 @@ module RefEm
           # puts ref_array
           uri = URI('https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate')
           query = URI.encode_www_form({
-            # Request parameters
-            'expr' => "Or(#{ref_array})",
-            'model' => 'latest',
-            'count' => "100",
-            'offset' => '0',
-            'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId,CC'
+                                        'expr' => "Or(#{ref_array})",
+                                        'model' => 'latest',
+                                        'count' => '100',
+                                        'offset' => '0',
+                                        'attributes' => 'Id,Ti,AA.AuN,Y,D,F.FN,E,RId,CC'
           })
 
           if uri.query && uri.query.length > 0
@@ -138,7 +135,7 @@ module RefEm
 
         def concat_keywords(keyword, searchType)
           keyword_array = ''
-          if searchType == 'keyword' 
+          if searchType == 'keyword'
             # split keyword by white space
             keywords = keyword.split('%20')
 

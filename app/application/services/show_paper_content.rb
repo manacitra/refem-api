@@ -25,9 +25,9 @@ module RefEm
 
       def check_thread_count(input)
         input[:paper_id] = input[:requested].id
-        citation_count = 
-            MSPaper::PaperMapper.new(Api.config.MS_TOKEN)
-              .find_paper_citation_count(input[:paper_id])
+        citation_count =
+          MSPaper::PaperMapper.new(Api.config.MS_TOKEN)
+            .find_paper_citation_count(input[:paper_id])
         return Failure(Value::Result.new(status: :cannot_process, message: CIT_ERR)) if citation_count > 256
 
         Success(input)
@@ -41,10 +41,10 @@ module RefEm
           input[:local_paper] = paper
         else
           Messaging::Queue.new(Api.config.CIT_REF_QUEUE_URL, Api.config)
-           .send(paper_request_json(input))
+            .send(paper_request_json(input))
 
-           redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
-           input[:remote_paper] = redis.get(input[:paper_id])
+          redis = Redis.new(url: RefEm::Api.config.REDISCLOUD_URL)
+          input[:remote_paper] = redis.get(input[:paper_id])
 
         end
 
@@ -76,7 +76,7 @@ module RefEm
             .build_entity
           # puts "paper: #{paper_from_json}"
           # paper = Entity::Paper.new(paper_from_json)
-          
+
         else
           paper = input[:local_paper]
         end
