@@ -57,7 +57,7 @@ module CitRef
       # # content = redis.get(request_id.to_s)
       # # puts "redis content: #{content}"
       reporter.publish(FetchMonitor.finished_percent)
-      puts "-------published finish"
+      puts "published finish"
     rescue RefEm::MSPaper::Errors::CannotCacheLocalPaper
       # only catch errors you absolutely expect!
       puts 'CACHE EXISTS -- ignoring request'
