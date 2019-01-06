@@ -34,6 +34,17 @@ module RefEm
           # citation_list
         end
       end
+      
+      def find_data_citation_count_by(doi)
+        data = @gateway.paper_data(doi)
+        unless data['error']
+          influential_citations =
+            data['citations'].select do |citation|
+              citation if citation['isInfluential']
+            end
+        end
+        influential_citations.count
+      end
 
       def build_entity(data)
         DataMapper.new(data, @gateway_class).build_entity

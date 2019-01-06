@@ -10,6 +10,7 @@ module RefEm
     class ShowPaperContent
       include Dry::Transaction
 
+      step :check_thread_count
       step :find_main_paper
       step :calculate_top_paper
       step :store_paper
@@ -18,8 +19,19 @@ module RefEm
 
       NO_PAPER_ERR = 'Paper Not Found'
       PAPER_ERR = 'Could not get details for this paper'
+      CIT_ERR = 'Amount of citations are too big'
       DB_ERR_MSG = 'Having trouble accessing the database'
       MS_ID_NOT_FOUND = 'Could not find papers by the ID'
+
+      def check_thread_count(input)
+        input[:paper_id] = input[:requested].id
+        citation_count = 
+            MSPaper::PaperMapper.new(Api.config.MS_TOKEN)
+              .find_paper_citation_count(input[:paper_id])
+        return Failure(Value::Result.new(status: :cannot_process, message: CIT_ERR)) if citation_count > 256
+
+        Success(input)
+      end
 
       def find_main_paper(input)
         # if paper_id already store in the database, get the result
@@ -54,7 +66,6 @@ module RefEm
           paper_from_json = JSON.parse(input[:remote_paper]).to_hash
           paper_from_json = paper_from_json.merge(id: nil)
           paper_from_json = paper_from_json.map { |k, v| [k.to_sym, v] }.to_h
-          puts "paperJson= #{paper_from_json}"
           paper_from_json[:refs] = paper_from_json[:refs].map { |ref|
             ref.map { |k, v| [k.to_sym, v] }.to_h
           }
