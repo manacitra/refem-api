@@ -45,7 +45,7 @@ describe 'Test API routes' do
       _(last_response.status).must_equal 200
       papersList = JSON.parse last_response.body
       _(papersList['papers'].count).must_equal 10
-      _(papersList['papers'][0]['origin_id']).must_equal 2118428193
+      _(papersList['papers'][0]['origin_id']).must_equal '2118428193'
       _(papersList['papers'][0]['title']).must_equal "chord a scalable peer to peer lookup protocol for internet applications"
       _(papersList['papers'][0]['year']).must_equal 2003
       _(papersList['papers'][0]['doi']).must_equal "10.1109/TNET.2002.808407"
@@ -87,7 +87,7 @@ describe 'Test API routes' do
       get "/api/v1/paper/#{ID}"
       _(last_response.status).must_equal 200
       main_paper = JSON.parse last_response.body
-      _(main_paper['paper']['origin_id']).must_equal 2118428193
+      _(main_paper['paper']['origin_id']).must_equal '2118428193'
       _(main_paper['paper']['title']).must_equal "chord a scalable peer to peer lookup protocol for internet applications"
       _(main_paper['paper']['year']).must_equal 2003
       _(main_paper['paper']['doi']).must_equal "10.1109/TNET.2002.808407"

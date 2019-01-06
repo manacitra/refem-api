@@ -7,7 +7,7 @@ Sequel.migration do
     create_table(:refpapers) do
       primary_key :id
 
-      Integer   :origin_id
+      String    :origin_id
       String    :title,               null: false
       String    :author
       Integer   :year

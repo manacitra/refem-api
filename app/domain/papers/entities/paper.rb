@@ -12,7 +12,7 @@ module RefEm
       include Dry::Types.module
 
       attribute :id,          Strict::Integer.optional
-      attribute :origin_id,   Strict::Integer
+      attribute :origin_id,   Strict::String
       attribute :title,       Strict::String.optional
       attribute :author,      Strict::String.optional
       attribute :year,        Strict::Integer.optional

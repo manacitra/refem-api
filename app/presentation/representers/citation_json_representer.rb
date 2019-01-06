@@ -20,7 +20,6 @@ module RefEm
       property :influential_citation_count
       property :link
 
-
     end
   end
 end

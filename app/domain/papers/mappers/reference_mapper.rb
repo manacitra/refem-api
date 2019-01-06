@@ -67,7 +67,7 @@ module RefEm
         private
 
         def origin_id
-          @data['Id']
+          @data['Id'].to_s
         end
 
         def author

@@ -39,7 +39,7 @@ module RefEm
         end
 
         def origin_id
-          @data[:origin_id]
+          @data[:origin_id].to_s
         end
 
         def author
@@ -87,7 +87,7 @@ module RefEm
         end
 
         def link
-            @data[:link]
+          @data[:link]
         end
       end
     end

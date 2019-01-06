@@ -6,8 +6,8 @@ Sequel.migration do
   change do
     create_table(:papers) do
       primary_key :id
-       
-      Integer   :origin_id, unique: true
+
+      String    :origin_id, unique: true
       String    :title, unique: true, null: false
       String    :author
       Integer   :year
